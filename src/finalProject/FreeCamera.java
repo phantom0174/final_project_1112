@@ -7,6 +7,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -56,7 +57,24 @@ public class FreeCamera {
 		this.g.getTransforms().add(trans);
 	}
 	
-	public void bindMovements(Stage s) {
+	// for mouse controls
+	private double anchorX, anchorY;
+	
+	public void bindMovements(Scene s) {
+		s.setOnMousePressed(event -> {
+			anchorX = event.getSceneX();
+			anchorY = event.getSceneY();
+		});
+
+        s.setOnMouseDragged(event -> {
+        	double rotDx = (anchorY - event.getSceneY()) / 10;
+            double rotDy = (anchorX - event.getSceneX()) / 10;
+            xRot.set(xRot.get() + rotDx);
+            yRot.set(yRot.get() - rotDy);
+            anchorX = event.getSceneX();
+			anchorY = event.getSceneY();
+        });
+        
 		s.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 			double cur_arg = Math.toRadians(-yRot.get()),
 					cos = Math.cos(cur_arg),

@@ -28,9 +28,10 @@ public class Main extends Application {
 		scene.setFill(Color.WHITE);
 		
 		FreeCamera cameraGroup = new FreeCamera();
+		cameraGroup.bindMovements(scene);
+		
 		stage.setTitle("Camera Testing");
 		stage.setScene(scene);
-		cameraGroup.bindMovements(stage);
 		scene.setCamera(cameraGroup.c);
 
 		stage.show();
