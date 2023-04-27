@@ -9,13 +9,13 @@ import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
-// Camera and its Group
-// camera rotation belongs to the camera itself
-// and the group moves the camera
+// - Camera and its Group
+// camera rotation belongs to the camera itself,
+// and the group moves the camera,
+// so that rotation and translation can be separated.
 public class FreeCamera {
 	public Camera c = new PerspectiveCamera(true);
 	public Group g = new Group();
@@ -70,6 +70,8 @@ public class FreeCamera {
 			cos = Math.cos(cur_arg),
 			sin = Math.sin(cur_arg);
 	
+	// Monitor that whether the movement keys has been pressed,
+	// then update the movements using AnimationTimer
 	public void bindMovements(Scene s) {
 		s.setOnMousePressed(event -> {
 			anchorX = event.getSceneX();
@@ -131,6 +133,12 @@ public class FreeCamera {
 		xPos.set(xPos.get() + pos_v.getX());
 		yPos.set(yPos.get() + pos_v.getY());
 		zPos.set(zPos.get() + pos_v.getZ());
+	}
+	
+	public void moveTo(Point3D pos_v) {
+		xPos.set(pos_v.getX());
+		yPos.set(pos_v.getY());
+		zPos.set(pos_v.getZ());		
 	}
 	
 	public Point3D getPos() {

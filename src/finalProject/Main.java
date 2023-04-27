@@ -55,6 +55,9 @@ public class Main extends Application {
 		group.getChildren().addAll(pl, s, pl2, s2);
 		
 		
+		// the snake!
+		Snake mySnake = new Snake(group);
+		//
 		
 		Scene scene = new Scene(group, width, height, true, SceneAntialiasing.BALANCED);
 		scene.setFill(Color.LIGHTGRAY);
