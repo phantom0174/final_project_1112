@@ -1,6 +1,7 @@
 package finalProject;
 
 
+import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point3D;
@@ -11,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 
 // Camera and its Group
 // camera rotation belongs to the camera itself
@@ -57,8 +57,18 @@ public class FreeCamera {
 		this.g.getTransforms().add(trans);
 	}
 	
-	// for mouse controls
+	// for controls
 	private double anchorX, anchorY;
+	private boolean wHold = false,
+			sHold = false,
+			aHold = false,
+			dHold = false,
+			upHold = false,
+			downHold = false;
+	
+	double cur_arg = Math.toRadians(-yRot.get()),
+			cos = Math.cos(cur_arg),
+			sin = Math.sin(cur_arg);
 	
 	public void bindMovements(Scene s) {
 		s.setOnMousePressed(event -> {
@@ -73,50 +83,48 @@ public class FreeCamera {
             yRot.set(yRot.get() - rotDy);
             anchorX = event.getSceneX();
 			anchorY = event.getSceneY();
+			
+			cur_arg = Math.toRadians(-yRot.get());
+			cos = Math.cos(cur_arg);
+			sin = Math.sin(cur_arg);
         });
         
-		s.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-			double cur_arg = Math.toRadians(-yRot.get()),
-					cos = Math.cos(cur_arg),
-					sin = Math.sin(cur_arg);
-			
+        s.setOnKeyPressed(event -> {
+        	switch (event.getCode()) {
+				case W: this.wHold = true; break;
+				case S: this.sHold = true; break;
+				case A: this.aHold = true; break;
+				case D: this.dHold = true; break;
+				case SPACE: this.upHold = true; break;
+				case SHIFT: this.downHold = true; break;
+				default: break;
+			}
+    	});
+        
+        s.setOnKeyReleased(event -> {
 			switch (event.getCode()) {
-			case W: {
-				this.move(new Point3D(-sin, 0, cos).multiply(5));
-				break;
+				case W: this.wHold = false; break;
+				case S: this.sHold = false; break;
+				case A: this.aHold = false; break;
+				case D: this.dHold = false; break;
+				case SPACE: this.upHold = false; break;
+				case SHIFT: this.downHold = false; break;
+				default: break;
+    		}
+        });
+        
+        AnimationTimer movementTimer = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				if (wHold) move(new Point3D(-sin, 0, cos).multiply(3));
+				if (sHold) move(new Point3D(sin, 0, -cos).multiply(3));
+				if (aHold) move(new Point3D(-cos, 0, -sin).multiply(3));
+				if (dHold) move(new Point3D(cos, 0, sin).multiply(3));
+				if (upHold) move(new Point3D(0, -3, 0));
+				if (downHold) move(new Point3D(0, 3, 0));
 			}
-			case S: {
-				this.move(new Point3D(sin, 0, -cos).multiply(5));
-				break;
-			}
-			case A: {
-				this.move(new Point3D(-cos, 0, -sin).multiply(5));
-				break;
-			}
-			case D: {
-				this.move(new Point3D(cos, 0, sin).multiply(5));
-				break;
-			}
-			case UP: {
-				xRot.set(xRot.get() + 2);
-				break;
-			}
-			case DOWN: {
-				xRot.set(xRot.get() - 2);
-				break;
-			}
-			case LEFT: {
-				yRot.set(yRot.get() - 2);
-				break;
-			}
-			case RIGHT: {
-				yRot.set(yRot.get() + 2);
-				break;
-			}
-			default:
-				break;
-			}
-		});
+		};
+		movementTimer.start();
 	}
 	
 	public void move(Point3D pos_v) {
