@@ -31,14 +31,17 @@ Similarly for Yaw (A/D keys)
 
 public class Snake implements AnimaNode {
 	public Group fatherGroup;
+	public SnakeCamera camera;
 	
 	public Entity head;
 	public ArrayList<Entity> bodies = new ArrayList<>();
 	
 	private final double bodySize = 10;
 	
-	Snake(Group fatherGroup) {
+	Snake(Group fatherGroup, SnakeCamera mainCam) {
 		this.fatherGroup = fatherGroup;
+		this.camera = mainCam;
+		
 		initializeHead();
 		startAnimation();
 	}
@@ -51,7 +54,7 @@ public class Snake implements AnimaNode {
 		headCore.setMaterial(headMaterial);
 		
 		this.head = new Entity(headCore);
-		this.fatherGroup.getChildren().add(this.head.shell);
+		this.fatherGroup.getChildren().add(this.head.shell);	
 	}
 	
 	public void generateBody() {
@@ -63,11 +66,10 @@ public class Snake implements AnimaNode {
 		
 		// set the position to the current position of the body in front of this body
 		if (this.bodies.size() == 0) {
-			Point3D pos = this.head.getPos();
-			body.setPos(pos.getX(), pos.getY(), pos.getZ());
+			body.setPos(head.getPos());
 		} else {
 			Point3D pos = this.bodies.get(this.bodies.size() - 1).getPos();
-			body.setPos(pos.getX(), pos.getY(), pos.getZ());
+			body.setPos(pos);
 		}
 		
 		this.bodies.add(body);
@@ -97,17 +99,18 @@ public class Snake implements AnimaNode {
 	}
 	
 	// --------------- controls and animations -------------------
-	public double moveSpeed = 0.5;
+	public double moveSpeed = 1;
+	public short intensityDamping = 50;
 	
 	/*
 	
-	pitch & yaw intensity: short [0 ~ 10]
+	pitch & yaw intensity: short [0 ~ intensityDamping]
 	used to calculate the pitch value & yaw value of the snake's next move.
 	
 	*/
 	
-	private short pitchIntensity = 5,
-			yawIntensity = 5;
+	private short pitchIntensity = (short) (intensityDamping / 2),
+			yawIntensity = (short) (intensityDamping / 2);
 	
 	
 	/*
@@ -129,11 +132,15 @@ public class Snake implements AnimaNode {
 		yaw, yawCos, yawSin;
 	
 	public void updateTempRot() {
-		pitch = Math.toRadians(-45 * (2 * Utils.easeInOut((double) pitchIntensity / 10) - 1));
+		pitch = Math.toRadians(
+			-45 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
+		);
 		pitchCos = Math.cos(pitch);
 		pitchSin = Math.sin(pitch);
 		
-		yaw = Math.toRadians((45 * moveSpeed) * (2 * Utils.easeInOut((double) yawIntensity / 10) - 1));
+		yaw = Math.toRadians(
+			(45 * moveSpeed) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+		);
 		yawCos = Math.cos(yaw);
 		yawSin = Math.sin(yaw);
 	}
@@ -147,10 +154,10 @@ public class Snake implements AnimaNode {
 	
 	public void writeKeyHold(KeyCode c, boolean mode) {
 		switch (c) {
-			case UP: this.wHold = mode; break;
-			case DOWN: this.sHold = mode; break;
-			case LEFT: this.aHold = mode; break;
-			case RIGHT: this.dHold = mode; break;
+			case W: this.wHold = mode; break;
+			case S: this.sHold = mode; break;
+			case A: this.aHold = mode; break;
+			case D: this.dHold = mode; break;
 			default: break;
 		}
 	}
@@ -173,9 +180,9 @@ public class Snake implements AnimaNode {
 			pitchIntensity -= sHold ? 1 : 0;
 
 			if (pitchIntensity < 0) pitchIntensity = 0;
-			else if (pitchIntensity > 10) pitchIntensity = 10;
+			else if (pitchIntensity > intensityDamping) pitchIntensity = intensityDamping;
 		} else {
-			pitchIntensity -= Utils.sign((short) (pitchIntensity - 5));
+			pitchIntensity -= Utils.sign((short) (pitchIntensity - intensityDamping / 2));
 		}
 		
 		boolean yawAct = aHold ^ dHold;
@@ -184,9 +191,9 @@ public class Snake implements AnimaNode {
 			yawIntensity -= dHold ? 1 : 0;
 			
 			if (yawIntensity < 0) yawIntensity = 0;
-			else if (yawIntensity > 10) yawIntensity = 10;
+			else if (yawIntensity > intensityDamping) yawIntensity = intensityDamping;
 		} else {
-			yawIntensity -= Utils.sign((short) (yawIntensity - 5));
+			yawIntensity -= Utils.sign((short) (yawIntensity - intensityDamping / 2));
 		}
 	}
 	
@@ -228,7 +235,9 @@ public class Snake implements AnimaNode {
 			Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
 			Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
 			
-			Point3D directionVector = pitchVetor.add(yawVector).normalize().multiply(moveSpeed);
+			Point3D directionVector = pitchVetor.add(yawVector)
+					.normalize()
+					.multiply(moveSpeed);
 			
 			moveHead(directionVector);
 			head.setRot(
@@ -236,6 +245,17 @@ public class Snake implements AnimaNode {
 				(yaw + headRot.getY()) % 360,
 				0
 			);
+			
+			// ----- camera position update --------
+			Point3D rightVector = headRotMatrix(new Point3D(1, 0, 0));
+			Point3D frontVector = headRotMatrix(new Point3D(0, 0, 1));
+			Point3D camPosVecor = rightVector.crossProduct(frontVector)
+					.normalize()
+					.multiply(15 * bodySize)
+					.subtract(frontVector.normalize().multiply(40 * bodySize));
+			
+			camera.setPos(head.getPos().add(camPosVecor));
+			camera.setRot(-20, -headRot.getY(), 0);
 		}
 	};
 	

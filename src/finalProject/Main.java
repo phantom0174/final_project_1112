@@ -20,13 +20,15 @@ public class Main extends Application {
 		Scene scene = new Scene(testWorld, width, height, true, SceneAntialiasing.BALANCED);
 		scene.setFill(Color.LIGHTGRAY);
 		
-		// the camera
-		FreeCamera cameraGroup = new FreeCamera(new PerspectiveCamera(true));
-		cameraGroup.bindMovements(scene);
-		scene.setCamera((Camera) cameraGroup.core);
+//		// the free camera
+//		FreeCamera cameraGroup = new FreeCamera(new PerspectiveCamera(true));
+//		cameraGroup.bindMovements(scene);
+//		scene.setCamera((Camera) cameraGroup.core);
 		
 		// the snake!
-		Snake mySnake = new Snake(testWorld);
+		SnakeCamera snakeCam = new SnakeCamera(new PerspectiveCamera(true));
+		scene.setCamera((Camera) snakeCam.core);
+		Snake mySnake = new Snake(testWorld, snakeCam);
 		mySnake.moveHead(new Point3D(0, -10, -200));
 		for (int i = 0; i < 5; i++) mySnake.generateBody();
 		mySnake.keyBinding(scene);

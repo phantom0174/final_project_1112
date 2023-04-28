@@ -52,10 +52,22 @@ public class Entity {
 		this.zRot.set(zRot);
 	}
 	
+	public void setRot(Point3D p) {
+		this.xRot.set(p.getX());
+		this.yRot.set(p.getY());
+		this.zRot.set(p.getZ());
+	}
+	
 	public void setPos(double x, double y, double z) {
 		this.x.set(x);
 		this.y.set(y);
 		this.z.set(z);
+	}
+	
+	public void setPos(Point3D p) {
+		this.x.set(p.getX());
+		this.y.set(p.getY());
+		this.z.set(p.getZ());
 	}
 	
 	public Point3D getPos() {
