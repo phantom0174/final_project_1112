@@ -47,9 +47,6 @@ public class Snake {
 	public Entity head;
 	public ArrayList<Entity> bodies = new ArrayList<>();
 	
-	// the index of the body and its succs that is static in movement
-	public int staticGap = 0;
-	
 	private final double bodySize = 10;
 	
 	Snake(Group fatherGroup) {
@@ -95,45 +92,27 @@ public class Snake {
 		this.fatherGroup.getChildren().add(body.shell);
 	}
 	
-	public void updateStaticGap() {
-		if (this.staticGap >= this.bodies.size()) return;
-		
-		Entity curBody;
-		Point3D nextPos;
-		if (this.staticGap == 0) {
-			nextPos = this.head.getPos();
-		} else {
-			nextPos = this.bodies.get(staticGap - 1).getPos();
-		}
-		
-		curBody = this.bodies.get(staticGap);
-		Point3D curPos = curBody.getPos();
-		if (nextPos.subtract(curPos).magnitude() < 2 * this.bodySize) return;
-		
-		staticGap += 1;
-	}
-	
 	// need to call this function before moving the snake's head position
 	public void updateBodyPosition() {
-		this.updateStaticGap();
-		if (this.staticGap == 0) return;
-		
-		for (int i = staticGap - 1; i > 0; i--) {
+		for (int i = this.bodies.size() - 1; i > 0; i--) {
 			Entity curBody = this.bodies.get(i);
 			Point3D nextPos = this.bodies.get(i - 1).getPos();
 			Point3D curPos = curBody.getPos();
 			
+			if (nextPos.subtract(curPos).magnitude() < 2 * this.bodySize) continue;
 			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed));
 		}
 		 
 		Entity curBody = this.bodies.get(0);
 		Point3D headPos = this.head.getPos();
 		Point3D curPos = curBody.getPos();
+		
+		if (headPos.subtract(curPos).magnitude() < 2 * this.bodySize) return;
 		curBody.move(headPos.subtract(curPos).normalize().multiply(moveSpeed));
 	}
 	
 	// --------------- controls and animations -------------------
-	public double moveSpeed = 0.5;
+	public double moveSpeed = 0.1;
 	
 	/*
 	
@@ -274,8 +253,8 @@ public class Snake {
 				
 				moveHead(directionVector);
 				head.setRot(
-					pitch + headRot.getX(),
-					yaw + headRot.getY(),
+					(pitch + headRot.getX()) % 360,
+					(yaw + headRot.getY()) % 360,
 					0
 				);
 			}
