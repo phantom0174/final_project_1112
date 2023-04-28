@@ -1,29 +1,17 @@
 package finalProject;
 
 
-import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
-
-import javax.management.modelmbean.ModelMBean;
 
 import javafx.animation.AnimationTimer;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventType;
 import javafx.geometry.Point3D;
-import javafx.scene.Camera;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 
 
 /*
@@ -41,7 +29,7 @@ Similarly for Yaw (A/D keys)
 
 */
 
-public class Snake {
+public class Snake implements AnimaNode {
 	public Group fatherGroup;
 	
 	public Entity head;
@@ -63,12 +51,7 @@ public class Snake {
 		headCore.setMaterial(headMaterial);
 		
 		this.head = new Entity(headCore);
-		this.head.setRot(0, 0, 0);
 		this.fatherGroup.getChildren().add(this.head.shell);
-		
-		
-		this.head.setPos(0, 0, -500);
-		for (int i = 0; i < 5; i++) generateBody();
 	}
 	
 	public void generateBody() {
@@ -92,7 +75,7 @@ public class Snake {
 		this.fatherGroup.getChildren().add(body.shell);
 	}
 	
-	// need to call this function before moving the snake's head position
+	// Need to call this function before moving the snake's head position!
 	public void updateBodyPosition() {
 		for (int i = this.bodies.size() - 1; i > 0; i--) {
 			Entity curBody = this.bodies.get(i);
@@ -102,6 +85,8 @@ public class Snake {
 			if (nextPos.subtract(curPos).magnitude() < 2 * this.bodySize) continue;
 			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed));
 		}
+		
+		if (this.bodies.size() == 0) return;
 		 
 		Entity curBody = this.bodies.get(0);
 		Point3D headPos = this.head.getPos();
@@ -112,7 +97,7 @@ public class Snake {
 	}
 	
 	// --------------- controls and animations -------------------
-	public double moveSpeed = 0.1;
+	public double moveSpeed = 0.5;
 	
 	/*
 	
@@ -127,7 +112,7 @@ public class Snake {
 	
 	/*
 	
-	--- Temp variables ---
+	--- Temporary variables ---
 	
 	These variables were created to save computing resources.
 	They will be updated before moving the snake head.
@@ -135,7 +120,7 @@ public class Snake {
 	pitch: current pitch of snakeHead + f(pitch intensity)
 	+ pitchCos, pitchSin
 	
-	yaw: current yaw of snakeHead + f(yaw intensity)
+	yaw: f(yaw intensity)
 	+ yawCos, yawSin
 	
 	*/
@@ -153,11 +138,8 @@ public class Snake {
 		yawSin = Math.sin(yaw);
 	}
 	
-	/*
 	
-	Calculate pitch & yaw intensity based on the current status of keyHolds.
-	
-	*/
+	// Calculate pitch & yaw intensity based on the current status of keyHolds.
 	private boolean wHold = false,
 			sHold = false,
 			aHold = false,
@@ -210,14 +192,12 @@ public class Snake {
 	
 	public Point3D headRotMatrix(Point3D v) {
 		/*
-		
-		M = (x, z, y)
-		[ Cy -Sy  0 ]
-		[ Sy  Cy  0 ]
-		[ 0   0  -1 ]
-		
-		return (M)v
-		
+			M = (x, z, y)
+			[ Cy -Sy  0 ]
+			[ Sy  Cy  0 ]
+			[ 0   0  -1 ]
+			
+			return (M)v
 		*/
 		
 		double yaw = Math.toRadians(head.getRot().getY()),
@@ -235,35 +215,40 @@ public class Snake {
 		);
 	}
 	
-	public void startAnimation() {
-		AnimationTimer movementTimer = new AnimationTimer() {
-			@Override
-			public void handle(long now) {
-				updateRotIntensity();
-				updateTempRot();
-				
-				
-				Point3D headRot = head.getRot();
-				if (now % 1000 == 0) System.out.println(headRot.getY());
-				
-				Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
-				Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
-				
-				Point3D directionVector = pitchVetor.add(yawVector).normalize().multiply(moveSpeed);
-				
-				moveHead(directionVector);
-				head.setRot(
-					(pitch + headRot.getX()) % 360,
-					(yaw + headRot.getY()) % 360,
-					0
-				);
-			}
-		};
-		movementTimer.start();
-	}
+	AnimationTimer movementTimer = new AnimationTimer() {
+		@Override
+		public void handle(long now) {
+			updateRotIntensity();
+			updateTempRot();
+			
+			
+			Point3D headRot = head.getRot();
+//			if (now % 1000 == 0) System.out.println();
+			
+			Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
+			Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
+			
+			Point3D directionVector = pitchVetor.add(yawVector).normalize().multiply(moveSpeed);
+			
+			moveHead(directionVector);
+			head.setRot(
+				(pitch + headRot.getX()) % 360,
+				headRot.getY(),
+				0
+			);
+		}
+	};
 	
 	public void moveHead(Point3D pos_v) {
 		this.updateBodyPosition();
 		this.head.move(pos_v);
+	}
+	
+	public void startAnimation() {
+		movementTimer.start();
+	}
+	
+	public void stopAnimation() {
+		movementTimer.stop();
 	}
 }

@@ -7,7 +7,9 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
+import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
@@ -59,14 +61,17 @@ public class Main extends Application {
 		FreeCamera cameraGroup = new FreeCamera();
 		cameraGroup.bindMovements(scene);
 		
-		// the snake!
+		// he snake!
 		Snake mySnake = new Snake(group);
+		mySnake.moveHead(new Point3D(0, -10, -200));
+		for (int i = 0; i < 5; i++) mySnake.generateBody();
+		
 		mySnake.keyBinding(scene);
 		//
 		
 		stage.setTitle("Camera Testing");
 		stage.setScene(scene);
-		scene.setCamera(cameraGroup.c);
+		scene.setCamera((Camera) cameraGroup.core);
 
 		stage.show();
 		
