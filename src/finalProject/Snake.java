@@ -129,7 +129,7 @@ public class Snake implements AnimaNode {
 		yaw, yawCos, yawSin;
 	
 	public void updateTempRot() {
-		pitch = Math.toRadians(-(45 * moveSpeed) * (2 * Utils.easeInOut((double) pitchIntensity / 10) - 1));
+		pitch = Math.toRadians(-45 * (2 * Utils.easeInOut((double) pitchIntensity / 10) - 1));
 		pitchCos = Math.cos(pitch);
 		pitchSin = Math.sin(pitch);
 		
@@ -232,8 +232,8 @@ public class Snake implements AnimaNode {
 			
 			moveHead(directionVector);
 			head.setRot(
-				(pitch + headRot.getX()) % 360,
-				headRot.getY(),
+				headRot.getX(),
+				(yaw + headRot.getY()) % 360,
 				0
 			);
 		}

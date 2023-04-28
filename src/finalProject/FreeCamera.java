@@ -3,7 +3,6 @@ package finalProject;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
-import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -11,9 +10,7 @@ import javafx.scene.input.KeyEvent;
 
 
 public class FreeCamera extends Entity implements AnimaNode {
-	public static Camera c = new PerspectiveCamera(true);
-	
-	public FreeCamera() {
+	public FreeCamera(PerspectiveCamera c) {
 		super(c);
 		
 		// initialize camera
