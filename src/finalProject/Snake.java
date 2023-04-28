@@ -1,6 +1,7 @@
 package finalProject;
 
 
+import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
@@ -9,6 +10,7 @@ import javax.management.modelmbean.ModelMBean;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventType;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
@@ -53,9 +55,10 @@ public class Snake {
 	Snake(Group fatherGroup) {
 		this.fatherGroup = fatherGroup;
 		initializeHead();
-		updateTempArg();
 		startAnimation();
 	}
+	
+	// --------------- logic and initialize ----------------
 	
 	private void initializeHead() {
 		Sphere headCore = new Sphere(bodySize);
@@ -63,6 +66,7 @@ public class Snake {
 		headCore.setMaterial(headMaterial);
 		
 		this.head = new Entity(headCore);
+		this.head.setRot(0, 0, 0);
 		this.fatherGroup.getChildren().add(this.head.shell);
 		
 		
@@ -119,64 +123,161 @@ public class Snake {
 			Point3D nextPos = this.bodies.get(i - 1).getPos();
 			Point3D curPos = curBody.getPos();
 			
-			curBody.move(nextPos.subtract(curPos).normalize());
+			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed));
 		}
 		 
 		Entity curBody = this.bodies.get(0);
 		Point3D headPos = this.head.getPos();
 		Point3D curPos = curBody.getPos();
-		curBody.move(headPos.subtract(curPos).normalize());
+		curBody.move(headPos.subtract(curPos).normalize().multiply(moveSpeed));
 	}
 	
-	// controls
-	double cur_arg, cos, sin;
+	// --------------- controls and animations -------------------
+	public double moveSpeed = 0.5;
 	
-	public void updateTempArg() {
-		cur_arg = Math.toRadians(-head.getRot().getY());
-		cos = Math.cos(cur_arg);
-		sin = Math.sin(cur_arg);
+	/*
+	
+	pitch & yaw intensity: short [0 ~ 10]
+	used to calculate the pitch value & yaw value of the snake's next move.
+	
+	*/
+	
+	private short pitchIntensity = 5,
+			yawIntensity = 5;
+	
+	
+	/*
+	
+	--- Temp variables ---
+	
+	These variables were created to save computing resources.
+	They will be updated before moving the snake head.
+	
+	pitch: current pitch of snakeHead + f(pitch intensity)
+	+ pitchCos, pitchSin
+	
+	yaw: current yaw of snakeHead + f(yaw intensity)
+	+ yawCos, yawSin
+	
+	*/
+	
+	double pitch, pitchCos, pitchSin,
+		yaw, yawCos, yawSin;
+	
+	public void updateTempRot() {
+		pitch = Math.toRadians(-(45 * moveSpeed) * (2 * Utils.easeInOut((double) pitchIntensity / 10) - 1));
+		pitchCos = Math.cos(pitch);
+		pitchSin = Math.sin(pitch);
+		
+		yaw = Math.toRadians((45 * moveSpeed) * (2 * Utils.easeInOut((double) yawIntensity / 10) - 1));
+		yawCos = Math.cos(yaw);
+		yawSin = Math.sin(yaw);
 	}
 	
-	private short wHold = 0,
-			sHold = 0,
-			aHold = 0,
-			dHold = 0,
-			upHold = 0,
-			downHold = 0;
+	/*
 	
-	public short accumu(short v, boolean status) {
-		if (status) return (short) Math.min(v + 1, 10);
-		else return (short) Math.max(v - 1, 0);
-	}
+	Calculate pitch & yaw intensity based on the current status of keyHolds.
 	
-	public void keyPressMode(KeyCode c, boolean mode) {
+	*/
+	private boolean wHold = false,
+			sHold = false,
+			aHold = false,
+			dHold = false;
+	
+	public void writeKeyHold(KeyCode c, boolean mode) {
 		switch (c) {
-			case W: this.wHold = accumu(this.wHold, mode); break;
-			case S: this.sHold = accumu(this.sHold, mode); break;
-			case A: this.aHold = accumu(this.aHold, mode); break;
-			case D: this.dHold = accumu(this.dHold, mode); break;
-			case SPACE: this.upHold = accumu(this.upHold, mode); break;
-			case SHIFT: this.downHold = accumu(this.downHold, mode); break;
+			case UP: this.wHold = mode; break;
+			case DOWN: this.sHold = mode; break;
+			case LEFT: this.aHold = mode; break;
+			case RIGHT: this.dHold = mode; break;
 			default: break;
 		}
 	}
 	
 	public void keyBinding(Scene s) {
-        s.setOnKeyPressed(event -> {
-        	keyPressMode(event.getCode(), true);
+		s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+        	writeKeyHold(event.getCode(), true);
     	});
         
-        s.setOnKeyReleased(event -> {
-        	keyPressMode(event.getCode(), false);
-        });
+        s.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        	writeKeyHold(event.getCode(), false);
+    	});
+	}
+	
+	public void updateRotIntensity() {
+		boolean pitchAct = wHold ^ sHold;
+		
+		if (pitchAct) {
+			pitchIntensity += wHold ? 1 : 0;
+			pitchIntensity -= sHold ? 1 : 0;
+
+			if (pitchIntensity < 0) pitchIntensity = 0;
+			else if (pitchIntensity > 10) pitchIntensity = 10;
+		} else {
+			pitchIntensity -= Utils.sign((short) (pitchIntensity - 5));
+		}
+		
+		boolean yawAct = aHold ^ dHold;
+		if (yawAct) {
+			yawIntensity += aHold ? 1 : 0;
+			yawIntensity -= dHold ? 1 : 0;
+			
+			if (yawIntensity < 0) yawIntensity = 0;
+			else if (yawIntensity > 10) yawIntensity = 10;
+		} else {
+			yawIntensity -= Utils.sign((short) (yawIntensity - 5));
+		}
+	}
+	
+	public Point3D headRotMatrix(Point3D v) {
+		/*
+		
+		M = (x, z, y)
+		[ Cy -Sy  0 ]
+		[ Sy  Cy  0 ]
+		[ 0   0  -1 ]
+		
+		return (M)v
+		
+		*/
+		
+		double yaw = Math.toRadians(head.getRot().getY()),
+			Cy = Math.cos(yaw),
+			Sy = Math.sin(yaw);
+		
+		double x = v.getX(),
+			z = v.getZ(),
+			y = v.getY();
+		
+		return new Point3D(
+			x*Cy - z*Sy,
+			-y,
+			x*Sy + z*Cy
+		);
 	}
 	
 	public void startAnimation() {
 		AnimationTimer movementTimer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				if (now % 1000 == 0) System.out.println(staticGap);
-				moveHead(new Point3D(-sin, 0, cos));
+				updateRotIntensity();
+				updateTempRot();
+				
+				
+				Point3D headRot = head.getRot();
+				if (now % 1000 == 0) System.out.println(headRot.getY());
+				
+				Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
+				Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
+				
+				Point3D directionVector = pitchVetor.add(yawVector).normalize().multiply(moveSpeed);
+				
+				moveHead(directionVector);
+				head.setRot(
+					pitch + headRot.getX(),
+					yaw + headRot.getY(),
+					0
+				);
 			}
 		};
 		movementTimer.start();

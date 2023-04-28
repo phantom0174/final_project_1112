@@ -1,6 +1,8 @@
 package finalProject;
 
 
+import java.awt.event.MouseEvent;
+
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -9,6 +11,7 @@ import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
@@ -35,7 +38,7 @@ public class FreeCamera {
 		c.setTranslateY(0);
 		c.setTranslateZ(0);
 		c.setNearClip(1);
-		c.setFarClip(10000);
+		c.setFarClip(4000);
 		
 		this.g.getChildren().add(c);
 		
@@ -73,10 +76,14 @@ public class FreeCamera {
 	// Monitor that whether the movement keys has been pressed,
 	// then update the movements using AnimationTimer
 	public void bindMovements(Scene s) {
+		s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+    	});
+
 		s.setOnMousePressed(event -> {
 			anchorX = event.getSceneX();
 			anchorY = event.getSceneY();
 		});
+		
 
         s.setOnMouseDragged(event -> {
         	double rotDx = (anchorY - event.getSceneY()) / 10;
@@ -91,7 +98,7 @@ public class FreeCamera {
 			sin = Math.sin(cur_arg);
         });
         
-        s.setOnKeyPressed(event -> {
+        s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
         	switch (event.getCode()) {
 				case W: this.wHold = true; break;
 				case S: this.sHold = true; break;
@@ -103,8 +110,8 @@ public class FreeCamera {
 			}
     	});
         
-        s.setOnKeyReleased(event -> {
-			switch (event.getCode()) {
+        s.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        	switch (event.getCode()) {
 				case W: this.wHold = false; break;
 				case S: this.sHold = false; break;
 				case A: this.aHold = false; break;
@@ -112,8 +119,8 @@ public class FreeCamera {
 				case SPACE: this.upHold = false; break;
 				case SHIFT: this.downHold = false; break;
 				default: break;
-    		}
-        });
+			}
+    	});
         
         AnimationTimer movementTimer = new AnimationTimer() {
 			@Override

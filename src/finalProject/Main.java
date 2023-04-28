@@ -1,10 +1,13 @@
 package finalProject;
 
 
+import javax.swing.plaf.ColorUIResource;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
@@ -19,13 +22,6 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	public int width = 1080, height = 720;
-	
-	public DoubleProperty xRot = new SimpleDoubleProperty(0),
-			yRot = new SimpleDoubleProperty(0);
-	
-	public DoubleProperty xPos = new SimpleDoubleProperty(0),
-		yPos = new SimpleDoubleProperty(-10),
-		zPos = new SimpleDoubleProperty(-200);
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -51,19 +47,22 @@ public class Main extends Application {
 		Sphere s2 = new Sphere(5);
 		s2.getTransforms().addAll(pl2.getTransforms());
 		s2.setRotationAxis(Rotate.Z_AXIS);
-		//
-		group.getChildren().addAll(pl, s, pl2, s2);
 		
-		
-		// the snake!
-		Snake mySnake = new Snake(group);
+		AmbientLight amb = new AmbientLight(Color.WHITE);
 		//
+		group.getChildren().addAll(pl, s, pl2, s2, amb);
+		
 		
 		Scene scene = new Scene(group, width, height, true, SceneAntialiasing.BALANCED);
 		scene.setFill(Color.LIGHTGRAY);
 		
 		FreeCamera cameraGroup = new FreeCamera();
 		cameraGroup.bindMovements(scene);
+		
+		// the snake!
+		Snake mySnake = new Snake(group);
+		mySnake.keyBinding(scene);
+		//
 		
 		stage.setTitle("Camera Testing");
 		stage.setScene(scene);
