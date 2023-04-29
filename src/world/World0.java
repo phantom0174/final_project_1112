@@ -59,6 +59,15 @@ public class World0 extends Group implements AnimaNode {
 		setBoxMaterial(yaxis, Color.BLUE);
 
 		this.getChildren().addAll(X, Z, Y, xaxis, zaxis, yaxis, woodBox);
+		
+//		隨機生成星球
+		for(int i=0 ; i<200 ; i++) {
+			this.getChildren().add(createPlanet());
+		}
+//		隨機生成蘋果
+		for(int i=0 ; i<200 ; i++) {
+			this.getChildren().add(createApple());
+		}
 	}
 
 	public void setupLights() {
@@ -123,5 +132,45 @@ public class World0 extends Group implements AnimaNode {
 	public void stopAnimation() {
 		spinningPointLight.start();
 		ambLightAni.stop();
+	}
+	
+	public Sphere createPlanet() {
+		double x = (Math.random() - 0.5) * 1000;
+		double y = (Math.random() - 0.5) * 1000;
+		double z = (Math.random() - 0.5) * 1000;
+		double r = Math.random() * 50;
+		double red = Math.random();
+		double green = Math.random();
+		double blue = Math.random();
+		
+		Sphere s = new Sphere(r);
+		PhongMaterial m = new PhongMaterial();
+		m.setDiffuseColor(Color.color(red, green, blue));
+		s.setMaterial(m);
+		
+		s.getTransforms().add(new Translate(x, y, z));
+
+		return s;
+	}
+	
+	public Group createApple(){
+		Group apple = new Group();
+		
+		double x = (Math.random() - 0.5) * 1000;
+		double y = (Math.random() - 0.5) * 1000;
+		double z = (Math.random() - 0.5) * 1000;
+		
+		Sphere s = new Sphere(3);
+		PhongMaterial ps = new PhongMaterial(Color.RED);
+		s.setMaterial(ps);
+		s.getTransforms().add(new Translate(x, y, z));
+		
+		Box b = new Box(1, 2.5, 1);
+		PhongMaterial pb = new PhongMaterial(Color.GREEN);
+		b.setMaterial(pb);
+		b.getTransforms().add(new Translate(x, y - 3, z));
+		
+		apple.getChildren().addAll(s, b);
+		return apple;
 	}
 }
