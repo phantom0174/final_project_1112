@@ -2,6 +2,7 @@ package subscene;
 
 import base.AnimaNode;
 import base.Config;
+import base.SoundPlayer;
 import camera.FreeCamera;
 import camera.SnakeCamera;
 import finalProject.Snake;
@@ -23,6 +24,12 @@ public class GameScene extends SubScene {
 	
 	private Snake theSnake = new Snake(mainWorld, sCam);
 	
+	// ---- sounds -----
+	private SoundPlayer sound = new SoundPlayer();
+	private String bgm = "bgm/my-lonely-journey.mp3";
+	//
+	
+	
 	// to toggle between fCam and sCam
 	private boolean camViewToggle = false;
 	
@@ -33,6 +40,11 @@ public class GameScene extends SubScene {
 		fCam.bindMovements(this);
 		setupSnake();
 		startAnimation();
+		
+		sound.load(bgm);
+		sound.play(bgm, true);
+		
+		sound.load("sfx/click.mp3");
 	}
 	
 	public void bindMovements() {
@@ -40,6 +52,8 @@ public class GameScene extends SubScene {
 		
 		this.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
 			if (e.getCode() == KeyCode.C) {
+				sound.play("sfx/click.mp3");
+				
 				if (camViewToggle) this.setCamera((Camera) fCam.core);
 				else this.setCamera((Camera) sCam.core);
 				

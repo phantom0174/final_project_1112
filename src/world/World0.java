@@ -32,8 +32,8 @@ public class World0 extends Group implements AnimaNode {
 		Box woodBox = new Box(50, 50, 50);
 
 		PhongMaterial pm = new PhongMaterial();
-		pm.setDiffuseMap(new Image(getClass().getResourceAsStream("/materials/diffuse.jpg")));
-		pm.setSpecularMap(new Image(getClass().getResourceAsStream("/materials/specular.jpg")));
+		pm.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/diffuse.jpg")));
+		pm.setSpecularMap(new Image(getClass().getResourceAsStream("/resources/materials/specular.jpg")));
 
 		woodBox.setMaterial(pm);
 

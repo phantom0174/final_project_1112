@@ -12,7 +12,7 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		Scene mainScene = new MainScene();
 		
-		stage.setTitle("Scene Testing");
+		stage.setTitle("Music Testing");
 		stage.setScene(mainScene);
 		stage.show();
 	}
