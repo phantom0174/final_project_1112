@@ -70,6 +70,11 @@ public class World0 extends Group implements AnimaNode {
 		for(int i=0 ; i<200 ; i++) {
 			this.getChildren().add(createApple());
 		}	
+		
+//		隨機生成道具
+		for(int i=0 ; i<30 ; i++) {
+			this.getChildren().add(createProps());
+		}
 	}
 
 	public void setupLights() {
@@ -181,5 +186,24 @@ public class World0 extends Group implements AnimaNode {
 		
 		apple.getChildren().addAll(s, b);
 		return apple;
+	}
+	
+	public Group createProps(){
+		Group g = new Group();
+		double x = (double)(Math.random() - 0.5) * 1000;
+		double y = (double)(Math.random() - 0.5) * 1000;
+		double z = (double)(Math.random() - 0.5) * 1000;
+		
+		for(int i=0 ; i<30 ; i++) {
+			Sphere s = new Sphere(0.5);
+			PhongMaterial ps = new PhongMaterial(Color.YELLOW);
+			s.setMaterial(ps);
+			double rx = (double)(Math.random() - 0.5) * 15;
+			double ry = (double)(Math.random() - 0.5) * 15;
+			double rz = (double)(Math.random() - 0.5) * 15;
+			s.getTransforms().add(new Translate(x + rx, y + ry, z + rz));
+			g.getChildren().add(s);
+		}
+		return g;
 	}
 }
