@@ -3,6 +3,8 @@ package scene;
 
 import java.util.HashMap;
 
+import scene.BGView;
+
 import base.Config;
 import base.View;
 import javafx.scene.Group;
@@ -31,11 +33,14 @@ public class MainScene extends Scene {
 		
 		load("3d_game_view");
 		attach("3d_game_view");
+		load("2d_bg");
+		attach("2d_bg");
 		switchToView("3d_game_view");
 	}
 	
 	private void addViews() {
-		viewPool.put("3d_game_view", (View) new GameView());
+		viewPool.put("3d_game_view", new GameView());
+		viewPool.put("2d_bg", new BGView());
 	}
 	
 	private void switchToView(String viewName) {

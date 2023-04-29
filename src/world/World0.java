@@ -9,6 +9,7 @@ import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -64,10 +65,11 @@ public class World0 extends Group implements AnimaNode {
 		for(int i=0 ; i<200 ; i++) {
 			this.getChildren().add(createPlanet());
 		}
+		
 //		隨機生成蘋果
 		for(int i=0 ; i<200 ; i++) {
 			this.getChildren().add(createApple());
-		}
+		}	
 	}
 
 	public void setupLights() {

@@ -50,6 +50,7 @@ public class SoundPlayer {
 	
 	public void play(String soundPath, boolean loop) {
 		MediaPlayer player = new MediaPlayer(soundList.get(soundPath));
+		player.setVolume(Config.volume);
 		this.playerList.put(soundPath, player);
 		if (loop) player.setOnEndOfMedia(() -> {
 			player.play();

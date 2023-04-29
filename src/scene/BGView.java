@@ -1,0 +1,40 @@
+package scene;
+
+import base.Config;
+import base.View;
+import javafx.scene.Group;
+import javafx.scene.SubScene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class BGView implements View {
+	private boolean isLoaded = false;
+	
+	public SubScene s;
+	public Group root;
+
+	public boolean isLoaded() {
+		return isLoaded;
+	}
+	
+	public void load() {
+		Image image = new Image(getClass().getResourceAsStream("/resources/materials/galaxy.jpg"));
+		ImageView imageView = new ImageView(image);
+		imageView.setPreserveRatio(true);
+		
+		root = new Group();
+		root.getChildren().add(imageView);
+		
+		s = new SubScene(root, Config.width, Config.height);
+	}
+
+	@Override
+	public void unload() {
+		root.getChildren().clear();
+	}
+
+	@Override
+	public SubScene getSubScene() {
+		return s;
+	}
+}
