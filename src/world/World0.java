@@ -62,7 +62,7 @@ public class World0 extends Group implements AnimaNode {
 		this.getChildren().addAll(X, Z, Y, xaxis, zaxis, yaxis, woodBox);
 		
 //		隨機生成星球
-		for(int i=0 ; i<200 ; i++) {
+		for(int i=0 ; i<100 ; i++) {
 			this.getChildren().add(createPlanet());
 		}
 		
@@ -137,19 +137,26 @@ public class World0 extends Group implements AnimaNode {
 	}
 	
 	public Sphere createPlanet() {
-		double x = (Math.random() - 0.5) * 1000;
-		double y = (Math.random() - 0.5) * 1000;
-		double z = (Math.random() - 0.5) * 1000;
-		double r = Math.random() * 50;
-		double red = Math.random();
-		double green = Math.random();
-		double blue = Math.random();
+		double x = (double)(Math.random() - 0.5) * 1000;
+		double y = (double)(Math.random() - 0.5) * 1000;
+		double z = (double)(Math.random() - 0.5) * 1000;
+		double r = (double)Math.random() * 30;
+		double red = (double)Math.random() / 2 + 0.5;
+		double green = (double)Math.random() / 2 + 0.5;
+		double blue = (double)Math.random() / 2 + 0.5;
+		double p = (double)Math.random();
 		
 		Sphere s = new Sphere(r);
 		PhongMaterial m = new PhongMaterial();
 		m.setDiffuseColor(Color.color(red, green, blue));
-		s.setMaterial(m);
+		if(p > 0.5) {
+			m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
+		}
+		else if(p <= 0.5) {
+			m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet2.jpg")));
+		}
 		
+		s.setMaterial(m);		
 		s.getTransforms().add(new Translate(x, y, z));
 
 		return s;
