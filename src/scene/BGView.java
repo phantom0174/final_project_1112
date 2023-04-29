@@ -24,6 +24,7 @@ public class BGView implements View {
 		
 		root = new Group();
 		root.getChildren().add(imageView);
+		root.setOpacity(Config.backgroundOpacity);
 		
 		s = new SubScene(root, Config.width, Config.height);
 	}
