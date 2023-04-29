@@ -4,6 +4,7 @@ package finalProject;
 import java.util.ArrayList;
 
 import base.AnimaNode;
+import base.Config;
 import base.Entity;
 import base.Utils;
 import camera.SnakeCamera;
@@ -104,7 +105,7 @@ public class Snake implements AnimaNode {
 	}
 	
 	// --------------- controls and animations -------------------
-	public double moveSpeed = 1;
+	public double moveSpeed = Config.snakeSpeed;
 	public short intensityDamping = 50;
 	
 	/*
@@ -144,7 +145,7 @@ public class Snake implements AnimaNode {
 		pitchSin = Math.sin(pitch);
 		
 		yaw = Math.toRadians(
-			(45 * moveSpeed) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+			45 * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
 		);
 		yawCos = Math.cos(yaw);
 		yawSin = Math.sin(yaw);

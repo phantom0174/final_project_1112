@@ -9,7 +9,6 @@ import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -25,7 +24,7 @@ public class World0 extends Group implements AnimaNode {
 		setupObjects();
 		setupLights();
 	}
-	
+
 	AnimationTimer spinningPointLight;
 	Timeline ambLightAni;
 
@@ -61,19 +60,49 @@ public class World0 extends Group implements AnimaNode {
 
 		this.getChildren().addAll(X, Z, Y, xaxis, zaxis, yaxis, woodBox);
 		
-//		隨機生成星球
-		for(int i=0 ; i<100 ; i++) {
-			this.getChildren().add(createPlanet());
+		for (int d = 1; d <= 3; d++) {
+			for (int i = -5; i <= 5; i++) {
+				int perm1Pos = i * 200;
+				for (int j = -5; j <= 5; j++) {
+					int perm2Pos = j * 200;
+					
+					Box grid = new Box(
+						(d == 1) ? 2200 : 0.2,
+						(d == 2) ? 2200 : 0.2,
+						(d == 3) ? 2200 : 0.2
+					);
+					
+					if (d == 1) {
+						grid.getTransforms().add(new Translate(0, perm1Pos, perm2Pos));
+					} else if (d == 2) {
+						grid.getTransforms().add(new Translate(perm1Pos, 0, perm2Pos));
+					} else {
+						grid.getTransforms().add(new Translate(perm1Pos, perm2Pos, 0));
+					}
+					
+					setBoxMaterial(grid, Color.LIGHTGRAY);
+					
+					this.getChildren().add(grid);
+				}
+			}
 		}
 		
+//		隨機生成星球
+		for (int i = 0; i < 100; i++) {
+			this.getChildren().add(createPlanet());
+		}
+
 //		隨機生成蘋果
-		for(int i=0 ; i<200 ; i++) {
+		for (int i = 0; i < 200; i++) {
 			this.getChildren().add(createApple());
+//<<<<<<< HEAD
 		}	
 		
 //		隨機生成道具
 		for(int i=0 ; i<30 ; i++) {
 			this.getChildren().add(createProps());
+//=======
+//>>>>>>> cfc3d67db37edd34885cd0b6d7cffdc76f7c7b7f
 		}
 	}
 
@@ -96,33 +125,29 @@ public class World0 extends Group implements AnimaNode {
 		s2.getTransforms().addAll(pl2.getTransforms());
 		s2.setRotationAxis(Rotate.Z_AXIS);
 
-		AmbientLight amb = new AmbientLight(Color.WHITE);
+//		AmbientLight amb = new AmbientLight(Color.WHITE);
 
-		this.getChildren().addAll(pl, s, pl2, s2, amb);
-		
+		this.getChildren().addAll(pl, s, pl2, s2);
+
 		spinningPointLight = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 				pl.setRotate(pl.getRotate() + 1);
 				s.setRotate(s.getRotate() + 1);
-				
+
 				pl2.setRotate(pl2.getRotate() + 1);
 				s2.setRotate(s2.getRotate() + 1);
 			}
 		};
-		
-		ambLightAni = new Timeline(
-			new KeyFrame(Duration.ZERO, e -> {
-				amb.setLightOn(false);
-			}),
-			new KeyFrame(Duration.seconds(3), e -> {
-				amb.setLightOn(true);
-			}),
-			new KeyFrame(Duration.seconds(8), e -> {
-				amb.setLightOn(false);
-			})
-		);
-		ambLightAni.setCycleCount(Timeline.INDEFINITE);
+
+//		ambLightAni = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+//			amb.setLightOn(false);
+//		}), new KeyFrame(Duration.seconds(3), e -> {
+//			amb.setLightOn(true);
+//		}), new KeyFrame(Duration.seconds(8), e -> {
+//			amb.setLightOn(false);
+//		}));
+//		ambLightAni.setCycleCount(Timeline.INDEFINITE);
 	}
 
 	public void setBoxMaterial(Box b, Color c) {
@@ -133,57 +158,56 @@ public class World0 extends Group implements AnimaNode {
 
 	public void startAnimation() {
 		spinningPointLight.start();
-		ambLightAni.play();
+//		ambLightAni.play();
 	}
 
 	public void stopAnimation() {
 		spinningPointLight.start();
-		ambLightAni.stop();
+//		ambLightAni.stop();
 	}
-	
+
 	public Sphere createPlanet() {
-		double x = (double)(Math.random() - 0.5) * 1000;
-		double y = (double)(Math.random() - 0.5) * 1000;
-		double z = (double)(Math.random() - 0.5) * 1000;
-		double r = (double)Math.random() * 30;
-		double red = (double)Math.random() / 2 + 0.5;
-		double green = (double)Math.random() / 2 + 0.5;
-		double blue = (double)Math.random() / 2 + 0.5;
-		double p = (double)Math.random();
-		
+		double x = (double) (Math.random() - 0.5) * 1000;
+		double y = (double) (Math.random() - 0.5) * 1000;
+		double z = (double) (Math.random() - 0.5) * 1000;
+		double r = (double) (Math.random() + 1)/2 * 30;
+		double red = (double) Math.random() / 2 + 0.5;
+		double green = (double) Math.random() / 2 + 0.5;
+		double blue = (double) Math.random() / 2 + 0.5;
+		double p = (double) Math.random();
+
 		Sphere s = new Sphere(r);
 		PhongMaterial m = new PhongMaterial();
 		m.setDiffuseColor(Color.color(red, green, blue));
-		if(p > 0.5) {
+		if (p > 0.5) {
 			m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
-		}
-		else if(p <= 0.5) {
+		} else if (p <= 0.5) {
 			m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet2.jpg")));
 		}
-		
-		s.setMaterial(m);		
+
+		s.setMaterial(m);
 		s.getTransforms().add(new Translate(x, y, z));
 
 		return s;
 	}
-	
-	public Group createApple(){
+
+	public Group createApple() {
 		Group apple = new Group();
-		
+
 		double x = (Math.random() - 0.5) * 1000;
 		double y = (Math.random() - 0.5) * 1000;
 		double z = (Math.random() - 0.5) * 1000;
-		
+
 		Sphere s = new Sphere(3);
 		PhongMaterial ps = new PhongMaterial(Color.RED);
 		s.setMaterial(ps);
 		s.getTransforms().add(new Translate(x, y, z));
-		
+
 		Box b = new Box(1, 2.5, 1);
 		PhongMaterial pb = new PhongMaterial(Color.GREEN);
 		b.setMaterial(pb);
 		b.getTransforms().add(new Translate(x, y - 3, z));
-		
+
 		apple.getChildren().addAll(s, b);
 		return apple;
 	}
