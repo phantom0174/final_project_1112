@@ -3,10 +3,15 @@ package finalProject;
 
 import java.util.ArrayList;
 
+import base.AnimaNode;
+import base.Entity;
+import base.Utils;
+import camera.SnakeCamera;
+
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -38,7 +43,7 @@ public class Snake implements AnimaNode {
 	
 	private final double bodySize = 10;
 	
-	Snake(Group fatherGroup, SnakeCamera mainCam) {
+	public Snake(Group fatherGroup, SnakeCamera mainCam) {
 		this.fatherGroup = fatherGroup;
 		this.camera = mainCam;
 		
@@ -162,7 +167,7 @@ public class Snake implements AnimaNode {
 		}
 	}
 	
-	public void keyBinding(Scene s) {
+	public void bindMovements(SubScene s) {
 		s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
         	writeKeyHold(event.getCode(), true);
     	});

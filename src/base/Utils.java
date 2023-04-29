@@ -1,4 +1,4 @@
-package finalProject;
+package base;
 
 public class Utils {
 	public static double easeInOut(double t) {

@@ -1,5 +1,7 @@
-package finalProject;
+package camera;
 
+
+import base.Entity;
 
 import javafx.scene.PerspectiveCamera;
 

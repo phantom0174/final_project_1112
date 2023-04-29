@@ -1,6 +1,10 @@
-package finalProject;
+package world;
+
+import base.AnimaNode;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
@@ -11,9 +15,10 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.util.Duration;
 
-public class TestWorld extends Group implements AnimaNode {
-	TestWorld() {
+public class World0 extends Group implements AnimaNode {
+	public World0() {
 		super();
 
 		setupObjects();
@@ -21,6 +26,7 @@ public class TestWorld extends Group implements AnimaNode {
 	}
 	
 	AnimationTimer spinningPointLight;
+	Timeline ambLightAni;
 
 	public void setupObjects() {
 		Box woodBox = new Box(50, 50, 50);
@@ -88,6 +94,19 @@ public class TestWorld extends Group implements AnimaNode {
 				s2.setRotate(s2.getRotate() + 1);
 			}
 		};
+		
+		ambLightAni = new Timeline(
+			new KeyFrame(Duration.ZERO, e -> {
+				amb.setLightOn(false);
+			}),
+			new KeyFrame(Duration.seconds(3), e -> {
+				amb.setLightOn(true);
+			}),
+			new KeyFrame(Duration.seconds(8), e -> {
+				amb.setLightOn(false);
+			})
+		);
+		ambLightAni.setCycleCount(Timeline.INDEFINITE);
 	}
 
 	public void setBoxMaterial(Box b, Color c) {
@@ -98,9 +117,11 @@ public class TestWorld extends Group implements AnimaNode {
 
 	public void startAnimation() {
 		spinningPointLight.start();
+		ambLightAni.play();
 	}
 
 	public void stopAnimation() {
 		spinningPointLight.start();
+		ambLightAni.stop();
 	}
 }

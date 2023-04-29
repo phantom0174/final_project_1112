@@ -1,10 +1,13 @@
-package finalProject;
+package camera;
 
+
+import base.AnimaNode;
+import base.Entity;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -34,10 +37,10 @@ public class FreeCamera extends Entity implements AnimaNode {
 	
 	public void writeKeyHold(KeyCode c, boolean mode) {
 		switch (c) {
-			case W: this.wHold = mode; break;
-			case S: this.sHold = mode; break;
-			case A: this.aHold = mode; break;
-			case D: this.dHold = mode; break;
+			case UP: this.wHold = mode; break;
+			case DOWN: this.sHold = mode; break;
+			case LEFT: this.aHold = mode; break;
+			case RIGHT: this.dHold = mode; break;
 			case SPACE: this.upHold = mode; break;
 			case SHIFT: this.downHold = mode; break;
 			default: break;
@@ -46,7 +49,9 @@ public class FreeCamera extends Entity implements AnimaNode {
 	
 	// Monitor that whether the movement keys has been pressed,
 	// then update the movements using AnimationTimer
-	public void bindMovements(Scene s) {
+	public void bindMovements(SubScene s) {
+		s.setPickOnBounds(true);
+		
 		s.setOnMousePressed(event -> {
 			anchorX = event.getSceneX();
 			anchorY = event.getSceneY();

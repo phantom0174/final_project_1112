@@ -1,4 +1,4 @@
-package finalProject;
+package base;
 
 public interface AnimaNode {
 	void startAnimation();
