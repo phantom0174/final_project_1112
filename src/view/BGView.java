@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class BGView implements View {
 	private boolean isLoaded = false;
@@ -27,6 +28,7 @@ public class BGView implements View {
 		root.setOpacity(Config.backgroundOpacity);
 		
 		s = new SubScene(root, Config.width, Config.height);
+		s.setFill(Color.BLACK);
 	}
 
 	@Override

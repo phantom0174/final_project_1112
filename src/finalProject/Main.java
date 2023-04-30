@@ -22,7 +22,7 @@ public class Main extends Application {
 		Parent root = loader.load();
 		Scene menuScene = new Scene(root);
 		MenuController control = loader.getController();
-		control.enterMenu(stage, menuScene, root);
+		control.enterMenu(stage, menuScene);
 	}
 
 	public static void main(String[] args) {

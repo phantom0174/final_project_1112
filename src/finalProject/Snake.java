@@ -8,7 +8,6 @@ import base.Config;
 import base.Entity;
 import base.Utils;
 import camera.SnakeCamera;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;

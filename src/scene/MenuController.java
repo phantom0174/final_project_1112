@@ -49,13 +49,11 @@ public class MenuController implements Initializable {
 	
 	private Stage stage;
 	private Scene scene;
-	private Parent root;
 	
 	// entry point!
-	public void enterMenu(Stage stage, Scene scene, Parent root) {
+	public void enterMenu(Stage stage, Scene scene) {
 		this.stage = stage;
 		this.scene = scene;
-		this.root = root;
 		
 		playMenuMusic();
 		reenterMenu();

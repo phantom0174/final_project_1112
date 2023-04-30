@@ -23,6 +23,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -33,10 +34,6 @@ public class GameView implements View, AnimaNode {
 	private boolean loaded = false;
 	public SubScene s;
 	private World0 root;
-
-	// ---- sounds -----
-	private SoundPlayer sound = new SoundPlayer();
-	private String bgm = "bgm/my-lonely-journey.mp3";
 
 	// ---- game entities ----
 	private boolean camViewToggle = false;
@@ -49,8 +46,6 @@ public class GameView implements View, AnimaNode {
 	private EventHandler<KeyEvent> toggleCamera = e -> {
 		if (e.getCode() != KeyCode.C) return;
 
-		sound.play("sfx/click.mp3");
-
 		if (!camViewToggle) s.setCamera((Camera) freeCamera.core);
 		else s.setCamera((Camera) snakeCamera.core);
 
@@ -59,7 +54,8 @@ public class GameView implements View, AnimaNode {
 	
 	// ---- game logic entities ----
 	private ArrayList<Sphere> planetList = new ArrayList<>();
-	private GameStatus gameStatus = GameStatus.ALIVE;
+	public GameStatus gameStatus = GameStatus.ALIVE;
+	public int score = 0;
 	
 	// ----------------- View -----------------
 	
@@ -83,10 +79,6 @@ public class GameView implements View, AnimaNode {
 		this.snake = new Snake(this.root, snakeCamera);
 		this.setupSnake();
 
-		// sounds
-		this.sound.load(bgm);
-		this.sound.load("sfx/click.mp3");
-
 		this.bindMovements();
 		this.startAnimation();
 		
@@ -98,8 +90,6 @@ public class GameView implements View, AnimaNode {
 		// in reverse order of load()
 		
 		this.unbindMovements();
-		this.sound.stop(bgm);
-		this.sound.unLoadAll();
 		this.snake = null;
 		this.snakeCamera = null;
 		this.freeCamera = null;
@@ -139,6 +129,12 @@ public class GameView implements View, AnimaNode {
 		frameGenerator = new Timeline(fps, new KeyFrame(frameDuration, e -> executeFrame()));
 		frameGenerator.setCycleCount(Timeline.INDEFINITE);
 		frameGenerator.play();
+		
+		Timeline scoreAddder = new Timeline(
+			new KeyFrame(Duration.seconds(1), e -> score++)
+		);
+		scoreAddder.setCycleCount(Timeline.INDEFINITE);
+		scoreAddder.play();
 	}
 	
 	public void executeFrame() {
@@ -168,7 +164,6 @@ public class GameView implements View, AnimaNode {
 	}
 
 	public void startAnimation() {
-		sound.play(bgm);
 		((AnimaNode) root).startAnimation();
 	}
 
