@@ -95,15 +95,12 @@ public class World0 extends Group implements AnimaNode {
 //		隨機生成蘋果
 		for (int i = 0; i < 200; i++) {
 			this.getChildren().add(createApple());
-//<<<<<<< HEAD
 		}	
-		
-//		隨機生成道具
-		for(int i=0 ; i<30 ; i++) {
-			this.getChildren().add(createProps());
-//=======
-//>>>>>>> cfc3d67db37edd34885cd0b6d7cffdc76f7c7b7f
-		}
+//		
+////		隨機生成道具
+//		for(int i=0 ; i<30 ; i++) {
+//			this.getChildren().add(createProps());
+//		}
 	}
 
 	public void setupLights() {

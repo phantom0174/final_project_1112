@@ -1,4 +1,4 @@
-package scene;
+package view;
 
 import base.Config;
 import base.View;

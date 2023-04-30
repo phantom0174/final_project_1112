@@ -106,7 +106,7 @@ public class Snake implements AnimaNode {
 	
 	// --------------- controls and animations -------------------
 	public double moveSpeed = Config.snakeSpeed;
-	public short intensityDamping = 50;
+	public short intensityDamping = 30;
 	
 	/*
 	

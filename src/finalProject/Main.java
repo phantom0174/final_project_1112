@@ -1,8 +1,11 @@
 package finalProject;
 
 
-import scene.MainScene;
+import scene.MenuScene;
+import scene.SceneSwitcher;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -10,10 +13,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
-		Scene mainScene = new MainScene();
+		stage.setTitle("Scene Testing");
 		
-		stage.setTitle("Music Testing");
-		stage.setScene(mainScene);
+		MenuScene menu = new MenuScene();
+		stage.setScene(menu.scene);
 		stage.show();
 	}
 

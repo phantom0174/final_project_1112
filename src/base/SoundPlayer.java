@@ -3,6 +3,7 @@ package base;
 import java.io.File;
 import java.util.HashMap;
 
+import javafx.animation.Timeline;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -50,11 +51,11 @@ public class SoundPlayer {
 	
 	public void play(String soundPath, boolean loop) {
 		MediaPlayer player = new MediaPlayer(soundList.get(soundPath));
-		player.setVolume(Config.volume);
+		
+		player.volumeProperty().bind(Config.volume);
+		
 		this.playerList.put(soundPath, player);
-		if (loop) player.setOnEndOfMedia(() -> {
-			player.play();
-		});
+		if (loop) player.setCycleCount(Timeline.INDEFINITE);
 		player.play();
 	}
 	

@@ -1,4 +1,4 @@
-package scene;
+package view;
 
 import base.AnimaNode;
 import base.Config;
