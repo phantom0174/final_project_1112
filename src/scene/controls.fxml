@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Circle fill="#00ff11" layoutX="337.0" layoutY="155.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f1ff42" layoutX="358.0" layoutY="176.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f1ff42" layoutX="379.0" layoutY="197.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f1ff42" layoutX="400.0" layoutY="218.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f1ff42" layoutX="421.0" layoutY="239.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="649.0" layoutY="147.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+      <Label alignment="CENTER" layoutX="655.0" layoutY="152.0" prefHeight="7.0" prefWidth="30.0" text="W" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="599.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+      <Label alignment="CENTER" layoutX="605.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="A" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="649.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+      <Label alignment="CENTER" layoutX="655.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="S" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="700.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+      <Label alignment="CENTER" layoutX="706.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="D" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

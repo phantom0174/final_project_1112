@@ -10,8 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Slider;
 
-public class SettingController implements Initializable {
-	
+public class SettingMenuController implements Initializable {
 	@FXML
 	public Slider volumeSlider;
 
@@ -26,5 +25,4 @@ public class SettingController implements Initializable {
 			}
 		});
 	}
-	
 }

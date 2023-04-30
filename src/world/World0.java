@@ -97,10 +97,10 @@ public class World0 extends Group implements AnimaNode {
 			this.getChildren().add(createApple());
 		}	
 //		
-////		隨機生成道具
-//		for(int i=0 ; i<30 ; i++) {
-//			this.getChildren().add(createProps());
-//		}
+//		隨機生成道具
+		for(int i=0 ; i<30 ; i++) {
+			this.getChildren().add(createProps());
+		}
 	}
 
 	public void setupLights() {

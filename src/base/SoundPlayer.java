@@ -50,17 +50,25 @@ public class SoundPlayer {
 	}
 	
 	public void play(String soundPath, boolean loop) {
-		MediaPlayer player = new MediaPlayer(soundList.get(soundPath));
-		
+		MediaPlayer player = new MediaPlayer(soundList.get(soundPath));		
 		player.volumeProperty().bind(Config.volume);
-		
-		this.playerList.put(soundPath, player);
 		if (loop) player.setCycleCount(Timeline.INDEFINITE);
 		player.play();
+		
+		playerList.put(soundPath, player);
+		System.out.println("saved: " + soundPath);
+		System.out.println(playerList.size());
 	}
 	
 	public void stop(String soundPath) {
+		System.out.println("received: " + soundPath);
 		MediaPlayer player = playerList.get(soundPath);
+		System.out.println(playerList.size());
 		player.stop();
+	}
+	
+	@Override
+	protected void finalize() {
+	    System.out.println("sound-p del!!!!");
 	}
 }
