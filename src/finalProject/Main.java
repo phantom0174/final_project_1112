@@ -2,7 +2,6 @@ package finalProject;
 
 
 import scene.MenuController;
-import scene.MenuScene;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

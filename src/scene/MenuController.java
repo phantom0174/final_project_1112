@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import base.Config;
 import base.SoundPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,14 +55,16 @@ public class MenuController implements Initializable {
 	public void enterMenu(Stage stage, Scene scene, Parent root) {
 		this.stage = stage;
 		this.scene = scene;
+		this.root = root;
+		
 		playMenuMusic();
 		reenterMenu();
 		stage.show();
 	}
 	
 	public void reenterMenu() {
-		stage.setTitle("Menu");
 		stage.setScene(scene);
+		stage.setTitle("finalProject | Menu");
 	}
 	
 	public void enterGame(ActionEvent e) {
@@ -71,6 +72,7 @@ public class MenuController implements Initializable {
 		sound.stop("bgm/space-age.mp3");
 		Scene gameScene = new GameScene();
 		stage.setScene(gameScene);
+		stage.setTitle("finalProject | Game");
 	}
 	
 	public void showSettings(ActionEvent e) throws IOException {
@@ -81,6 +83,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(settingScene);
+		stage.setTitle("finalProject | Settings");
 	}
 	
 	public void showControls(ActionEvent e) throws IOException {
@@ -91,6 +94,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(controlScene);
+		stage.setTitle("finalProject | Controls");
 	}
 	
 	public void showCredits(ActionEvent e) throws IOException {
@@ -101,6 +105,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(creditScene);
+		stage.setTitle("finalProject | Credits");
 	}
 	
 	public void getStage(ActionEvent e) {
