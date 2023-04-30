@@ -1,7 +1,11 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import base.AnimaNode;
 import base.Config;
+import base.GameStatus;
 import base.SoundPlayer;
 import base.View;
 import camera.FreeCamera;
@@ -11,11 +15,16 @@ import world.World0;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
+import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Sphere;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 
 
@@ -48,6 +57,10 @@ public class GameView implements View, AnimaNode {
 		camViewToggle = !camViewToggle;
 	};
 	
+	// ---- game logic entities ----
+	private ArrayList<Sphere> planetList = new ArrayList<>();
+	private GameStatus gameStatus = GameStatus.ALIVE;
+	
 	// ----------------- View -----------------
 	
 	public boolean isLoaded() {
@@ -59,7 +72,7 @@ public class GameView implements View, AnimaNode {
 	}
 
 	public void load() {
-		this.root = new World0();
+		this.root = new World0(planetList);
 		this.s = new SubScene(this.root, Config.width, Config.height, true, SceneAntialiasing.BALANCED);
 
 		// cameras
@@ -78,6 +91,7 @@ public class GameView implements View, AnimaNode {
 		this.startAnimation();
 		
 		this.loaded = true;
+		startGame();
 	}
 	
 	public void unload() {
@@ -114,8 +128,43 @@ public class GameView implements View, AnimaNode {
 	
 	public void setupSnake() {
 		snake.bindMovements(s);
-		snake.moveHead(new Point3D(0, -10, -200));
+		snake.moveHead(new Point3D(0, -10, -200), false);
 		for (int i = 0; i < 5; i++) snake.generateBody();
+	}
+	
+	public Timeline frameGenerator;
+	public void startGame() {
+		double fps = 60;
+		var frameDuration = Duration.millis(1000.0 / fps);
+		frameGenerator = new Timeline(fps, new KeyFrame(frameDuration, e -> executeFrame()));
+		frameGenerator.setCycleCount(Timeline.INDEFINITE);
+		frameGenerator.play();
+	}
+	
+	public void executeFrame() {
+		boolean isDead = (gameStatus == GameStatus.DEAD);
+		
+		snake.updateFrameMovement(isDead);
+		Point3D headPos = snake.head.getPos();
+		
+		// if snake has a collision with planet object
+		for (Sphere p : planetList) {
+			double x = p.translateXProperty().get(),
+					y = p.translateYProperty().get(),
+					z = p.translateZProperty().get();
+			
+			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
+			
+			if (dist < p.getRadius() + snake.bodySize) {
+				gameStatus = GameStatus.DEAD;
+				break;
+			}
+		}
+		
+		// recheck isDead?
+		if (gameStatus == GameStatus.DEAD) {
+			snake.unbindMovements(this.s);
+		}
 	}
 
 	public void startAnimation() {

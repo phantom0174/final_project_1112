@@ -1,12 +1,13 @@
 package world;
 
-import base.AnimaNode;
+import java.util.ArrayList;
 
+import base.AnimaNode;
+import base.Utils;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.AmbientLight;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.PointLight;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -15,11 +16,15 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import javafx.util.Duration;
+
 
 public class World0 extends Group implements AnimaNode {
-	public World0() {
+	public ArrayList<Sphere> planetList;
+	
+	public World0(ArrayList<Sphere> o) {
 		super();
+		
+		this.planetList = o;
 
 		setupObjects();
 		setupLights();
@@ -57,7 +62,7 @@ public class World0 extends Group implements AnimaNode {
 
 		Box yaxis = new Box(3, 10000, 3);
 		setBoxMaterial(yaxis, Color.BLUE);
-
+		
 		this.getChildren().addAll(X, Z, Y, xaxis, zaxis, yaxis, woodBox);
 		
 		for (int d = 1; d <= 3; d++) {
@@ -89,17 +94,23 @@ public class World0 extends Group implements AnimaNode {
 		
 //		隨機生成星球
 		for (int i = 0; i < 100; i++) {
-			this.getChildren().add(createPlanet());
+			Sphere planet = createPlanet();
+			planetList.add(planet);
+			this.getChildren().add(planet);
 		}
 
 //		隨機生成蘋果
 		for (int i = 0; i < 200; i++) {
-			this.getChildren().add(createApple());
+			Node apple = createApple();
+//			planetList.add(apple);
+			this.getChildren().add(apple);
 		}	
 //		
 //		隨機生成道具
 		for(int i=0 ; i<30 ; i++) {
-			this.getChildren().add(createProps());
+			Node props = createProps();
+//			planetList.add(props);
+			this.getChildren().add(props);
 		}
 	}
 
@@ -172,6 +183,10 @@ public class World0 extends Group implements AnimaNode {
 		double green = (double) Math.random() / 2 + 0.5;
 		double blue = (double) Math.random() / 2 + 0.5;
 		double p = (double) Math.random();
+		
+		if (Math.abs(x) < 100) x += 100 * Utils.sign((short) x);
+		if (Math.abs(y) < 100) y += 100 * Utils.sign((short) y);
+		if (Math.abs(z) < 100) z += 100 * Utils.sign((short) z);
 
 		Sphere s = new Sphere(r);
 		PhongMaterial m = new PhongMaterial();
@@ -183,8 +198,11 @@ public class World0 extends Group implements AnimaNode {
 		}
 
 		s.setMaterial(m);
-		s.getTransforms().add(new Translate(x, y, z));
-
+		s.setTranslateX(x);
+		s.setTranslateY(y);
+		s.setTranslateZ(z);
+//		s.getTransforms().add(new Translate(x, y, z));
+		
 		return s;
 	}
 

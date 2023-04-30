@@ -3,13 +3,13 @@ package finalProject;
 
 import java.util.ArrayList;
 
-import base.AnimaNode;
+
 import base.Config;
 import base.Entity;
 import base.Utils;
 import camera.SnakeCamera;
 
-import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
@@ -35,21 +35,21 @@ Similarly for Yaw (A/D keys)
 
 */
 
-public class Snake implements AnimaNode {
+public class Snake {
 	public Group fatherGroup;
 	public SnakeCamera camera;
 	
 	public Entity head;
 	public ArrayList<Entity> bodies = new ArrayList<>();
 	
-	private final double bodySize = 10;
+	public final double bodySize = 10;
+	
 	
 	public Snake(Group fatherGroup, SnakeCamera mainCam) {
 		this.fatherGroup = fatherGroup;
 		this.camera = mainCam;
 		
 		initializeHead();
-		startAnimation();
 	}
 	
 	// --------------- logic and initialize ----------------
@@ -84,21 +84,31 @@ public class Snake implements AnimaNode {
 	}
 	
 	// Need to call this function before moving the snake's head position!
-	public void updateBodyPosition() {
+	public void updateBodyPosition(boolean isDead) {
 		for (int i = this.bodies.size() - 1; i > 0; i--) {
 			Entity curBody = this.bodies.get(i);
 			Point3D nextPos = this.bodies.get(i - 1).getPos();
 			Point3D curPos = curBody.getPos();
+			
+			if (isDead) {
+				curBody.move(curPos.normalize().multiply(moveSpeed));
+				continue;
+			}
 			
 			if (nextPos.subtract(curPos).magnitude() < 2 * this.bodySize) continue;
 			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed));
 		}
 		
 		if (this.bodies.size() == 0) return;
-		 
+		
 		Entity curBody = this.bodies.get(0);
 		Point3D headPos = this.head.getPos();
 		Point3D curPos = curBody.getPos();
+		
+		if (isDead) {
+			curBody.move(curPos.normalize().multiply(moveSpeed));
+			return;
+		}
 		
 		if (headPos.subtract(curPos).magnitude() < 2 * this.bodySize) return;
 		curBody.move(headPos.subtract(curPos).normalize().multiply(moveSpeed));
@@ -168,14 +178,22 @@ public class Snake implements AnimaNode {
 		}
 	}
 	
+	EventHandler<KeyEvent> keyHold = event -> {
+    	writeKeyHold(event.getCode(), true);
+	};
+	
+	EventHandler<KeyEvent> keyReleased = event -> {
+    	writeKeyHold(event.getCode(), false);
+	};
+	
 	public void bindMovements(SubScene s) {
-		s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-        	writeKeyHold(event.getCode(), true);
-    	});
-        
-        s.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-        	writeKeyHold(event.getCode(), false);
-    	});
+		s.addEventFilter(KeyEvent.KEY_PRESSED, keyHold);
+        s.addEventFilter(KeyEvent.KEY_RELEASED, keyReleased);
+	}
+	
+	public void unbindMovements(SubScene s) {
+		s.removeEventFilter(KeyEvent.KEY_PRESSED, keyHold);
+        s.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleased);
 	}
 	
 	public void updateRotIntensity() {
@@ -228,53 +246,41 @@ public class Snake implements AnimaNode {
 		);
 	}
 	
-	AnimationTimer movementTimer = new AnimationTimer() {
-		@Override
-		public void handle(long now) {
-			updateRotIntensity();
-			updateTempRot();
-			
-			
-			Point3D headRot = head.getRot();
-//			if (now % 1000 == 0) System.out.println();
-			
-			Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
-			Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
-			
-			Point3D directionVector = pitchVetor.add(yawVector)
-					.normalize()
-					.multiply(moveSpeed);
-			
-			moveHead(directionVector);
-			head.setRot(
-				headRot.getX(),
-				(yaw + headRot.getY()) % 360,
-				0
-			);
-			
-			// ----- camera position update --------
-			Point3D rightVector = headRotMatrix(new Point3D(1, 0, 0));
-			Point3D frontVector = headRotMatrix(new Point3D(0, 0, 1));
-			Point3D camPosVecor = rightVector.crossProduct(frontVector)
-					.normalize()
-					.multiply(15 * bodySize)
-					.subtract(frontVector.normalize().multiply(40 * bodySize));
-			
-			camera.setPos(head.getPos().add(camPosVecor));
-			camera.setRot(-20, -headRot.getY(), 0);
-		}
-	};
+	public void updateFrameMovement(boolean isDead) {
+		updateRotIntensity();
+		updateTempRot();
+		
+		
+		Point3D headRot = head.getRot();
+		
+		Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
+		Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
+		
+		Point3D directionVector = pitchVetor.add(yawVector)
+				.normalize()
+				.multiply(moveSpeed);
+		
+		moveHead(directionVector, isDead);
+		head.setRot(
+			headRot.getX(),
+			(yaw + headRot.getY()) % 360,
+			0
+		);
+		
+		// ----- camera position update --------
+		Point3D rightVector = headRotMatrix(new Point3D(1, 0, 0));
+		Point3D frontVector = headRotMatrix(new Point3D(0, 0, 1));
+		Point3D camPosVecor = rightVector.crossProduct(frontVector)
+				.normalize()
+				.multiply(15 * bodySize)
+				.subtract(frontVector.normalize().multiply(40 * bodySize));
+		
+		camera.setPos(head.getPos().add(camPosVecor));
+		camera.setRot(-20, -headRot.getY(), 0);
+	}
 	
-	public void moveHead(Point3D pos_v) {
-		this.updateBodyPosition();
+	public void moveHead(Point3D pos_v, boolean isDead) {
+		this.updateBodyPosition(isDead);
 		this.head.move(pos_v);
-	}
-	
-	public void startAnimation() {
-		movementTimer.start();
-	}
-	
-	public void stopAnimation() {
-		movementTimer.stop();
 	}
 }
