@@ -8,5 +8,5 @@ public class Config {
 	public static double backgroundOpacity = 0.7;
 	public static DoubleProperty snakeSpeed = new SimpleDoubleProperty(2);
 	
-	public static DoubleProperty volume = new SimpleDoubleProperty(0.9);
+	public static DoubleProperty volume = new SimpleDoubleProperty(0.5);
 }

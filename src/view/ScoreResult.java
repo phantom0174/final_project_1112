@@ -3,7 +3,6 @@ package view;
 import base.Config;
 import base.View;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;

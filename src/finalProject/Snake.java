@@ -43,7 +43,7 @@ public class Snake {
 	public Entity head;
 	public ArrayList<Entity> bodies = new ArrayList<>();
 	
-	public final double bodySize = 10;
+	public final double bodySize = 5;
 	
 	
 	public Snake(Group fatherGroup, SnakeCamera mainCam) {

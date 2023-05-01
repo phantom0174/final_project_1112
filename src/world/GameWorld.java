@@ -5,18 +5,14 @@ import java.util.ArrayList;
 import base.AnimaNode;
 import base.Utils;
 import javafx.animation.AnimationTimer;
-import javafx.animation.Timeline;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.PointLight;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
-import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
@@ -43,6 +39,7 @@ public class GameWorld extends Group implements AnimaNode {
 	AnimationTimer spinningPointLight;
 
 	public void setupObjects() {
+		/*
 		Box woodBox = new Box(50, 50, 50);
 
 		PhongMaterial pm = new PhongMaterial();
@@ -100,6 +97,7 @@ public class GameWorld extends Group implements AnimaNode {
 				}
 			}
 		}
+		*/
 		
 //		隨機生成星球
 		for (int i = 0; i < 100; i++) {
@@ -223,14 +221,14 @@ public class GameWorld extends Group implements AnimaNode {
 		double y = (Math.random() - 0.5) * 1000;
 		double z = (Math.random() - 0.5) * 1000;
 		
-		Sphere s = new Sphere(3);
+		Sphere s = new Sphere(10);
 		PhongMaterial ps = new PhongMaterial(Color.RED);
 		s.setMaterial(ps);
 
-		Box b = new Box(1, 2.5, 1);
+		Box b = new Box(4, 10, 4);
 		PhongMaterial pb = new PhongMaterial(Color.GREEN);
 		b.setMaterial(pb);
-		b.setTranslateY(-3);
+		b.setTranslateY(-12);
 		
 		apple.getChildren().addAll(s, b);
 		apple.setTranslateX(x);

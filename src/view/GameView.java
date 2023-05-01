@@ -20,7 +20,6 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
@@ -185,8 +184,8 @@ public class GameView implements View, AnimaNode {
 			
 			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
 			
-			// 3 is the apple sphere size
-			if (dist > snake.bodySize + 3) {
+			// 10 is the apple sphere size
+			if (dist > snake.bodySize + 10) {
 				pos++;
 				continue;
 			}
@@ -232,7 +231,7 @@ public class GameView implements View, AnimaNode {
 			if (playingBoostSFX) sound.stop("sfx/boost");
 			sound.play("sfx/boost");
 			
-			Timeline tempBoost = new Timeline(1,
+			Timeline tempBoost = new Timeline(10,
 				new KeyFrame(Duration.ZERO, e -> {
 					Config.snakeSpeed.set(4);
 					playingBoostSFX = true;

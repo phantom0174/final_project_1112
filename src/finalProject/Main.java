@@ -12,12 +12,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
-//		stage.setTitle("Scene Testing");
-//		
-//		MenuScene menu = new MenuScene();
-//		stage.setScene(menu.scene);
-//		stage.show();
-		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/menu.fxml"));
 		Parent root = loader.load();
 		Scene menuScene = new Scene(root);

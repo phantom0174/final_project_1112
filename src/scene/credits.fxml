@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="474.0" layoutY="149.0" text="Credits" textAlignment="CENTER" textFill="WHITE" underline="true">
@@ -12,12 +11,12 @@
             <Font name="Yu Gothic Medium" size="40.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="372.0" layoutY="271.0" text="Designer: bocheng0224, phantom0174" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="363.0" layoutY="268.0" text="Designer: bocheng0224, phantom0174" textFill="WHITE">
          <font>
             <Font name="Yu Gothic Medium" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="446.0" layoutY="355.0" text="Music Provider: &lt;...&gt;" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="348.0" layoutY="365.0" text="Music Provider: AleXZavesa from Pixabay" textFill="WHITE">
          <font>
             <Font name="Yu Gothic Medium" size="20.0" />
          </font>
