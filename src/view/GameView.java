@@ -1,59 +1,49 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 import base.AnimaNode;
 import base.Config;
 import base.GameStatus;
 import base.SoundPlayer;
 import base.View;
-import camera.FreeCamera;
 import camera.SnakeCamera;
 import finalProject.Snake;
-import world.World0;
+import world.GameWorld;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
-import javafx.scene.Node;
+import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 
 
 public class GameView implements View, AnimaNode {
 	// ---- view ----
 	private boolean loaded = false;
 	public SubScene s;
-	private World0 root;
-
+	private GameWorld world;
+	
 	// ---- game entities ----
-	private boolean camViewToggle = false;
-	private FreeCamera freeCamera;
 	private SnakeCamera snakeCamera;
-
 	private Snake snake;
-
-	// ---- camera toggle ----
-	private EventHandler<KeyEvent> toggleCamera = e -> {
-		if (e.getCode() != KeyCode.C) return;
-
-		if (!camViewToggle) s.setCamera((Camera) freeCamera.core);
-		else s.setCamera((Camera) snakeCamera.core);
-
-		camViewToggle = !camViewToggle;
-	};
 	
 	// ---- game logic entities ----
 	private ArrayList<Sphere> planetList = new ArrayList<>();
+	private ArrayList<Group> appleList = new ArrayList<>();
+	private ArrayList<Group> propList = new ArrayList<>();
+	
+	// ---- game sound -----
+	private SoundPlayer sound = new SoundPlayer();
+	
+	
 	public GameStatus gameStatus = GameStatus.ALIVE;
 	public int score = 0;
 	
@@ -68,106 +58,200 @@ public class GameView implements View, AnimaNode {
 	}
 
 	public void load() {
-		this.root = new World0(planetList);
-		this.s = new SubScene(this.root, Config.width, Config.height, true, SceneAntialiasing.BALANCED);
-
+		this.world = new GameWorld(planetList, appleList, propList);
+		this.s = new SubScene(this.world, Config.width, Config.height, true, SceneAntialiasing.BALANCED);
+			
 		// cameras
-		this.freeCamera = new FreeCamera(new PerspectiveCamera(true));
 		this.snakeCamera = new SnakeCamera(new PerspectiveCamera(true));
+		this.s.setCamera((Camera) this.snakeCamera.core);
 
 		// snake
-		this.snake = new Snake(this.root, snakeCamera);
+		this.snake = new Snake(this.world, snakeCamera);
 		this.setupSnake();
-
-		this.bindMovements();
-		this.startAnimation();
+		
+		// sound/sfx
+		this.sound.loadAll(new String[] {
+			"sfx/eating",
+			"sfx/explosion",
+			"sfx/boost"
+		});
 		
 		this.loaded = true;
+		this.startAnimation();
 		startGame();
 	}
 	
 	public void unload() {
 		// in reverse order of load()
+		this.sound.unLoadAll();
+		this.sound = null;
 		
-		this.unbindMovements();
 		this.snake = null;
 		this.snakeCamera = null;
-		this.freeCamera = null;
 		this.s = null;
 		
-		this.root.getChildren().clear();
-		this.root = null;
+		this.world.getChildren().clear();
+		this.world = null;
 		
 		this.loaded = false;
 	}
-
-	public void bindMovements() {
-		freeCamera.bindMovements(this.s);
-		s.setCamera((Camera) snakeCamera.core);
-		s.addEventFilter(KeyEvent.KEY_PRESSED, toggleCamera);
+	
+	// ----------------- animations ------------
+	
+	public void startAnimation() {
+		((AnimaNode) world).startAnimation();
 	}
 
-	public void unbindMovements() {
-		// todo: freeCamera.unbindMovements();
-		
-		s.setCamera(null);
-		s.removeEventFilter(KeyEvent.KEY_PRESSED, toggleCamera);
+	public void stopAnimation() {
+		((AnimaNode) world).stopAnimation();
 	}
 	
 	// ----------------- logic -----------------
 	
-	public void setupSnake() {
+	private void setupSnake() {
 		snake.bindMovements(s);
 		snake.moveHead(new Point3D(0, -10, -200), false);
 		for (int i = 0; i < 5; i++) snake.generateBody();
 	}
 	
-	public Timeline frameGenerator;
-	public void startGame() {
+	public void stopProcess() {
+		this.frameGenerator.stop();
+		this.scoreAdder.stop();
+	}
+	
+	private Timeline frameGenerator,
+			scoreAdder;
+	private void startGame() {
 		double fps = 60;
-		var frameDuration = Duration.millis(1000.0 / fps);
+		Duration frameDuration = Duration.millis(1000.0 / fps);
 		frameGenerator = new Timeline(fps, new KeyFrame(frameDuration, e -> executeFrame()));
 		frameGenerator.setCycleCount(Timeline.INDEFINITE);
 		frameGenerator.play();
 		
-		Timeline scoreAddder = new Timeline(
-			new KeyFrame(Duration.seconds(1), e -> score++)
-		);
-		scoreAddder.setCycleCount(Timeline.INDEFINITE);
-		scoreAddder.play();
+		scoreAdder = new Timeline(1, new KeyFrame(Duration.seconds(1), e -> score++));
+		scoreAdder.setCycleCount(Timeline.INDEFINITE);
+		scoreAdder.play();
 	}
 	
-	public void executeFrame() {
+	//
+	boolean deadSnakeMovementUnbinded = false;
+	private void executeFrame() {
 		boolean isDead = (gameStatus == GameStatus.DEAD);
-		
+
 		snake.updateFrameMovement(isDead);
-		Point3D headPos = snake.head.getPos();
+		if (!isDead) snakeCollideCheck();
 		
-		// if snake has a collision with planet object
+		isDead = (gameStatus == GameStatus.DEAD);
+		
+		if (isDead && !deadSnakeMovementUnbinded) {
+			snake.unbindMovements(this.s);
+			deadSnakeMovementUnbinded = true;
+		}
+
+		if (!isDead) {
+			snakeEatAppleCheck();
+			snakeUsePropCheck();
+		}
+	}
+	
+	// if snake has a collision with planet object
+	private void snakeCollideCheck() {
+		Point3D headPos = snake.head.getPos();
 		for (Sphere p : planetList) {
-			double x = p.translateXProperty().get(),
-					y = p.translateYProperty().get(),
-					z = p.translateZProperty().get();
+			double x = p.getTranslateX(),
+					y = p.getTranslateY(),
+					z = p.getTranslateZ();
 			
 			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
 			
-			if (dist < p.getRadius() + snake.bodySize) {
-				gameStatus = GameStatus.DEAD;
-				break;
+			if (dist > p.getRadius() + snake.bodySize) continue;
+			
+			gameStatus = GameStatus.DEAD;
+			sound.play("sfx/explosion");
+			break;
+		}
+	}
+	
+	// if snake has eaten a apple
+	private void snakeEatAppleCheck() {
+		Stack<Integer> needRmvInd = new Stack<>();
+		
+		Point3D headPos = snake.head.getPos();
+		int pos = 0;
+		for (Group a : appleList) {
+			double x = a.getTranslateX(),
+					y = a.getTranslateY(),
+					z = a.getTranslateZ();
+			
+			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
+			
+			// 3 is the apple sphere size
+			if (dist > snake.bodySize + 3) {
+				pos++;
+				continue;
 			}
+			
+			this.world.getChildren().remove(a);
+			needRmvInd.push(pos);
+			this.score += 10;
+			this.snake.generateBody();
+			
+			sound.play("sfx/eating");
+			
+			pos++;
 		}
 		
-		// recheck isDead?
-		if (gameStatus == GameStatus.DEAD) {
-			snake.unbindMovements(this.s);
+		while (needRmvInd.size() != 0) {
+			int rmvPos = needRmvInd.pop();
+			appleList.remove(rmvPos);
 		}
 	}
-
-	public void startAnimation() {
-		((AnimaNode) root).startAnimation();
-	}
-
-	public void stopAnimation() {
-		((AnimaNode) root).stopAnimation();
+	
+	private boolean playingBoostSFX = false;
+	private void snakeUsePropCheck() {
+		Stack<Integer> needRmvInd = new Stack<>();
+		
+		Point3D headPos = snake.head.getPos();
+		int pos = 0;
+		for (Group pr : propList) {
+			double x = pr.getTranslateX(),
+					y = pr.getTranslateY(),
+					z = pr.getTranslateZ();
+			
+			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
+			
+			// 7.5 is the prop average size
+			if (dist > snake.bodySize + 7.5) {
+				pos++;
+				continue;
+			}
+			
+			this.world.getChildren().remove(pr);
+			needRmvInd.push(pos);
+			
+			if (playingBoostSFX) sound.stop("sfx/boost");
+			sound.play("sfx/boost");
+			
+			Timeline tempBoost = new Timeline(1,
+				new KeyFrame(Duration.ZERO, e -> {
+					Config.snakeSpeed.set(4);
+					playingBoostSFX = true;
+				}),
+				new KeyFrame(Duration.millis(2700), e -> {
+					playingBoostSFX = false;
+				}),
+				new KeyFrame(Duration.seconds(5), e -> {
+					Config.snakeSpeed.set(2);
+				})
+			);
+			tempBoost.play();
+			
+			pos++;
+		}
+		
+		while (needRmvInd.size() != 0) {
+			int rmvPos = needRmvInd.pop();
+			propList.remove(rmvPos);
+		}
 	}
 }

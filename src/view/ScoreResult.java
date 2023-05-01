@@ -48,6 +48,7 @@ public class ScoreResult implements View {
 	@Override
 	public void unload() {
 		root.getChildren().clear();
+		this.isloaded = false;
 	}
 
 	@Override

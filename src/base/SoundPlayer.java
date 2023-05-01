@@ -12,12 +12,12 @@ public class SoundPlayer {
 	public HashMap<String, MediaPlayer> playerList = new HashMap<>();
 	
 	public String concatPath(String s) {
-		return "src/resources/" + s;
+		return "src/resources/" + s + ".mp3";
 	}
 	
 	public void load(String soundPath) {
 		/*
-		 * path format: "category/name.mp3"
+		 * path format: "category/file_name" (without .mp3)
 		 */
 		
 		File soundFile = new File(concatPath(soundPath));

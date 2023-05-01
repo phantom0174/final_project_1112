@@ -8,6 +8,8 @@ import base.Config;
 import base.Entity;
 import base.Utils;
 import camera.SnakeCamera;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -47,6 +49,8 @@ public class Snake {
 	public Snake(Group fatherGroup, SnakeCamera mainCam) {
 		this.fatherGroup = fatherGroup;
 		this.camera = mainCam;
+		
+		moveSpeed.bind(Config.snakeSpeed);
 		
 		initializeHead();
 	}
@@ -90,12 +94,12 @@ public class Snake {
 			Point3D curPos = curBody.getPos();
 			
 			if (isDead) {
-				curBody.move(curPos.normalize().multiply(moveSpeed));
+				curBody.move(curPos.normalize().multiply(moveSpeed.get()));
 				continue;
 			}
 			
 			if (nextPos.subtract(curPos).magnitude() < 2 * this.bodySize) continue;
-			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed));
+			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed.get()));
 		}
 		
 		if (this.bodies.size() == 0) return;
@@ -105,16 +109,16 @@ public class Snake {
 		Point3D curPos = curBody.getPos();
 		
 		if (isDead) {
-			curBody.move(curPos.normalize().multiply(moveSpeed));
+			curBody.move(curPos.normalize().multiply(moveSpeed.get()));
 			return;
 		}
 		
 		if (headPos.subtract(curPos).magnitude() < 2 * this.bodySize) return;
-		curBody.move(headPos.subtract(curPos).normalize().multiply(moveSpeed));
+		curBody.move(headPos.subtract(curPos).normalize().multiply(moveSpeed.get()));
 	}
 	
 	// --------------- controls and animations -------------------
-	public double moveSpeed = Config.snakeSpeed;
+	public DoubleProperty moveSpeed = new SimpleDoubleProperty(1);
 	public short intensityDamping = 30;
 	
 	/*
@@ -257,7 +261,7 @@ public class Snake {
 		
 		Point3D directionVector = pitchVetor.add(yawVector)
 				.normalize()
-				.multiply(moveSpeed);
+				.multiply(moveSpeed.get());
 		
 		moveHead(directionVector, isDead);
 		head.setRot(

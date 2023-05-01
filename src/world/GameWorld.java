@@ -6,32 +6,41 @@ import base.AnimaNode;
 import base.Utils;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
+import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PointLight;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
+import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
 
-public class World0 extends Group implements AnimaNode {
+public class GameWorld extends Group implements AnimaNode {
 	public ArrayList<Sphere> planetList;
+	public ArrayList<Group> appleList;
+	public ArrayList<Group> propList;
 	
-	public World0(ArrayList<Sphere> o) {
+	// --- ambient light --- (used for indicating boarder)
+	AmbientLight ambLight = new AmbientLight();
+	
+	public GameWorld(ArrayList<Sphere> p, ArrayList<Group> a, ArrayList<Group> pr) {
 		super();
 		
-		this.planetList = o;
+		this.planetList = p;
+		this.appleList = a;
+		this.propList = pr;
 
 		setupObjects();
 		setupLights();
 	}
 
 	AnimationTimer spinningPointLight;
-	Timeline ambLightAni;
 
 	public void setupObjects() {
 		Box woodBox = new Box(50, 50, 50);
@@ -101,15 +110,15 @@ public class World0 extends Group implements AnimaNode {
 
 //		隨機生成蘋果
 		for (int i = 0; i < 200; i++) {
-			Node apple = createApple();
-//			planetList.add(apple);
+			Group apple = createApple();
+			appleList.add(apple);
 			this.getChildren().add(apple);
 		}	
 //		
 //		隨機生成道具
 		for(int i=0 ; i<30 ; i++) {
-			Node props = createProps();
-//			planetList.add(props);
+			Group props = createProps();
+			propList.add(props);
 			this.getChildren().add(props);
 		}
 	}
@@ -134,8 +143,9 @@ public class World0 extends Group implements AnimaNode {
 		s2.setRotationAxis(Rotate.Z_AXIS);
 
 //		AmbientLight amb = new AmbientLight(Color.WHITE);
-
-		this.getChildren().addAll(pl, s, pl2, s2);
+		
+		ambLight.setLightOn(false);
+		this.getChildren().addAll(pl, s, pl2, s2, ambLight);
 
 		spinningPointLight = new AnimationTimer() {
 			@Override
@@ -212,18 +222,21 @@ public class World0 extends Group implements AnimaNode {
 		double x = (Math.random() - 0.5) * 1000;
 		double y = (Math.random() - 0.5) * 1000;
 		double z = (Math.random() - 0.5) * 1000;
-
+		
 		Sphere s = new Sphere(3);
 		PhongMaterial ps = new PhongMaterial(Color.RED);
 		s.setMaterial(ps);
-		s.getTransforms().add(new Translate(x, y, z));
 
 		Box b = new Box(1, 2.5, 1);
 		PhongMaterial pb = new PhongMaterial(Color.GREEN);
 		b.setMaterial(pb);
-		b.getTransforms().add(new Translate(x, y - 3, z));
-
+		b.setTranslateY(-3);
+		
 		apple.getChildren().addAll(s, b);
+		apple.setTranslateX(x);
+		apple.setTranslateY(y);
+		apple.setTranslateZ(z);
+		
 		return apple;
 	}
 	
@@ -240,9 +253,15 @@ public class World0 extends Group implements AnimaNode {
 			double rx = (double)(Math.random() - 0.5) * 15;
 			double ry = (double)(Math.random() - 0.5) * 15;
 			double rz = (double)(Math.random() - 0.5) * 15;
-			s.getTransforms().add(new Translate(x + rx, y + ry, z + rz));
+			
+			s.getTransforms().add(new Translate(rx, ry, rz));
 			g.getChildren().add(s);
 		}
+		
+		g.setTranslateX(x);
+		g.setTranslateY(y);
+		g.setTranslateZ(z);
+		
 		return g;
 	}
 }

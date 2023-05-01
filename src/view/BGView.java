@@ -28,7 +28,7 @@ public class BGView implements View {
 		root.setOpacity(Config.backgroundOpacity);
 		
 		s = new SubScene(root, Config.width, Config.height);
-		s.setFill(Color.BLACK);
+		s.setFill(Color.DARKBLUE);
 		
 		isLoaded = true;
 	}
@@ -36,6 +36,7 @@ public class BGView implements View {
 	@Override
 	public void unload() {
 		root.getChildren().clear();
+		this.isLoaded = false;
 	}
 
 	@Override

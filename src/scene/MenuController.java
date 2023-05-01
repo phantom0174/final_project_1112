@@ -43,8 +43,8 @@ public class MenuController implements Initializable {
 	}
 	
 	public void playMenuMusic() {
-		sound.load("bgm/space-age.mp3");
-		sound.play("bgm/space-age.mp3", true);
+		sound.load("bgm/space-age");
+		sound.play("bgm/space-age", true);
 	}
 	
 	private Stage stage;
@@ -75,7 +75,7 @@ public class MenuController implements Initializable {
 	
 	public void enterGame(ActionEvent e) {
 		getStage(e);
-		sound.stop("bgm/space-age.mp3");
+		sound.stop("bgm/space-age");
 		GameScene gameScene = new GameScene();
 		
 		gameScene.s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {

@@ -37,7 +37,7 @@ public class GameScene {
 	
 	// ---- sounds -----
 	private SoundPlayer sound = new SoundPlayer();
-	private String bgm = "bgm/my-lonely-journey.mp3";
+	private String bgm = "bgm/my-lonely-journey";
 	
 	public GameScene() {
 		root = new Group();
@@ -92,7 +92,7 @@ public class GameScene {
 	}
 	
 	public void closeScene() {
-		gameView.frameGenerator.stop();
+		gameView.stopProcess();
 		view.unload("3d_game_view");
 		view.unload("2d_bg");
 		view.unload("show_score");

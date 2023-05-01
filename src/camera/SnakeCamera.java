@@ -12,6 +12,6 @@ public class SnakeCamera extends Entity {
 		
 		// initialize camera
 		c.setNearClip(1);
-		c.setFarClip(4000);
+		c.setFarClip(20000);
 	}
 }
