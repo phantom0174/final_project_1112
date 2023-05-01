@@ -10,7 +10,7 @@
       <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="519.0" layoutY="272.0" mnemonicParsing="false" onAction="#enterGame" text="Start" />
       <Button fx:id="settingBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="509.0" layoutY="321.0" mnemonicParsing="false" onAction="#showSettings" text="Settings" textAlignment="CENTER" />
       <Button fx:id="creditBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="512.0" layoutY="415.0" mnemonicParsing="false" onAction="#showCredits" text="Credits" textAlignment="CENTER" />
-      <Button fx:id="controlBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="508.0" layoutY="367.0" mnemonicParsing="false" onAction="#showControls" text="Controls" textAlignment="CENTER" />
+      <Button fx:id="controlBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="516.0" layoutY="369.0" mnemonicParsing="false" onAction="#showControls" text="Rules" textAlignment="CENTER" />
       <Label fx:id="title" layoutX="433.0" layoutY="161.0" text="finalProject" textFill="WHITE">
          <font>
             <Font name="Yu Gothic Medium" size="40.0" />

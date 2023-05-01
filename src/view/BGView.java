@@ -19,7 +19,7 @@ public class BGView implements View {
 	}
 	
 	public void load() {
-		Image image = new Image(getClass().getResourceAsStream("/resources/materials/galaxy.jpg"));
+		Image image = new Image(getClass().getResourceAsStream("/resources/materials/space.jpeg"));
 		ImageView imageView = new ImageView(image);
 		imageView.setPreserveRatio(true);
 		

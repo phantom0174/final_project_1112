@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -36,6 +36,34 @@
       <Label alignment="CENTER" layoutX="706.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="D" textFill="WHITE">
          <font>
             <Font size="24.0" />
+         </font>
+      </Label>
+      <Circle fill="#ff441f" layoutX="358.0" layoutY="363.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#29ff1f" height="22.0" layoutX="355.0" layoutY="331.0" stroke="BLACK" strokeType="INSIDE" width="6.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="567.0" layoutY="342.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
+      <Label layoutX="590.0" layoutY="336.0" prefHeight="52.0" prefWidth="158.0" text="+10 POINTS" textFill="WHITE">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Group layoutX="319.0" layoutY="415.0" />
+      <Group layoutX="361.0" layoutY="475.0" />
+      <Group layoutX="341.0" layoutY="445.0" />
+      <Circle fill="#f0ff1f" layoutX="341.0" layoutY="454.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="351.0" layoutY="464.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="379.0" layoutY="474.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="358.0" layoutY="454.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="361.0" layoutY="467.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="376.0" layoutY="461.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="340.0" layoutY="470.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="351.0" layoutY="464.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="360.0" layoutY="477.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="373.0" layoutY="480.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#f0ff1f" layoutX="348.0" layoutY="477.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="559.0" layoutY="449.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
+      <Label layoutX="590.0" layoutY="447.0" prefHeight="42.0" prefWidth="152.0" text="X2 SPEED" textFill="WHITE">
+         <font>
+            <Font size="26.0" />
          </font>
       </Label>
    </children>
