@@ -43,12 +43,12 @@ public class ViewHandler {
 	public void load(String viewName) {
 		View v = viewPool.get(viewName);
 		if (!v.isLoaded()) v.load();
-		else System.out.printf("View %s is already loaded!", viewName);
+		else System.out.printf("View %s is already loaded!\n", viewName);
 	}
 
 	public void unload(String viewName) {
 		View v = viewPool.get(viewName);
 		if (v.isLoaded()) v.unload();
-		else System.out.printf("View %s is already unloaded!", viewName);
+		else System.out.printf("View %s is already unloaded!\n", viewName);
 	}
 }

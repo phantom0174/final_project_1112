@@ -28,8 +28,9 @@ Three steps to activate a view:
 
 */
 
-public class GameScene extends Scene {
-	private static Group root = new Group();
+public class GameScene {
+	public Scene s;
+	public Group root;
 	private ViewHandler view = new ViewHandler();
 	
 	private GameView gameView;
@@ -39,7 +40,8 @@ public class GameScene extends Scene {
 	private String bgm = "bgm/my-lonely-journey.mp3";
 	
 	public GameScene() {
-		super(root, Config.width, Config.height);
+		root = new Group();
+		s = new Scene(root, Config.width, Config.height);
 		
 		addViews();
 		
@@ -51,7 +53,6 @@ public class GameScene extends Scene {
 		
 		playSounds();
 		view.switchToView("3d_game_view");
-		addEscKey();
 		checkAlive.start();
 	}
 	
@@ -84,28 +85,17 @@ public class GameScene extends Scene {
 		}
 	};
 	
-	public void addEscKey() {
-		this.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-			if (event.getCode() != KeyCode.ESCAPE) return;
-			if (gameView.gameStatus != GameStatus.DEAD) return;
-			if (!showScored) return;
-			
-			gameView.frameGenerator.stop();
-			
-//			view.unload("3d_game_view");
-//			view.unload("2d_bg");
-			sound.stop(bgm);
-			
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
-				Parent menuRoot = loader.load();
-				Scene menuScene = new Scene(menuRoot);
-				MenuController control = loader.getController();
-				Stage stage = (Stage) ((Scene) event.getSource()).getWindow();
-				control.enterMenu(stage, menuScene);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+	public boolean checkReturnMenu() {
+		if (gameView.gameStatus != GameStatus.DEAD) return false;
+		if (!showScored) return false;
+		return true;
+	}
+	
+	public void closeScene() {
+		gameView.frameGenerator.stop();
+		view.unload("3d_game_view");
+		view.unload("2d_bg");
+		view.unload("show_score");
+		sound.stop(bgm);
 	}
 }

@@ -32,7 +32,6 @@ public class ScoreResult implements View {
 	public void load() {
 		Text scoreText = new Text("Your score: " + score + "\n\n" + "Press ESC to go to Menu");
 		scoreText.setTextAlignment(TextAlignment.CENTER);
-//		scoreText.setFill(Color.WHITE);
 		scoreText.setFont(new Font(30));
 		
 		root = new StackPane();
@@ -40,12 +39,15 @@ public class ScoreResult implements View {
 		StackPane.setAlignment(scoreText, Pos.CENTER);
 		
 		s = new SubScene(root, Config.width, Config.height);
-		s.setFill(Color.GRAY);
+		s.setFill(Color.BLACK);
 		s.setOpacity(0.8);
+		
+		isloaded = true;
 	}
 
 	@Override
 	public void unload() {
+		root.getChildren().clear();
 	}
 
 	@Override

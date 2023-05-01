@@ -50,11 +50,18 @@ public class MenuController implements Initializable {
 	private Stage stage;
 	private Scene scene;
 	
-	// entry point!
+	// ------------ entry point! --------------
 	public void enterMenu(Stage stage, Scene scene) {
 		this.stage = stage;
 		this.scene = scene;
+		addQuit();
 		
+		playMenuMusic();
+		reenterMenu();
+		stage.show();
+	}
+	
+	public void enterMenuFromEndingGame() {
 		playMenuMusic();
 		reenterMenu();
 		stage.show();
@@ -64,12 +71,22 @@ public class MenuController implements Initializable {
 		stage.setScene(scene);
 		stage.setTitle("finalProject | Menu");
 	}
+	// ------------ entry point! --------------
 	
 	public void enterGame(ActionEvent e) {
 		getStage(e);
 		sound.stop("bgm/space-age.mp3");
-		Scene gameScene = new GameScene();
-		stage.setScene(gameScene);
+		GameScene gameScene = new GameScene();
+		
+		gameScene.s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+			if (event.getCode() != KeyCode.ESCAPE) return;
+			if (((GameScene) gameScene).checkReturnMenu()) {
+				((GameScene) gameScene).closeScene();
+				enterMenuFromEndingGame();
+			}
+		});
+		
+		stage.setScene(gameScene.s);
 		stage.setTitle("finalProject | Game");
 	}
 	
@@ -114,6 +131,13 @@ public class MenuController implements Initializable {
 		s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			if (event.getCode() != KeyCode.ESCAPE) return;
 			reenterMenu();
+		});
+	}
+	
+	public void addQuit() {
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+			if (event.getCode() != KeyCode.ESCAPE) return;
+			stage.close();
 		});
 	}
 }

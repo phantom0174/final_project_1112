@@ -29,6 +29,8 @@ public class BGView implements View {
 		
 		s = new SubScene(root, Config.width, Config.height);
 		s.setFill(Color.BLACK);
+		
+		isLoaded = true;
 	}
 
 	@Override
