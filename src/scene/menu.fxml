@@ -2,19 +2,41 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.MenuController">
    <children>
-      <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="519.0" layoutY="272.0" mnemonicParsing="false" onAction="#enterGame" text="Start" />
-      <Button fx:id="settingBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="509.0" layoutY="321.0" mnemonicParsing="false" onAction="#showSettings" text="Settings" textAlignment="CENTER" />
-      <Button fx:id="creditBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="512.0" layoutY="415.0" mnemonicParsing="false" onAction="#showCredits" text="Credits" textAlignment="CENTER" />
-      <Button fx:id="controlBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="516.0" layoutY="369.0" mnemonicParsing="false" onAction="#showControls" text="Rules" textAlignment="CENTER" />
-      <Label fx:id="title" layoutX="433.0" layoutY="161.0" text="finalProject" textFill="WHITE">
-         <font>
-            <Font name="Yu Gothic Medium" size="40.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="@../resources/materials/space.jpeg" />
+         </image></ImageView>
+      <BorderPane prefHeight="600.0" prefWidth="1080.0">
+         <top>
+            <StackPane prefHeight="196.0" prefWidth="1080.0" style="-fx-background-color: rgba(200, 200, 200, 0.5);" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="title" text="finalProject" textFill="WHITE">
+                     <font>
+                        <Font name="Yu Gothic Medium" size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+         </top>
+         <center>
+            <StackPane prefHeight="273.0" prefWidth="594.0" style="-fx-background-color: rgba(100, 100, 100, 0.2);" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#enterGame" text="Start" translateY="-150.0" />
+                  <Button fx:id="settingBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showSettings" text="Settings" textAlignment="CENTER" translateY="-75.0" />
+                  <Button fx:id="controlBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showControls" text="Rules" textAlignment="CENTER" />
+                  <Button fx:id="creditBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showCredits" text="Credits" textAlignment="CENTER" translateY="75.0" />
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

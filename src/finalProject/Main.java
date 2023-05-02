@@ -15,6 +15,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/menu.fxml"));
 		Parent root = loader.load();
 		Scene menuScene = new Scene(root);
+		menuScene.getStylesheets().add("/css/menu_scene.css");
 		MenuController control = loader.getController();
 		control.enterMenu(stage, menuScene);
 	}
