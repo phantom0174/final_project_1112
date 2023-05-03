@@ -123,6 +123,17 @@ public class MenuController implements Initializable {
 		stage.setTitle("finalProject | Credits");
 	}
 	
+	public void showScoreBoard(ActionEvent e) throws IOException {
+		Parent tempRoot = FXMLLoader.load(getClass().getResource("scoreboard.fxml"));
+		
+		Scene scoreScene = new Scene(tempRoot);
+		addEscapeKey(scoreScene);
+		
+		getStage(e);
+		stage.setScene(scoreScene);
+		stage.setTitle("finalProject | Scoreboard");
+	}
+	
 	public void getStage(ActionEvent e) {
 		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	}

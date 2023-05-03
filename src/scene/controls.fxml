@@ -1,70 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" stylesheets="@../css/label.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Circle fill="#00ff11" layoutX="337.0" layoutY="155.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f1ff42" layoutX="358.0" layoutY="176.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f1ff42" layoutX="379.0" layoutY="197.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f1ff42" layoutX="400.0" layoutY="218.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f1ff42" layoutX="421.0" layoutY="239.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="649.0" layoutY="147.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
-      <Label alignment="CENTER" layoutX="655.0" layoutY="152.0" prefHeight="7.0" prefWidth="30.0" text="W" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="599.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
-      <Label alignment="CENTER" layoutX="605.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="A" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="649.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
-      <Label alignment="CENTER" layoutX="655.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="S" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="700.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
-      <Label alignment="CENTER" layoutX="706.0" layoutY="202.0" prefHeight="7.0" prefWidth="30.0" text="D" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Circle fill="#ff441f" layoutX="358.0" layoutY="363.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#29ff1f" height="22.0" layoutX="355.0" layoutY="331.0" stroke="BLACK" strokeType="INSIDE" width="6.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="567.0" layoutY="342.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
-      <Label layoutX="590.0" layoutY="336.0" prefHeight="52.0" prefWidth="158.0" text="+10 POINTS" textFill="WHITE">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Group layoutX="319.0" layoutY="415.0" />
-      <Group layoutX="361.0" layoutY="475.0" />
-      <Group layoutX="341.0" layoutY="445.0" />
-      <Circle fill="#f0ff1f" layoutX="341.0" layoutY="454.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="351.0" layoutY="464.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="379.0" layoutY="474.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="358.0" layoutY="454.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="361.0" layoutY="467.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="376.0" layoutY="461.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="340.0" layoutY="470.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="351.0" layoutY="464.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="360.0" layoutY="477.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="373.0" layoutY="480.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#f0ff1f" layoutX="348.0" layoutY="477.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="559.0" layoutY="449.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
-      <Label layoutX="590.0" layoutY="447.0" prefHeight="42.0" prefWidth="152.0" text="X2 SPEED" textFill="WHITE">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true">
+         <image>
+            <Image url="@../resources/materials/space.jpeg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="600.0" prefWidth="1080.0">
+         <left>
+            <AnchorPane prefHeight="600.0" prefWidth="540.0" style="-fx-background-color: rgba(250, 250, 250, 0.5);" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane layoutX="379.0" layoutY="130.0">
+                     <children>
+                        <Circle fill="#00ff11" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f1ff42" layoutX="21.0" layoutY="21.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f1ff42" layoutX="42.0" layoutY="42.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f1ff42" layoutX="63.0" layoutY="63.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f1ff42" layoutX="84.0" layoutY="84.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="411.0" layoutY="342.0">
+                     <children>
+                        <Circle fill="#ff441f" layoutY="11.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#29ff1f" height="22.0" layoutX="-3.0" layoutY="-21.0" stroke="BLACK" strokeType="INSIDE" width="6.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="391.0" layoutY="453.0">
+                     <children>
+                        <Circle fill="#f0ff1f" layoutX="1.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="11.0" layoutY="10.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="39.0" layoutY="20.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="18.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="21.0" layoutY="13.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="36.0" layoutY="7.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutY="16.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="11.0" layoutY="10.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="20.0" layoutY="23.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="33.0" layoutY="26.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f0ff1f" layoutX="8.0" layoutY="23.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+         </left>
+         <right>
+            <AnchorPane prefHeight="600.0" prefWidth="540.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane layoutX="53.0" layoutY="130.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="50.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+                        <Label alignment="CENTER" layoutX="56.0" layoutY="5.0" prefHeight="7.0" prefWidth="30.0" text="W" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutY="50.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+                        <Label alignment="CENTER" layoutX="6.0" layoutY="55.0" prefHeight="7.0" prefWidth="30.0" text="A" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="50.0" layoutY="50.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+                        <Label alignment="CENTER" layoutX="56.0" layoutY="55.0" prefHeight="7.0" prefWidth="30.0" text="S" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="101.0" layoutY="50.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
+                        <Label alignment="CENTER" layoutX="107.0" layoutY="55.0" prefHeight="7.0" prefWidth="30.0" text="D" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="29.0" layoutY="325.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
+                        <Label layoutX="19.0" layoutY="2.0" prefHeight="52.0" prefWidth="158.0" text="+10 POINTS" textFill="WHITE">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="29.0" layoutY="446.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
+                        <Label layoutX="38.0" layoutY="1.0" prefHeight="42.0" prefWidth="152.0" text="X2 SPEED" textFill="WHITE">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+         </right>
+      </BorderPane>
    </children>
 </AnchorPane>

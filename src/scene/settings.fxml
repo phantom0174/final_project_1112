@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.SettingMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" stylesheets="@../css/settings.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.SettingMenuController">
    <children>
-      <Slider fx:id="volumeSlider" layoutX="470.0" layoutY="309.0" showTickLabels="true" showTickMarks="true" />
-      <Label layoutX="474.0" layoutY="275.0" text="Music Volume" textFill="WHITE">
-         <font>
-            <Font name="Yu Gothic Medium" size="20.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="@../resources/materials/space.jpeg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="600.0" prefWidth="1080.0">
+         <center>
+            <StackPane prefHeight="600.0" prefWidth="680.0" style="-fx-background-color: rgba(200, 200, 200, 0.4);" BorderPane.alignment="CENTER">
+               <children>
+                  <Group>
+                     <children>
+                        <Slider fx:id="volumeSlider" layoutX="2.7142856121063232" layoutY="34.0" showTickMarks="true" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.714285612106323" text="Music Volume" textFill="WHITE">
+                           <font>
+                              <Font name="Yu Gothic Medium" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Group>
+               </children>
+            </StackPane>
+         </center>
+         <left>
+            <AnchorPane prefHeight="600.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <AnchorPane prefHeight="600.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
    </children>
 </AnchorPane>

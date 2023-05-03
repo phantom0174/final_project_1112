@@ -1,0 +1,18 @@
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-column {
+	-fx-alignment: CENTER;
+	-fx-pref-height: 30px;
+}
+
+.table-view .column-header .label{
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+
+.table-row-cell {
+    -fx-cell-size: 50px;
+    -fx-background-color: transparent;
+}

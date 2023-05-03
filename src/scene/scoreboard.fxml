@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.ScoreboardController">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true">
+         <image>
+            <Image url="@../resources/materials/space.jpeg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="600.0" prefWidth="1080.0">
+         <center>
+            <StackPane prefHeight="600.0" prefWidth="680.0" style="-fx-background-color: rgba(200, 200, 200, 0.4);" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="scoreBoard" focusTraversable="false" pickOnBounds="false" prefHeight="390.0" prefWidth="400.0" StackPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="name" editable="false" prefWidth="240.0" sortable="false" text="Name" />
+                      <TableColumn fx:id="score" editable="false" prefWidth="240.0" sortable="false" text="Score" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </StackPane>
+         </center>
+         <left>
+            <AnchorPane prefHeight="600.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <AnchorPane prefHeight="600.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </children>
+   <stylesheets>
+      <URL value="@../css/label.css" />
+      <URL value="@../css/scoreboard.css" />
+   </stylesheets>
+</AnchorPane>

@@ -1,25 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" stylesheets="@../css/label.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="474.0" layoutY="149.0" text="Credits" textAlignment="CENTER" textFill="WHITE" underline="true">
-         <font>
-            <Font name="Yu Gothic Medium" size="40.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="363.0" layoutY="268.0" text="Designer: bocheng0224, phantom0174" textFill="WHITE">
-         <font>
-            <Font name="Yu Gothic Medium" size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="348.0" layoutY="365.0" text="Music Provider: AleXZavesa from Pixabay" textFill="WHITE">
-         <font>
-            <Font name="Yu Gothic Medium" size="20.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true">
+         <image>
+            <Image url="@../resources/materials/space.jpeg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="600.0" prefWidth="1080.0">
+         <top>
+            <StackPane prefHeight="217.0" prefWidth="1080.0" style="-fx-background-color: rgba(200, 200, 200, 0.5);" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Credits" textAlignment="CENTER" textFill="WHITE" underline="true">
+                     <font>
+                        <Font name="Yu Mincho Demibold" size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+         </top>
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Designer: bocheng0224, phantom0174" textFill="WHITE" translateY="-75.0">
+                     <font>
+                        <Font name="Yu Gothic Medium" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" text="Music Provider: AleXZavesa, et al. from Pixabay" textFill="WHITE">
+                     <font>
+                        <Font name="Yu Gothic Medium" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>
