@@ -7,7 +7,7 @@
 	-fx-pref-height: 30px;
 }
 
-.table-view .column-header .label{
+.table-view .column-header .label {
 	-fx-font-weight: bold;
 	-fx-font-size: 20px;
 }
