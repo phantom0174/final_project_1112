@@ -17,6 +17,7 @@ public class Main extends Application {
 		Scene menuScene = new Scene(root);
 		menuScene.getStylesheets().add("/css/menu_scene.css");
 		MenuController control = loader.getController();
+		stage.setResizable(false);
 		control.enterMenu(stage, menuScene);
 	}
 
