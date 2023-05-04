@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import base.Config;
 import base.ScoreBoard;
 import base.ScoreDatum;
 import javafx.collections.FXCollections;
@@ -79,6 +80,14 @@ public class ScoreboardController implements Initializable {
 	}
 	
 	public void uploadScore(ActionEvent e) throws IOException {
+		if (!Config.scoreUploadCoda) {
+			showAlert(
+				"Uplaod Score Error | Final Project",
+				"You can only upload once for one score!"
+			);
+			return;
+		}
+		
 		String name = nameField.getText().strip();
 		if (name.equals("")) {
 			showAlert(
@@ -105,11 +114,13 @@ public class ScoreboardController implements Initializable {
 			return;
 		}
 		
+		refreshScoreBoard();
+		Config.scoreUploadCoda = false;
+		
 		showAlert(
 			"Uplaod Score Success | Final Project",
 			"Your score has been uploaded!"
 		);
-		refreshScoreBoard();
 	}
 	
 	public void showAlert(String title, String headerText) {

@@ -19,6 +19,13 @@
     -fx-background-color: transparent;
 }
 
+.table-row-cell {
+	-fx-font-family: "Yu Mincho";
+	-fx-font-size: 15px;
+	-fx-font-weight: bold;
+	-fx-background-color: rgba(200, 200, 200, 0.5);
+}
+
 #scorepane .label {
 	-fx-background-color: rgba(200, 200, 200, 0.5);
 	-fx-padding: 20px 20px;

@@ -9,4 +9,6 @@ public class Config {
 	public static DoubleProperty snakeSpeed = new SimpleDoubleProperty(2);
 	
 	public static DoubleProperty volume = new SimpleDoubleProperty(0.5);
+	
+	public static boolean scoreUploadCoda = true;
 }

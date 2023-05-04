@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import base.Config;
 import base.SoundPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -83,7 +84,13 @@ public class MenuController implements Initializable {
 		gameScene.s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			if (event.getCode() != KeyCode.ESCAPE) return;
 			if (((GameScene) gameScene).checkReturnMenu()) {
-				playerHightestScore = ((GameScene) gameScene).getPlayerScore();
+				// get new highscore
+				int newScore = ((GameScene) gameScene).getPlayerScore();
+				if (newScore > playerHightestScore) {
+					playerHightestScore = newScore;
+					Config.scoreUploadCoda = true;
+				}
+				
 				((GameScene) gameScene).closeScene();
 				
 				enterMenuFromEndingGame();
