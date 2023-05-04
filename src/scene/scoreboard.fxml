@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.ScoreboardController">
    <children>
@@ -17,8 +21,8 @@
          </image>
       </ImageView>
       <BorderPane prefHeight="600.0" prefWidth="1080.0">
-         <center>
-            <StackPane prefHeight="600.0" prefWidth="680.0" style="-fx-background-color: rgba(200, 200, 200, 0.4);" BorderPane.alignment="CENTER">
+         <right>
+            <StackPane prefHeight="600.0" prefWidth="540.0" style="-fx-background-color: rgba(200, 200, 200, 0.4);" BorderPane.alignment="CENTER">
                <children>
                   <TableView fx:id="scoreBoard" focusTraversable="false" pickOnBounds="false" prefHeight="390.0" prefWidth="400.0" StackPane.alignment="CENTER">
                     <columns>
@@ -31,13 +35,20 @@
                   </TableView>
                </children>
             </StackPane>
-         </center>
-         <left>
-            <AnchorPane prefHeight="600.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
-         </left>
-         <right>
-            <AnchorPane prefHeight="600.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
          </right>
+         <left>
+            <StackPane id="scorepane" prefHeight="150.0" prefWidth="540.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="scoreLabel" contentDisplay="CENTER" text="Your highest score" textFill="WHITE" translateY="-100.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameField" alignment="CENTER" prefWidth="100.0" promptText="Your name" translateY="75.0" StackPane.alignment="CENTER" />
+                  <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadScore" text="Upload Score" translateY="150.0" />
+               </children>
+            </StackPane>
+         </left>
       </BorderPane>
    </children>
    <stylesheets>

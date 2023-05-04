@@ -91,4 +91,8 @@ public class GameScene {
 		view.unload("show_score");
 		sound.stop(bgm);
 	}
+	
+	public int getPlayerScore() {
+		return gameView.score;
+	}
 }

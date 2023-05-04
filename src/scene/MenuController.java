@@ -26,6 +26,8 @@ public class MenuController implements Initializable {
 	public Node controlBtn;
 	public Node creditBtn;
 	
+	int playerHightestScore = 0;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		System.out.println("cont ini!!");
@@ -81,7 +83,9 @@ public class MenuController implements Initializable {
 		gameScene.s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			if (event.getCode() != KeyCode.ESCAPE) return;
 			if (((GameScene) gameScene).checkReturnMenu()) {
+				playerHightestScore = ((GameScene) gameScene).getPlayerScore();
 				((GameScene) gameScene).closeScene();
+				
 				enterMenuFromEndingGame();
 			}
 		});
@@ -124,9 +128,12 @@ public class MenuController implements Initializable {
 	}
 	
 	public void showScoreBoard(ActionEvent e) throws IOException {
-		Parent tempRoot = FXMLLoader.load(getClass().getResource("scoreboard.fxml"));
-		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("scoreboard.fxml"));
+		Parent tempRoot = loader.load();
 		Scene scoreScene = new Scene(tempRoot);
+		ScoreboardController control = loader.getController();
+		control.showHighestScore(playerHightestScore);
+		
 		addEscapeKey(scoreScene);
 		
 		getStage(e);

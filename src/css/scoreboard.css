@@ -1,3 +1,5 @@
+
+
 .table-view {
     -fx-background-color: transparent;
 }
@@ -15,4 +17,25 @@
 .table-row-cell {
     -fx-cell-size: 50px;
     -fx-background-color: transparent;
+}
+
+#scorepane .label {
+	-fx-background-color: rgba(200, 200, 200, 0.5);
+	-fx-padding: 20px 20px;
+	-fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+#scorepane .text-field {
+	-fx-max-width: 300px;
+	-fx-pref-height: 50px;
+	-fx-font-size: 20px;
+}
+
+.button {
+	-fx-border-width: 0px;
+	-fx-border-color: black;
+	-fx-background-color: white;
+	-fx-font-size: 18px;
+	-fx-font-family: "Yu Mincho";
 }
