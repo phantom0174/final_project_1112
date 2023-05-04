@@ -115,7 +115,6 @@ public class GameView implements View, AnimaNode {
 	
 	public void stopProcess() {
 		this.frameGenerator.stop();
-		this.scoreAdder.stop();
 	}
 	
 	private Timeline frameGenerator,
@@ -166,6 +165,7 @@ public class GameView implements View, AnimaNode {
 			if (dist > p.getRadius() + snake.bodySize) continue;
 			
 			gameStatus = GameStatus.DEAD;
+			this.scoreAdder.stop();
 			sound.play("sfx/explosion");
 			break;
 		}

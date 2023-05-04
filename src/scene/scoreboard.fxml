@@ -39,7 +39,7 @@
          <left>
             <StackPane id="scorepane" prefHeight="150.0" prefWidth="540.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="scoreLabel" contentDisplay="CENTER" text="Your highest score" textFill="WHITE" translateY="-100.0">
+                  <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" text="Your highest score" textAlignment="CENTER" textFill="WHITE" translateY="-100.0">
                      <font>
                         <Font size="36.0" />
                      </font>

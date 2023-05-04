@@ -79,11 +79,19 @@ public class ScoreboardController implements Initializable {
 	}
 	
 	public void uploadScore(ActionEvent e) throws IOException {
-		String name = nameField.getText();
-		if (name == null) {
+		String name = nameField.getText().strip();
+		if (name.equals("")) {
 			showAlert(
 				"Uplaod Score Error | Final Project",
 				"Please enter your name to upload a score!"
+			);
+			return;
+		}
+		
+		if (highestScore.equals("0")) {
+			showAlert(
+				"Uplaod Score Error | Final Project",
+				"Cannot upload a score of score 0!"
 			);
 			return;
 		}
