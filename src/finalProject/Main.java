@@ -2,7 +2,6 @@ package finalProject;
 
 
 import scene.MenuController;
-import base.ScoreBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,11 +17,7 @@ public class Main extends Application {
 		Scene menuScene = new Scene(root);
 		MenuController control = loader.getController();
 		stage.setResizable(false);
-		control.enterMenu(stage, menuScene);
-		
-		ScoreBoard sb = new ScoreBoard();
-		boolean success = sb.uploadScore("poij", "123123");
-		System.out.println(success);
+		control.enterMenu(stage, menuScene);		
 	}
 
 	public static void main(String[] args) {

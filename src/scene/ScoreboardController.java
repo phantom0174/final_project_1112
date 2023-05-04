@@ -83,7 +83,7 @@ public class ScoreboardController implements Initializable {
 		if (!Config.scoreUploadCoda) {
 			showAlert(
 				"Uplaod Score Error | Final Project",
-				"You can only upload once for one score!"
+				"You can only upload once per highscore!"
 			);
 			return;
 		}
