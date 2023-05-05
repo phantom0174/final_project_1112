@@ -3,6 +3,7 @@ package world;
 import java.util.ArrayList;
 
 import base.AnimaNode;
+import base.Grid2D;
 import base.Utils;
 import javafx.animation.AnimationTimer;
 import javafx.scene.AmbientLight;
@@ -18,17 +19,17 @@ import javafx.scene.transform.Translate;
 
 
 public class GameWorld extends Group implements AnimaNode {
-	public ArrayList<Sphere> planetList;
+	public Grid2D<Sphere> planetGrid;
 	public ArrayList<Group> appleList;
 	public ArrayList<Group> propList;
 	
 	// --- ambient light --- (used for indicating boarder)
 	AmbientLight ambLight = new AmbientLight();
 	
-	public GameWorld(ArrayList<Sphere> p, ArrayList<Group> a, ArrayList<Group> pr) {
+	public GameWorld(Grid2D<Sphere> p, ArrayList<Group> a, ArrayList<Group> pr) {
 		super();
 		
-		this.planetList = p;
+		this.planetGrid = p;
 		this.appleList = a;
 		this.propList = pr;
 
@@ -102,7 +103,7 @@ public class GameWorld extends Group implements AnimaNode {
 //		隨機生成星球
 		for (int i = 0; i < 100; i++) {
 			Sphere planet = createPlanet();
-			planetList.add(planet);
+			planetGrid.insert(planet);
 			this.getChildren().add(planet);
 		}
 

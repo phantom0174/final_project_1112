@@ -6,6 +6,7 @@ import java.util.Stack;
 import base.AnimaNode;
 import base.Config;
 import base.GameStatus;
+import base.Grid2D;
 import base.SoundPlayer;
 import base.View;
 import camera.SnakeCamera;
@@ -35,7 +36,7 @@ public class GameView implements View, AnimaNode {
 	private Snake snake;
 	
 	// ---- game logic entities ----
-	private ArrayList<Sphere> planetList = new ArrayList<>();
+	private Grid2D<Sphere> planetGrid = new Grid2D(200, 1500, 750);
 	private ArrayList<Group> appleList = new ArrayList<>();
 	private ArrayList<Group> propList = new ArrayList<>();
 	
@@ -57,7 +58,7 @@ public class GameView implements View, AnimaNode {
 	}
 
 	public void load() {
-		this.world = new GameWorld(planetList, appleList, propList);
+		this.world = new GameWorld(planetGrid, appleList, propList);
 		this.s = new SubScene(this.world, Config.width, Config.height, true, SceneAntialiasing.BALANCED);
 			
 		// cameras
@@ -155,19 +156,23 @@ public class GameView implements View, AnimaNode {
 	// if snake has a collision with planet object
 	private void snakeCollideCheck() {
 		Point3D headPos = snake.head.getPos();
-		for (Sphere p : planetList) {
-			double x = p.getTranslateX(),
-					y = p.getTranslateY(),
-					z = p.getTranslateZ();
-			
-			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
-			
-			if (dist > p.getRadius() + snake.bodySize) continue;
-			
-			gameStatus = GameStatus.DEAD;
-			this.scoreAdder.stop();
-			sound.play("sfx/explosion");
-			break;
+		
+		for (ArrayList<Sphere> list: planetGrid.query(headPos)) {
+			for (Sphere planet: list) {
+				double x = planet.getTranslateX(),
+						y = planet.getTranslateY(),
+						z = planet.getTranslateZ();
+				
+				double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
+				
+				if (dist > planet.getRadius() + snake.bodySize) continue;
+				
+				this.snake.deadPos = new Point3D(x, y, z);
+				gameStatus = GameStatus.DEAD;
+				this.scoreAdder.stop();
+				sound.play("sfx/explosion");
+				return;
+			}
 		}
 	}
 	

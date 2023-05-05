@@ -94,7 +94,7 @@ public class Snake {
 			Point3D curPos = curBody.getPos();
 			
 			if (isDead) {
-				curBody.move(curPos.normalize().multiply(moveSpeed.get()));
+				curBody.move(curPos.subtract(deadPos).normalize().multiply(moveSpeed.get()));
 				continue;
 			}
 			
@@ -109,7 +109,7 @@ public class Snake {
 		Point3D curPos = curBody.getPos();
 		
 		if (isDead) {
-			curBody.move(curPos.normalize().multiply(moveSpeed.get()));
+			curBody.move(curPos.subtract(deadPos).normalize().multiply(moveSpeed.get()));
 			return;
 		}
 		
@@ -249,6 +249,7 @@ public class Snake {
 		);
 	}
 	
+	public Point3D deadPos = new Point3D(0, 0, 0);
 	public void updateFrameMovement(boolean isDead) {
 		updateRotIntensity();
 		updateTempRot();
@@ -284,6 +285,10 @@ public class Snake {
 	
 	public void moveHead(Point3D pos_v, boolean isDead) {
 		this.updateBodyPosition(isDead);
-		this.head.move(pos_v);
+		
+		if (!isDead) this.head.move(pos_v);
+		else this.head.move(
+			head.getPos().subtract(deadPos).normalize().multiply(moveSpeed.get())
+		);
 	}
 }
