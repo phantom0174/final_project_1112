@@ -3,10 +3,12 @@ package world;
 import java.util.ArrayList;
 
 import base.AnimaNode;
+import base.GameStatus;
 import base.Grid2D;
 import base.Utils;
 import finalProject.Snake;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
@@ -104,12 +106,10 @@ public class GameWorld extends Group implements AnimaNode {
 
 	public void startAnimation() {
 		spinningPointLight.start();
-//		ambLightAni.play();
 	}
 
 	public void stopAnimation() {
 		spinningPointLight.start();
-//		ambLightAni.stop();
 	}
 
 	public Sphere createPlanet() {
@@ -151,49 +151,93 @@ public class GameWorld extends Group implements AnimaNode {
 	public Group createApple() {
 		Group apple = new Group();
 
-		double x = (Math.random() - 0.5) * 1000;
-		double y = (Math.random() - 0.5) * 1000;
-		double z = (Math.random() - 0.5) * 1000;
-
-		Sphere s = new Sphere(10);
-		PhongMaterial ps = new PhongMaterial(Color.RED);
-		s.setMaterial(ps);
-
-		Box b = new Box(4, 10, 4);
-		PhongMaterial pb = new PhongMaterial(Color.GREEN);
-		b.setMaterial(pb);
-		b.setTranslateY(-12);
-
-		apple.getChildren().addAll(s, b);
-		apple.setTranslateX(x);
-		apple.setTranslateY(y);
-		apple.setTranslateZ(z);
+		boolean createSuccess = false;
+		while (!createSuccess) {
+			double x = (Math.random() - 0.5) * 1000;
+			double y = (Math.random() - 0.5) * 1000;
+			double z = (Math.random() - 0.5) * 1000;
+			
+			
+			if (coveredByPlanet(new Point3D(x, y, z), 20)) continue;
+			createSuccess = true;
+			
+			Sphere s = new Sphere(10);
+			PhongMaterial ps = new PhongMaterial(Color.RED);
+			s.setMaterial(ps);
+			
+			Box b = new Box(4, 10, 4);
+			PhongMaterial pb = new PhongMaterial(Color.GREEN);
+			b.setMaterial(pb);
+			b.setTranslateY(-12);
+			
+			apple.getChildren().addAll(s, b);
+			apple.setTranslateX(x);
+			apple.setTranslateY(y);
+			apple.setTranslateZ(z);
+		}
 
 		return apple;
 	}
 
 	public Group createProps() {
 		Group g = new Group();
-		double x = (double) (Math.random() - 0.5) * 1000;
-		double y = (double) (Math.random() - 0.5) * 1000;
-		double z = (double) (Math.random() - 0.5) * 1000;
-
-		for (int i = 0; i < 30; i++) {
-			Sphere s = new Sphere(0.5);
-			PhongMaterial ps = new PhongMaterial(Color.YELLOW);
-			s.setMaterial(ps);
-			double rx = (double) (Math.random() - 0.5) * 15;
-			double ry = (double) (Math.random() - 0.5) * 15;
-			double rz = (double) (Math.random() - 0.5) * 15;
-
-			s.getTransforms().add(new Translate(rx, ry, rz));
-			g.getChildren().add(s);
+		
+		PhongMaterial propMaterial = new PhongMaterial();
+		propMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box.png")));
+		propMaterial.setSpecularColor(Color.WHITE);
+		propMaterial.setSpecularPower(50);
+		
+		boolean createSuccess = false;
+		while(!createSuccess) {
+			double x = (double) (Math.random() - 0.5) * 1000;
+			double y = (double) (Math.random() - 0.5) * 1000;
+			double z = (double) (Math.random() - 0.5) * 1000;
+			
+			
+			if (coveredByPlanet(new Point3D(x, y, z), 40)) continue;
+			createSuccess = true;
+			
+			Box prop = new Box(20, 20, 20);
+			prop.setMaterial(propMaterial);
+			
+			double yRot = Math.random() * 2 * Math.PI;
+			prop.getTransforms().add(new Rotate(yRot, Rotate.Y_AXIS));
+			
+			g.getChildren().add(prop);
+			
+//			for (int i = 0; i < 30; i++) {
+//				Sphere s = new Sphere(0.5);
+//				PhongMaterial ps = new PhongMaterial(Color.YELLOW);
+//				s.setMaterial(ps);
+//				double rx = (double) (Math.random() - 0.5) * 15;
+//				double ry = (double) (Math.random() - 0.5) * 15;
+//				double rz = (double) (Math.random() - 0.5) * 15;
+//				
+//				s.getTransforms().add(new Translate(rx, ry, rz));
+//				g.getChildren().add(s);
+//			}
+			
+			g.setTranslateX(x);
+			g.setTranslateY(y);
+			g.setTranslateZ(z);
 		}
 
-		g.setTranslateX(x);
-		g.setTranslateY(y);
-		g.setTranslateZ(z);
-
 		return g;
+	}
+	
+	public boolean coveredByPlanet(Point3D p, double radius) {
+		for (ArrayList<Sphere> list: planetGrid.query(p)) {
+			for (Sphere planet: list) {
+				double x = planet.getTranslateX(),
+						y = planet.getTranslateY(),
+						z = planet.getTranslateZ();
+				
+				double dist = p.subtract(new Point3D(x, y, z)).magnitude();
+				
+				if (dist > radius) continue;
+				return true;
+			}
+		}
+		return false;
 	}
 }

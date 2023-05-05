@@ -238,10 +238,15 @@ public class GameView implements View, AnimaNode {
 					y = pr.getTranslateY(),
 					z = pr.getTranslateZ();
 			
-			double dist = headPos.subtract(new Point3D(x, y, z)).magnitude();
+			// distance in Norm(max)
+			double dx = Math.abs(headPos.getX() - x),
+					dy = Math.abs(headPos.getY() - y),
+					dz = Math.abs(headPos.getZ() - z);
 			
-			// 7.5 is the prop average size
-			if (dist > snake.bodySize + 7.5) {
+			double dist = Math.max(Math.max(dx, dy), dz);
+			
+			// 20 is the prop size in Norm(max) coordinate
+			if (dist > 20) {
 				pos++;
 				continue;
 			}
