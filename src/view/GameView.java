@@ -19,6 +19,8 @@ import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
@@ -73,7 +75,8 @@ public class GameView implements View, AnimaNode {
 		this.sound.loadAll(new String[] {
 			"sfx/eating",
 			"sfx/explosion",
-			"sfx/boost"
+			"sfx/boost",
+			"sfx/alarm"
 		});
 		
 		this.loaded = true;
@@ -150,6 +153,7 @@ public class GameView implements View, AnimaNode {
 		if (!isDead) {
 			snakeEatAppleCheck();
 			snakeUsePropCheck();
+			snakeBoarderCheck();
 		}
 	}
 	
@@ -212,6 +216,18 @@ public class GameView implements View, AnimaNode {
 	}
 	
 	private boolean playingBoostSFX = false;
+	Timeline tempBoost = new Timeline(10,
+		new KeyFrame(Duration.ZERO, e -> {
+			Config.snakeSpeed.set(4);
+			playingBoostSFX = true;
+		}),
+		new KeyFrame(Duration.millis(2700), e -> {
+			playingBoostSFX = false;
+		}),
+		new KeyFrame(Duration.seconds(5), e -> {
+			Config.snakeSpeed.set(2);
+		})
+	);
 	private void snakeUsePropCheck() {
 		Stack<Integer> needRmvInd = new Stack<>();
 		
@@ -233,21 +249,11 @@ public class GameView implements View, AnimaNode {
 			this.world.getChildren().remove(pr);
 			needRmvInd.push(pos);
 			
-			if (playingBoostSFX) sound.stop("sfx/boost");
+			if (playingBoostSFX) {
+				sound.stop("sfx/boost");
+				tempBoost.stop();
+			}
 			sound.play("sfx/boost");
-			
-			Timeline tempBoost = new Timeline(10,
-				new KeyFrame(Duration.ZERO, e -> {
-					Config.snakeSpeed.set(4);
-					playingBoostSFX = true;
-				}),
-				new KeyFrame(Duration.millis(2700), e -> {
-					playingBoostSFX = false;
-				}),
-				new KeyFrame(Duration.seconds(5), e -> {
-					Config.snakeSpeed.set(2);
-				})
-			);
 			tempBoost.play();
 			
 			pos++;
@@ -256,6 +262,37 @@ public class GameView implements View, AnimaNode {
 		while (needRmvInd.size() != 0) {
 			int rmvPos = needRmvInd.pop();
 			propList.remove(rmvPos);
+		}
+	}
+	
+	private boolean playingBoarderSFX = false;
+	Timeline tooFar = new Timeline(10,
+		new KeyFrame(Duration.millis(900), e -> {
+			playingBoarderSFX = false;
+		})
+	);
+	private void snakeBoarderCheck() {
+		Point3D headPos = snake.head.getPos();
+		double dist = headPos.magnitude();
+		
+		if (dist >= 1300) {
+			gameStatus = GameStatus.DEAD;
+			this.scoreAdder.stop();
+		} else if (dist > 800) {
+			world.ambLight.setLightOn(true);
+			
+			Color lightColor = Color.rgb(
+				Math.min((int) (255 * (dist - 800) / 200) + 20, 255),
+				0, 0
+			);
+			world.ambLight.setColor(lightColor);
+			
+			if (playingBoarderSFX) return;
+			playingBoarderSFX = true;
+			tooFar.play();
+			sound.play("sfx/alarm");
+		} else if (dist <= 800) {
+			world.ambLight.setLightOn(false);
 		}
 	}
 }
