@@ -10,7 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import view.BGView;
 import view.GameView;
-import view.ScoreResult;
+import view.GameResult;
 
 /*
 
@@ -62,19 +62,22 @@ public class GameScene {
 	
 	public boolean showScored = false;
 	public AnimationTimer checkAlive = new AnimationTimer() {
-		public void handle(long arg0) {
+		public void handle(long now) {
 			if (gameView.gameStatus != GameStatus.DEAD) return;
 			
-			if (!showScored) {
-				view.add("show_score", new ScoreResult(gameView.score));
-				view.load("show_score");
-				view.attach("show_score", root);
-				view.switchToView("show_score");
-				
-				System.out.println("switched!");
-				
-				showScored = true;
-			}
+			if (showScored) return;
+			
+			GameResult sR = new GameResult(
+				gameView.score,
+				gameView.deadReason
+			);
+			
+			view.add("show_score", sR);
+			view.load("show_score");
+			view.attach("show_score", root);
+			view.switchToView("show_score");
+			
+			showScored = true;
 		}
 	};
 	

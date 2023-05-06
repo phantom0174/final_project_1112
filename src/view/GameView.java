@@ -47,6 +47,7 @@ public class GameView implements View, AnimaNode {
 	
 	
 	public GameStatus gameStatus = GameStatus.ALIVE;
+	public DeadType deadReason;
 	public int score = 0;
 	
 	// ----------------- View -----------------
@@ -173,6 +174,7 @@ public class GameView implements View, AnimaNode {
 				
 				this.snake.deadPos = new Point3D(x, y, z);
 				gameStatus = GameStatus.DEAD;
+				deadReason = DeadType.COLLISION;
 				this.scoreAdder.stop();
 				sound.play("sfx/explosion");
 				return;
@@ -282,6 +284,7 @@ public class GameView implements View, AnimaNode {
 		
 		if (dist >= 1300) {
 			gameStatus = GameStatus.DEAD;
+			deadReason = DeadType.OUTOFBOUNDARY;
 			this.scoreAdder.stop();
 		} else if (dist > 800) {
 			world.ambLight.setLightOn(true);

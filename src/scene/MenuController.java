@@ -31,18 +31,7 @@ public class MenuController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		System.out.println("cont ini!!");
-		updateUIPosition();
 		sound = new SoundPlayer();
-	}
-	
-	public void updateUIPosition() {
-		// still some problems
-		
-//		Node[] uis = { title, startBtn, settingBtn, controlBtn, creditBtn };
-//		for (Node n: uis) {
-//			n.setLayoutX(Config.width / 2);
-//		}
 	}
 	
 	public void playMenuMusic() {

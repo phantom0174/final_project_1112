@@ -183,9 +183,11 @@ public class GameWorld extends Group implements AnimaNode {
 		Group g = new Group();
 		
 		PhongMaterial propMaterial = new PhongMaterial();
+		propMaterial.setDiffuseColor(Color.WHITE);
 		propMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box.png")));
-		propMaterial.setSpecularColor(Color.WHITE);
-		propMaterial.setSpecularPower(50);
+		propMaterial.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box_lumi.png")));
+//		propMaterial.setSpecularColor(Color.WHITE);
+//		propMaterial.setSpecularPower(100);
 		
 		boolean createSuccess = false;
 		while(!createSuccess) {
