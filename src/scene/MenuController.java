@@ -72,7 +72,7 @@ public class MenuController implements Initializable {
 		
 		gameScene.s.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			if (event.getCode() != KeyCode.ESCAPE) return;
-			if (((GameScene) gameScene).checkReturnMenu()) {
+			if (((GameScene) gameScene).checkCanReturnMenu()) {
 				// get new highscore
 				int newScore = ((GameScene) gameScene).getPlayerScore();
 				if (newScore > playerHightestScore) {

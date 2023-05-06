@@ -17,7 +17,6 @@ public class ViewHandler {
 		View v = viewPool.get(viewName);
 		if (!v.isLoaded()) v.load();
 		
-		v.getSubScene().toFront();
 		v.getSubScene().requestFocus();
 	}
 	

@@ -1,0 +1,8 @@
+.label {
+	-fx-alignment: CENTER;
+	-fx-font-family: "Yu Mincho";
+	-fx-text-fill: white;
+	-fx-background-color: rgba(200, 200, 200, 0.5);
+	-fx-padding: 10px 10px;
+	-fx-background-radius: 10px;
+}

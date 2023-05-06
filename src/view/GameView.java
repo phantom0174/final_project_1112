@@ -45,10 +45,35 @@ public class GameView implements View, AnimaNode {
 	// ---- game sound -----
 	private SoundPlayer sound = new SoundPlayer();
 	
-	
+	// ---- game status ----
 	public GameStatus gameStatus = GameStatus.ALIVE;
 	public DeadType deadReason;
-	public int score = 0;
+	public double score = 0;
+	
+	// ---- event pipeline for GameScene Class
+	public ArrayList<String> eventPipeline = new ArrayList<>();
+	/*
+	因為 score 顯示、effect 跳出通知都需要從 GameScene 那邊去顯示；
+	但如果一直更新又很耗資源；
+	所以 GameScene 會持續監聽這個 pipeline，處理從這邊發出的需求。
+	
+	需求一覽：
+		- updateScore
+			更新分數（每次更新分數就發一次）
+		
+		- doubleScoreEffectOn
+			將分數字體顏色改為金黃色，指示雙倍分數。
+			
+		- doubleScoreEffectOff
+			上述效果結束時執行
+			
+		- outOfBoundaryOn
+			要超出邊界時常駐顯示
+			
+		- outOfBoundaryOff
+			回到安全區域內時執行
+			
+	*/
 	
 	// ----------------- View -----------------
 	
@@ -77,7 +102,8 @@ public class GameView implements View, AnimaNode {
 			"sfx/eating",
 			"sfx/explosion",
 			"sfx/boost",
-			"sfx/alarm"
+			"sfx/alarm",
+			"sfx/double-score"
 		});
 		
 		this.loaded = true;
@@ -112,6 +138,11 @@ public class GameView implements View, AnimaNode {
 	
 	// ----------------- logic -----------------
 	
+	private void addScore(double s) {
+		this.score += s * Config.scoreMultiplier;
+		eventPipeline.add("updateScore");
+	}
+	
 	private void setupSnake() {
 		snake.bindMovements(s);
 		snake.moveHead(new Point3D(0, -10, -200), false);
@@ -131,7 +162,7 @@ public class GameView implements View, AnimaNode {
 		frameGenerator.setCycleCount(Timeline.INDEFINITE);
 		frameGenerator.play();
 		
-		scoreAdder = new Timeline(1, new KeyFrame(Duration.seconds(1), e -> score++));
+		scoreAdder = new Timeline(1, new KeyFrame(Duration.seconds(1), e -> addScore(1)));
 		scoreAdder.setCycleCount(Timeline.INDEFINITE);
 		scoreAdder.play();
 	}
@@ -157,6 +188,8 @@ public class GameView implements View, AnimaNode {
 			snakeBoarderCheck();
 		}
 	}
+	
+	// -------------- Game Event Checking ----------------
 	
 	// if snake has a collision with planet object
 	private void snakeCollideCheck() {
@@ -203,7 +236,7 @@ public class GameView implements View, AnimaNode {
 			
 			this.world.getChildren().remove(a);
 			needRmvInd.push(pos);
-			this.score += 10;
+			addScore(10);
 			this.snake.generateBody();
 			
 			sound.play("sfx/eating");
@@ -217,19 +250,58 @@ public class GameView implements View, AnimaNode {
 		}
 	}
 	
-	private boolean playingBoostSFX = false;
-	Timeline tempBoost = new Timeline(10,
+	/*
+	random effects:
+		- double score in 8 seconds
+		- double speed in 5 seconds
+		
+	音樂播放模式：
+		如果在吃完一次道具之後，又再吃到道具並獲取到同樣的效果；
+		則直接暫停上輪尚未播完的音樂，並重置效果時間。
+		
+	效果 timeline 統一以 0.1 秒為單位。
+	*/
+	
+	private boolean boostSFXOn = false,
+			doubleScoreSFXOn = false;
+
+	private boolean boostOn = false,
+			doubleScoreOn = false;
+	
+	Timeline boostEffect = new Timeline(10,
 		new KeyFrame(Duration.ZERO, e -> {
-			Config.snakeSpeed.set(4);
-			playingBoostSFX = true;
+			if (boostSFXOn) sound.stop("sfx/boost");
+			sound.play("sfx/boost");
+			if (!boostOn) Config.snakeSpeed.set(Config.snakeSpeed.get() * 1.5);
+			boostOn = true;
 		}),
 		new KeyFrame(Duration.millis(2700), e -> {
-			playingBoostSFX = false;
+			boostSFXOn = false;
 		}),
 		new KeyFrame(Duration.seconds(5), e -> {
-			Config.snakeSpeed.set(2);
+			boostOn = false;
+			Config.snakeSpeed.set(Config.snakeSpeed.get() / 1.5);
 		})
 	);
+	
+	Timeline doubleScoreEffect = new Timeline(10,
+		new KeyFrame(Duration.ZERO, e -> {
+			if (doubleScoreSFXOn) sound.stop("sfx/double-score");
+			sound.play("sfx/double-score");
+			if (!doubleScoreOn) Config.scoreMultiplier *= 2;
+			doubleScoreOn = true;
+			eventPipeline.add("doubleScoreEffectOn");
+		}),
+		new KeyFrame(Duration.millis(800), e -> {
+			doubleScoreSFXOn = false;
+		}),
+		new KeyFrame(Duration.seconds(8), e -> {
+			doubleScoreOn = false;
+			Config.scoreMultiplier /= 2;
+			eventPipeline.add("doubleScoreEffectOff");
+		})
+	);
+	
 	private void snakeUsePropCheck() {
 		Stack<Integer> needRmvInd = new Stack<>();
 		
@@ -256,12 +328,13 @@ public class GameView implements View, AnimaNode {
 			this.world.getChildren().remove(pr);
 			needRmvInd.push(pos);
 			
-			if (playingBoostSFX) {
-				sound.stop("sfx/boost");
-				tempBoost.stop();
+			if (Math.random() < 0.5) {
+				if (boostOn) boostEffect.stop();
+				boostEffect.play();				
+			} else {
+				if (doubleScoreOn) doubleScoreEffect.stop();
+				doubleScoreEffect.play();	
 			}
-			sound.play("sfx/boost");
-			tempBoost.play();
 			
 			pos++;
 		}
@@ -272,6 +345,7 @@ public class GameView implements View, AnimaNode {
 		}
 	}
 	
+	private boolean boarderEffectToggled = false;
 	private boolean playingBoarderSFX = false;
 	Timeline tooFar = new Timeline(10,
 		new KeyFrame(Duration.millis(900), e -> {
@@ -296,11 +370,22 @@ public class GameView implements View, AnimaNode {
 			world.ambLight.setColor(lightColor);
 			
 			if (playingBoarderSFX) return;
+			
 			playingBoarderSFX = true;
 			tooFar.play();
 			sound.play("sfx/alarm");
+			
+			if (!boarderEffectToggled) {
+				eventPipeline.add("outOfBoundaryOn");
+				boarderEffectToggled = true;
+			}
 		} else if (dist <= 800) {
 			world.ambLight.setLightOn(false);
+			
+			if (boarderEffectToggled) {
+				eventPipeline.add("outOfBoundaryOff");
+				boarderEffectToggled = false;
+			}
 		}
 	}
 }

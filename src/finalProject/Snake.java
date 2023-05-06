@@ -158,7 +158,7 @@ public class Snake {
 		pitchSin = Math.sin(pitch);
 		
 		yaw = Math.toRadians(
-			45 * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+			(45 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
 		);
 		yawCos = Math.cos(yaw);
 		yawSin = Math.sin(yaw);

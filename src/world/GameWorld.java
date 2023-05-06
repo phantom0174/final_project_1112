@@ -12,6 +12,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
+import javafx.scene.chart.Axis;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -38,8 +39,10 @@ public class GameWorld extends Group implements AnimaNode {
 		setupObjects();
 		setupLights();
 	}
-
+	
+	// ----------------- animations --------------
 	public AnimationTimer spinningPointLight;
+	public ArrayList<AnimationTimer> spinningProps = new ArrayList<>();
 
 	public void setupObjects() {
 //		隨機生成星球
@@ -106,10 +109,16 @@ public class GameWorld extends Group implements AnimaNode {
 
 	public void startAnimation() {
 		spinningPointLight.start();
+		for (AnimationTimer a: spinningProps) {
+			a.start();
+		}
 	}
 
 	public void stopAnimation() {
 		spinningPointLight.start();
+		for (AnimationTimer a: spinningProps) {
+			a.stop();
+		}
 	}
 
 	public Sphere createPlanet() {
@@ -202,22 +211,20 @@ public class GameWorld extends Group implements AnimaNode {
 			Box prop = new Box(20, 20, 20);
 			prop.setMaterial(propMaterial);
 			
+			// initial random rotation
 			double yRot = Math.random() * 2 * Math.PI;
+			prop.setRotationAxis(Rotate.Y_AXIS);
 			prop.getTransforms().add(new Rotate(yRot, Rotate.Y_AXIS));
 			
-			g.getChildren().add(prop);
+			// rotate animation
+			spinningProps.add(new AnimationTimer() {
+				@Override
+				public void handle(long arg0) {
+					prop.setRotate(prop.getRotate() + 0.3);
+				}
+			});
 			
-//			for (int i = 0; i < 30; i++) {
-//				Sphere s = new Sphere(0.5);
-//				PhongMaterial ps = new PhongMaterial(Color.YELLOW);
-//				s.setMaterial(ps);
-//				double rx = (double) (Math.random() - 0.5) * 15;
-//				double ry = (double) (Math.random() - 0.5) * 15;
-//				double rz = (double) (Math.random() - 0.5) * 15;
-//				
-//				s.getTransforms().add(new Translate(rx, ry, rz));
-//				g.getChildren().add(s);
-//			}
+			g.getChildren().add(prop);
 			
 			g.setTranslateX(x);
 			g.setTranslateY(y);

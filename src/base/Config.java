@@ -11,4 +11,5 @@ public class Config {
 	public static DoubleProperty volume = new SimpleDoubleProperty(0.5);
 	
 	public static boolean scoreUploadCoda = true;
+	public static double scoreMultiplier = 1;
 }

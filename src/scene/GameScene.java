@@ -9,6 +9,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import view.BGView;
+import view.GameEventView;
 import view.GameView;
 import view.GameResult;
 
@@ -23,36 +24,42 @@ Three steps to activate a view:
 
 public class GameScene {
 	public Scene s;
-	public Group root;
+	public Group root = new Group();
 	private ViewHandler view = new ViewHandler();
 	
 	private GameView gameView;
+	private GameEventView gameEventView;
 	
 	// ---- sounds -----
 	private SoundPlayer sound = new SoundPlayer();
 	private String bgm = "bgm/my-lonely-journey";
 	
 	public GameScene() {
-		root = new Group();
 		s = new Scene(root, Config.width, Config.height);
 		
 		addViews();
-		
-		view.load("3d_game_view");
-		view.attach("3d_game_view", root);
-		
-		view.load("2d_bg");
-		view.attach("2d_bg", root);
-		
 		playSounds();
+		
 		view.switchToView("3d_game_view");
 		checkAlive.start();
+		handleEventPipeline.start();
 	}
 	
 	private void addViews() {
 		gameView = new GameView();
+		gameEventView = new GameEventView();
 		view.add("3d_game_view", gameView);
 		view.add("2d_bg", new BGView());
+		view.add("event_board", gameEventView);
+		
+		view.load("2d_bg");
+		view.attach("2d_bg", root);
+		
+		view.load("3d_game_view");
+		view.attach("3d_game_view", root);
+		
+		view.load("event_board");
+		view.attach("event_board", root);
 	}
 	
 	private void playSounds() {
@@ -68,9 +75,11 @@ public class GameScene {
 			if (showScored) return;
 			
 			GameResult sR = new GameResult(
-				gameView.score,
+				(int) gameView.score,
 				gameView.deadReason
 			);
+			
+			view.detach("event_board", root);
 			
 			view.add("show_score", sR);
 			view.load("show_score");
@@ -81,7 +90,32 @@ public class GameScene {
 		}
 	};
 	
-	public boolean checkReturnMenu() {
+	public AnimationTimer handleEventPipeline = new AnimationTimer() {
+		@Override
+		public void handle(long now) {
+			if (gameView.gameStatus == GameStatus.DEAD) return;
+			if (gameView.eventPipeline.size() == 0) return;
+			
+			for (String event: gameView.eventPipeline) {
+				switch(event) {
+				case "updateScore":
+					gameEventView.showScore((int) gameView.score); break;
+				case "doubleScoreEffectOn":
+					gameEventView.doubleScoreEffect(true); break;
+				case "doubleScoreEffectOff":
+					gameEventView.doubleScoreEffect(false); break;
+				case "outOfBoundaryOn":
+					gameEventView.outOfBoundaryOn(); break;
+				case "outOfBoundaryOff":
+					gameEventView.outOfBoundaryOff(); break;
+				}
+			}
+			
+			gameView.eventPipeline.clear();
+		}
+	};
+
+	public boolean checkCanReturnMenu() {
 		if (gameView.gameStatus != GameStatus.DEAD) return false;
 		if (!showScored) return false;
 		return true;
@@ -96,6 +130,6 @@ public class GameScene {
 	}
 	
 	public int getPlayerScore() {
-		return gameView.score;
+		return (int) gameView.score;
 	}
 }
