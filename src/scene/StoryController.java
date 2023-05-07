@@ -11,6 +11,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -30,6 +31,7 @@ public class StoryController implements Initializable {
     public Label line6;
     public Label line7;
     public Label line8;
+    public Label skipLabel;
     
     
     private Stage stage;
@@ -49,6 +51,7 @@ public class StoryController implements Initializable {
 		for (Label line: story) {
 			line.setOpacity(0);
 		}
+		skipLabel.setOpacity(0);
 		
 		playStory = new Timeline(30,
 			new KeyFrame(Duration.ZERO, e -> {
@@ -68,10 +71,17 @@ public class StoryController implements Initializable {
 		playStory.setCycleCount(9);
 	}
 	
-	public void fadeInLabel(int index) {
+	private void fadeInLabel(int index) {
+		if (index == 0) {
+			fadeIn(skipLabel);
+		}
+		fadeIn(story[index]);
+	}
+	
+	private void fadeIn(Node n) {
 		Timeline anima = new Timeline(
-			new KeyFrame(Duration.ZERO, new KeyValue(story[index].opacityProperty(), 0)),
-			new KeyFrame(Duration.seconds(1), new KeyValue(story[index].opacityProperty(), 1))
+			new KeyFrame(Duration.ZERO, new KeyValue(n.opacityProperty(), 0)),
+			new KeyFrame(Duration.seconds(1), new KeyValue(n.opacityProperty(), 1))
 		);
 		anima.play();
 	}
@@ -87,7 +97,7 @@ public class StoryController implements Initializable {
 		playStory.play();
 	}
 	
-	public void addSkipKey() {
+	private void addSkipKey() {
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
 			if (e.getCode() != KeyCode.ENTER) return;
 			
@@ -96,7 +106,7 @@ public class StoryController implements Initializable {
 		});
 	}
 	
-	public void startGame() {
+	private void startGame() {
 		playStory.stop();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/menu.fxml"));

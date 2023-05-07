@@ -13,3 +13,7 @@
 	-fx-padding: 10px 10px;
 	-fx-background-radius: 10px;
 }
+
+#skiplabel {
+	-fx-text-fill: lightgray;
+}

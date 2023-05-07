@@ -23,7 +23,7 @@
          <bottom>
             <StackPane prefHeight="75.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="eventLabel" text="eventLabel">
+                  <Label id="eventLabel" fx:id="eventLabel" text="eventLabel">
                      <font>
                         <Font size="24.0" />
                      </font>
