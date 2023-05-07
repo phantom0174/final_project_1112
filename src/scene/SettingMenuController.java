@@ -1,5 +1,14 @@
 package scene;
 
+/*
+
+設定選單的操控器，功能包含：
+
+	- 調整遊戲音量大小
+
+*/
+
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

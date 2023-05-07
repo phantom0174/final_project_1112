@@ -1,12 +1,25 @@
 package scene;
 
+/*
+
+排行榜選單的操控器，功能包含：
+
+	- 顯示玩家最高分
+	- 讓玩家上傳分數
+	- 顯示所有已上傳的分數
+	
+分數 API 使用 base/ScoreAPI 進行連接。
+
+*/
+
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import base.Config;
-import base.ScoreBoard;
+import base.ScoreAPI;
 import base.ScoreDatum;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,19 +40,15 @@ import javafx.util.Pair;
 public class ScoreboardController implements Initializable {
 	@FXML
 	public TableView<ScoreDatum> scoreBoard;
-	@FXML
 	public TableColumn<ScoreDatum, String> name;
-	@FXML
 	public TableColumn<ScoreDatum, String> score;
-	@FXML
 	public TextField nameField;
-	@FXML
 	public Button uploadButton;
-	@FXML
-	public Label scoreLabel; 
+	public Label scoreLabel;
+	
 	
 	public static String scoreLabelDefault = "You Highest Score:\n";
-	public ScoreBoard scoreHandler = new ScoreBoard();
+	public ScoreAPI scoreHandler = new ScoreAPI();
 	public String highestScore;
 
 	@Override

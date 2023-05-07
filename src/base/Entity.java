@@ -1,14 +1,5 @@
 package base;
 
-
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point3D;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-
 /*
 
 An "Entity" is an encapsulation of a node(core) by a group(shell).
@@ -22,6 +13,16 @@ Reason:
 	The core will moves with the shell.
 
 */
+
+
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Point3D;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
+
 
 public class Entity {
 	public DoubleProperty x = new SimpleDoubleProperty(0),

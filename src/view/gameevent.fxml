@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
@@ -12,6 +13,7 @@
          <top>
             <StackPane prefHeight="75.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
                <children>
+                  <Pane id="upperPane" fx:id="upperPane" prefHeight="200.0" prefWidth="1080.0" />
                   <Label fx:id="scoreLabel" text="scoreLabel">
                      <font>
                         <Font size="24.0" />
@@ -21,8 +23,9 @@
             </StackPane>
          </top>
          <bottom>
-            <StackPane prefHeight="75.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <StackPane prefHeight="75.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
                <children>
+                  <Pane id="lowerPane" fx:id="lowerPane" prefHeight="200.0" prefWidth="1080.0" />
                   <Label id="eventLabel" fx:id="eventLabel" text="eventLabel">
                      <font>
                         <Font size="24.0" />

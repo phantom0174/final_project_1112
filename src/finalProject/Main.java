@@ -1,16 +1,18 @@
 package finalProject;
 
+/*
 
-import scene.MenuController;
+專案的 Entry Class。
+
+*/
+
+
 import scene.StoryController;
 
 import javafx.application.Application;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 

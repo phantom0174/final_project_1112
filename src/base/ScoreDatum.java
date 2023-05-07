@@ -1,5 +1,12 @@
 package base;
 
+/*
+
+在 ScoreAPI 類別中的單一一筆分數資料
+
+*/
+
+
 public class ScoreDatum {
 	public String name;
 	public String score;

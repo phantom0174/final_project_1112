@@ -1,5 +1,13 @@
 package camera;
 
+/*
+
+可在遊戲世界中自由移動的相機，在專案初期作為熟悉語法的練習。
+
+底層邏輯使用 Entity 實作而成，簡化後成為 SnakeCamera。
+
+*/
+
 
 import base.AnimaNode;
 import base.Entity;

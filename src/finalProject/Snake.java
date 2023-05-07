@@ -1,5 +1,22 @@
 package finalProject;
 
+/*
+
+玩家操控的主角。
+
+--- Controls ---
+
+Snake will move with a certain rate all the time.
+
+W/S keys will increase/decrease pitch angle to a certain amount.
+A/D keys will decrease/increase yaw angle to a certain amount.
+
+Pitch will slowly reset to 0 if W/S key is not pressed.
+Similarly for Yaw (A/D keys)
+
+
+*/
+
 
 import java.util.ArrayList;
 
@@ -20,21 +37,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 
-
-/*
-
---- Controls ---
-
-Snake will move with a certain rate all the time.
-
-W/S keys will increase/decrease pitch angle to a certain amount.
-A/D keys will decrease/increase yaw angle to a certain amount.
-
-Pitch will slowly reset to 0 if W/S key is not pressed.
-Similarly for Yaw (A/D keys)
-
-
-*/
 
 public class Snake {
 	public Group fatherGroup;
@@ -271,6 +273,13 @@ public class Snake {
 			0
 		);
 		
+		/*
+		
+		相機視角在蛇的後正方。
+		
+		垂直法向量由 i 與 k 向量進行 headRotation 修正之後進行外積而得。
+		
+		*/
 		// ----- camera position update --------
 		Point3D rightVector = headRotMatrix(new Point3D(1, 0, 0));
 		Point3D frontVector = headRotMatrix(new Point3D(0, 0, 1));

@@ -1,8 +1,14 @@
 package scene;
 
+/*
+
+遊戲開始前撥放背景故事的操控器。
+
+*/
+
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
@@ -38,7 +44,30 @@ public class StoryController implements Initializable {
     private Scene scene;
     private int curLine = -1;
     private Label[] story;
-    private Timeline playStory;
+    
+    private Timeline endStory = new Timeline(30,
+		new KeyFrame(Duration.ZERO, e -> {
+			for (Label l: story) {
+				fadeOut(l);
+			}
+			fadeOut(skipLabel);
+		}),
+		new KeyFrame(Duration.seconds(2.2), e -> {
+			startGame();
+		})
+	);
+    
+    private Timeline playStory = new Timeline(30,
+		new KeyFrame(Duration.ZERO, e -> {
+			if (curLine < 7) curLine++;
+		}),
+		new KeyFrame(Duration.millis(100), e -> {
+			fadeInLabel(curLine);
+		}),
+		new KeyFrame(Duration.seconds(1.2), e -> {
+			if (curLine == 7) endStory.play();
+		})
+	);
     
     
 	@Override
@@ -53,22 +82,7 @@ public class StoryController implements Initializable {
 		}
 		skipLabel.setOpacity(0);
 		
-		playStory = new Timeline(30,
-			new KeyFrame(Duration.ZERO, e -> {
-				
-				System.out.println(curLine);
-				if (curLine < 7) {
-					curLine++;
-				} else {
-					startGame();
-				}
-			}),
-			new KeyFrame(Duration.millis(100), e -> {
-				fadeInLabel(curLine);
-			}),
-			new KeyFrame(Duration.seconds(1.2), e -> {})
-		);
-		playStory.setCycleCount(9);
+		playStory.setCycleCount(8);
 	}
 	
 	private void fadeInLabel(int index) {
@@ -82,6 +96,14 @@ public class StoryController implements Initializable {
 		Timeline anima = new Timeline(
 			new KeyFrame(Duration.ZERO, new KeyValue(n.opacityProperty(), 0)),
 			new KeyFrame(Duration.seconds(1), new KeyValue(n.opacityProperty(), 1))
+		);
+		anima.play();
+	}
+	
+	private void fadeOut(Node n) {
+		Timeline anima = new Timeline(
+			new KeyFrame(Duration.ZERO, new KeyValue(n.opacityProperty(), 1)),
+			new KeyFrame(Duration.seconds(2), new KeyValue(n.opacityProperty(), 0))
 		);
 		anima.play();
 	}

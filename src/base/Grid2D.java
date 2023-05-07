@@ -1,5 +1,14 @@
 package base;
 
+/*
+
+作為碰撞物 "planets" 的空間分割 ADT
+
+為節省記憶體，將 3D 空間投影到 2D 空間進行儲存。
+
+*/
+
+
 import java.util.ArrayList;
 
 import javafx.geometry.Point3D;

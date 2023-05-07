@@ -17,3 +17,11 @@
 #skiplabel {
 	-fx-text-fill: lightgray;
 }
+
+#upperPane {
+	-fx-background-color: rgba(200, 0, 0, 0.5);
+}
+
+#lowerPane {
+	-fx-background-color: rgba(200, 0, 0, 0.5);
+}

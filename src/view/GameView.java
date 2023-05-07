@@ -1,5 +1,18 @@
 package view;
 
+/*
+
+遊戲的核心 View，功能包括：
+
+	- 遊戲世界/人物的導入
+	- 每一幀的狀態更新與監控
+	- 控制 GameWorld 進行依照角色行動所做出的遊戲世界更新
+
+被 GameScene 監聽，會用 eventPipeline 發送要在 2D 遊戲介面上渲染的事件。
+
+*/
+
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -20,7 +33,6 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
@@ -45,12 +57,15 @@ public class GameView implements View, AnimaNode {
 	// ---- game sound -----
 	private SoundPlayer sound = new SoundPlayer();
 	
+	
+	// -------- Bubbling up to GameScene -------- start
+	
 	// ---- game status ----
 	public GameStatus gameStatus = GameStatus.ALIVE;
 	public DeadType deadReason;
 	public double score = 0;
 	
-	// ---- event pipeline for GameScene Class
+	// ---- event pipeline ---
 	public ArrayList<String> eventPipeline = new ArrayList<>();
 	/*
 	因為 score 顯示、effect 跳出通知都需要從 GameScene 那邊去顯示；
@@ -74,6 +89,9 @@ public class GameView implements View, AnimaNode {
 			回到安全區域內時執行
 			
 	*/
+	
+	// -------- Bubbling up to GameScene -------- end
+	
 	
 	// ----------------- View -----------------
 	

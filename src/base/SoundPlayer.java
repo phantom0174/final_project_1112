@@ -1,5 +1,14 @@
 package base;
 
+/*
+
+用於播放 bgm/sfx 的音樂撥放器。
+
+音量大小與 Config.volume 同步
+
+*/
+
+
 import java.io.File;
 import java.util.HashMap;
 

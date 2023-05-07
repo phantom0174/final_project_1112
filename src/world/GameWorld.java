@@ -1,18 +1,28 @@
 package world;
 
+/*
+
+遊戲主世界的自動化生成，包括：
+
+	1. 實體生成
+	2. 光照生成
+	3. 互動物生成
+
+被動被 GameView 操控。
+
+*/
+
+
 import java.util.ArrayList;
 
 import base.AnimaNode;
-import base.GameStatus;
 import base.Grid2D;
 import base.Utils;
-import finalProject.Snake;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
-import javafx.scene.chart.Axis;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;

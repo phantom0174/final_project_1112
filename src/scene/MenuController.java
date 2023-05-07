@@ -1,5 +1,23 @@
 package scene;
 
+/*
+
+播完故事後進入的主選單，底下包括：
+
+	1. 開始遊戲
+	2. 遊戲設定
+	3. 遊戲規則
+	4. 銘謝列表
+	5. 排行榜
+
+
+此 class 會被重複利用（不會被解構）。無論進入到甚麼選單，
+
+最後都會使用 enterMenuFromEndingGame() 或是 reenterMenu() 重新返回到此介面。
+
+*/
+
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,8 +35,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+
 public class MenuController implements Initializable {
-	private SoundPlayer sound;
 	
 	@FXML
 	public Node title;
@@ -27,7 +45,8 @@ public class MenuController implements Initializable {
 	public Node controlBtn;
 	public Node creditBtn;
 	
-	int playerHightestScore = 0;
+	private SoundPlayer sound;
+	private int playerHightestScore = 0;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

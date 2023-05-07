@@ -1,5 +1,15 @@
 package base;
 
+/*
+
+
+連結到排行榜提供平台 "dreamlo.com" 的簡易 API Wrapper
+
+> source: https://youtu.be/KZuqEyxYZCc
+
+*/
+
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,7 +25,7 @@ import org.json.simple.parser.ParseException;
 import javafx.util.Pair;
 
 
-public class ScoreBoard {
+public class ScoreAPI {
 	public static String privateCode = "***REMOVED***";
 	public static String publicCode = "64523f128f40bb6dec82d4c8";
 	public static String webUrl = "http://dreamlo.com/lb/";

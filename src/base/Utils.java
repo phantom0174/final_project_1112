@@ -1,5 +1,12 @@
 package base;
 
+/*
+
+一些數學工具函數
+
+*/
+
+
 public class Utils {
 	public static double easeInOut(double t) {
 	    return t * t * (3 - 2 * t);

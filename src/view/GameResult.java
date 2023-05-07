@@ -1,5 +1,16 @@
 package view;
 
+/*
+
+遊戲結束介面，遊戲結束時才會啟用並浮到 View 的最上層。功能包括：
+
+	1. 顯示玩家死亡標語 / 通關標語
+	2. 顯示玩家此次遊玩分數
+	3. 顯示回到 Menu 的提示詞
+
+*/
+
+
 import java.io.IOException;
 
 import base.View;
@@ -39,7 +50,7 @@ public class GameResult implements View {
 		s = new SubScene(root, 1080, 600);
 		GameoverController control = loader.getController();
 		control.setScore(finalScore);
-		control.showDeadReason(DeadReasonChooser.choose(deadType));
+		control.showDeadReason(DeadMessage.choose(deadType));
 		
 		isloaded = true;
 	}
@@ -55,15 +66,21 @@ public class GameResult implements View {
 	}
 }
 
+/*
 
-class DeadReasonChooser {
-	private static String[] collisionReasons = {
+依照死亡方式隨機挑選要顯示在遊戲結果畫面最上方的死亡訊息
+> 參考自 Minecraft 機制
+
+*/
+
+class DeadMessage {
+	private static String[] collisionTitles = {
 		"You eat the planet instead of the apples.",
 		"You exploded.",
 		"You were floating with your eyes closed.",
 	};
 	
-	private static String[] outofBoarderReasons = {
+	private static String[] outofBoarderTitles = {
 		"You were killed by cosmic radiation.",
 		"You overheated.",
 		"The air was too thin for you to breathe.",
@@ -72,11 +89,12 @@ class DeadReasonChooser {
 	
 	public static String choose(DeadType dt) {
 		if (dt == DeadType.COLLISION) {
-			int randInd = (int) (Math.random() * collisionReasons.length);
-			return collisionReasons[randInd];
-		} else {
-			int randInd = (int) (Math.random() * outofBoarderReasons.length);
-			return outofBoarderReasons[randInd];
+			int randInd = (int) (Math.random() * collisionTitles.length);
+			return collisionTitles[randInd];
+		} else if (dt == DeadType.OUTOFBOUNDARY) {
+			int randInd = (int) (Math.random() * outofBoarderTitles.length);
+			return outofBoarderTitles[randInd];
 		}
+		return "You were dead.";
 	}
 }

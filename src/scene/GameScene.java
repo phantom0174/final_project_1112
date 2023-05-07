@@ -1,5 +1,18 @@
 package scene;
 
+/*
+
+遊戲主要的 Scene，底下包括：
+
+	1. 3D 主世界視角
+	2. 2D 遊戲介面
+	3. 2D 背景視角
+	4. 2D 遊戲結束介面
+
+同時監聽 1. 中的狀態，向 2. 4. 發出更新訊息。
+
+*/
+
 
 import base.Config;
 import base.GameStatus;
@@ -13,14 +26,6 @@ import view.GameEventView;
 import view.GameView;
 import view.GameResult;
 
-/*
-
-Three steps to activate a view:
-1. load scene entities
-2. attach scene to root
-3. switch to scene
-
-*/
 
 public class GameScene {
 	public Scene s;

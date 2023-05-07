@@ -1,11 +1,23 @@
 package view;
 
+/*
+
+遊戲中的 2D 介面，常駐存在。
+
+GameScene 會依照 GameView 中的狀態進行事件呼叫。
+
+位於 View 的最頂層。
+
+*/
+
+
 import java.io.IOException;
 
 import base.View;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
+
 
 public class GameEventView implements View {
 	private boolean isloaded = false;

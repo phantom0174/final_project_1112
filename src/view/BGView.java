@@ -1,5 +1,12 @@
 package view;
 
+/*
+
+遊戲中的 2D 背景，常駐存在，沒有任何動態功能，位於 View 的最底層。
+
+*/
+
+
 import base.Config;
 import base.View;
 import javafx.scene.Group;

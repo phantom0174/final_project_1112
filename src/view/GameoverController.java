@@ -1,5 +1,11 @@
 package view;
 
+/*
+
+遊戲結束介面的控制器。
+
+*/
+
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

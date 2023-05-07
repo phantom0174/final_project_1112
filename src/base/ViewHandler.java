@@ -1,5 +1,17 @@
 package base;
 
+/*
+
+此為協助單一 Scene 進行底下 Subscene 的 加載/啟用/排序 的簡易類別。
+
+Three steps to activate a view:
+1. load scene entities
+2. attach scene to root
+3. switch to scene
+
+*/
+
+
 import java.util.HashMap;
 
 import javafx.scene.Group;
