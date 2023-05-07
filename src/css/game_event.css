@@ -6,3 +6,10 @@
 	-fx-padding: 10px 10px;
 	-fx-background-radius: 10px;
 }
+
+#eventLabel {
+	-fx-text-fill: red;
+	-fx-background-color: black;
+	-fx-padding: 10px 10px;
+	-fx-background-radius: 10px;
+}
