@@ -26,7 +26,7 @@ public class Config {
 	// 遊戲中所有音效的音量大小，音效應要正規化到 -3 dB
 	public static DoubleProperty volume = new SimpleDoubleProperty(0.5);
 	
-	// 單一比高分只能上傳一次的監控變數
+	// 單一筆高分只能上傳一次的監控變數
 	public static boolean scoreUploadCoda = true;
 	
 	// 遊戲難度的變數與分數加乘
