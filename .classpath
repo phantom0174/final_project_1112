@@ -7,7 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="custom_lib/json-simple-1.1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFx19"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JFX3DModelImporters"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFx19"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

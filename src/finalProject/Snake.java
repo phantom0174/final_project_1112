@@ -31,11 +31,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 
 public class Snake {
@@ -60,9 +64,26 @@ public class Snake {
 	// --------------- logic and initialize ----------------
 	
 	private void initializeHead() {
-		Sphere headCore = new Sphere(bodySize);
+		Group headCore = new Group();
+		Sphere headBall = new Sphere(bodySize);
+		Box tenta1 = new Box(1, 5, 1),
+			tenta2 = new Box(1, 5, 1);
+		
+		tenta1.getTransforms().addAll(
+			new Rotate(-45, Rotate.Z_AXIS),
+			new Translate(-5, -5, 0)
+		);
+		tenta2.getTransforms().addAll(
+			new Rotate(45, Rotate.Z_AXIS),
+			new Translate(5, -5, 0)
+		);
+		
+		headCore.getChildren().addAll(headBall, tenta1, tenta2);
+		
 		PhongMaterial headMaterial = new PhongMaterial(Color.GREEN);
-		headCore.setMaterial(headMaterial);
+		headMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
+		headBall.setMaterial(headMaterial);
+//		headCore.setMaterial(headMaterial);
 		
 		this.head = new Entity(headCore);
 		this.fatherGroup.getChildren().add(this.head.shell);	
@@ -134,39 +155,6 @@ public class Snake {
 			yawIntensity = (short) (intensityDamping / 2);
 	
 	
-	/*
-	
-	--- Temporary variables ---
-	
-	These variables were created to save computing resources.
-	They will be updated before moving the snake head.
-	
-	pitch: current pitch of snakeHead + f(pitch intensity)
-	+ pitchCos, pitchSin
-	
-	yaw: f(yaw intensity)
-	+ yawCos, yawSin
-	
-	*/
-	
-	double pitch, pitchCos, pitchSin,
-		yaw, yawCos, yawSin;
-	
-	public void updateTempRot() {
-		pitch = Math.toRadians(
-			-45 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
-		);
-		pitchCos = Math.cos(pitch);
-		pitchSin = Math.sin(pitch);
-		
-		yaw = Math.toRadians(
-			(45 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
-		);
-		yawCos = Math.cos(yaw);
-		yawSin = Math.sin(yaw);
-	}
-	
-	
 	// Calculate pitch & yaw intensity based on the current status of keyHolds.
 	private boolean wHold = false,
 			sHold = false,
@@ -201,6 +189,38 @@ public class Snake {
         s.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleased);
 	}
 	
+	/*
+	
+	--- Temporary variables ---
+	
+	These variables were created to save computing resources.
+	They will be updated before moving the snake head.
+	
+	pitch: current pitch of snakeHead + f(pitch intensity)
+	+ pitchCos, pitchSin
+	
+	yaw: f(yaw intensity)
+	+ yawCos, yawSin
+	
+	*/
+	
+	double absPitch, absPitchCos, absPitchSin,
+		absYaw, absYawCos, absYawSin;
+	
+	public void updateTempRot() {
+		absPitch = Math.toRadians(
+			-45 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
+		);
+		absPitchCos = Math.cos(absPitch);
+		absPitchSin = Math.sin(absPitch);
+		
+		absYaw = Math.toRadians(
+			(45 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+		);
+		absYawCos = Math.cos(absYaw);
+		absYawSin = Math.sin(absYaw);
+	}
+	
 	public void updateRotIntensity() {
 		boolean pitchAct = wHold ^ sHold;
 		
@@ -216,8 +236,8 @@ public class Snake {
 		
 		boolean yawAct = aHold ^ dHold;
 		if (yawAct) {
-			yawIntensity += aHold ? 1 : 0;
-			yawIntensity -= dHold ? 1 : 0;
+			yawIntensity -= aHold ? 1 : 0;
+			yawIntensity += dHold ? 1 : 0;
 			
 			if (yawIntensity < 0) yawIntensity = 0;
 			else if (yawIntensity > intensityDamping) yawIntensity = intensityDamping;
@@ -226,7 +246,7 @@ public class Snake {
 		}
 	}
 	
-	public Point3D headRotMatrix(Point3D v) {
+	public Point3D relativeRot(Point3D v) {
 		/*
 			M = (x, z, y)
 			[ Cy -Sy  0 ]
@@ -236,7 +256,8 @@ public class Snake {
 			return (M)v
 		*/
 		
-		double yaw = Math.toRadians(head.getRot().getY()),
+		// rotation matrix is in the opposite direction!
+		double yaw = -Math.toRadians(head.getRot().getY()),
 			Cy = Math.cos(yaw),
 			Sy = Math.sin(yaw);
 		
@@ -259,8 +280,10 @@ public class Snake {
 		
 		Point3D headRot = head.getRot();
 		
-		Point3D pitchVetor = headRotMatrix(new Point3D(0, -pitchSin, pitchCos));
-		Point3D yawVector = headRotMatrix(new Point3D(-yawSin, 0, yawCos));
+		Point3D pitchVetor = relativeRot(new Point3D(0, -absPitchSin, absPitchCos));
+		
+		// rotation matrix is in the opposite direction!
+		Point3D yawVector = relativeRot(new Point3D(absYawSin, 0, absYawCos));
 		
 		Point3D directionVector = pitchVetor.add(yawVector)
 				.normalize()
@@ -269,7 +292,7 @@ public class Snake {
 		moveHead(directionVector, isDead);
 		head.setRot(
 			headRot.getX(),
-			(yaw + headRot.getY()) % 360,
+			(absYaw + headRot.getY()) % 360,
 			0
 		);
 		
@@ -281,15 +304,15 @@ public class Snake {
 		
 		*/
 		// ----- camera position update --------
-		Point3D rightVector = headRotMatrix(new Point3D(1, 0, 0));
-		Point3D frontVector = headRotMatrix(new Point3D(0, 0, 1));
+		Point3D rightVector = relativeRot(new Point3D(1, 0, 0));
+		Point3D frontVector = relativeRot(new Point3D(0, 0, 1));
 		Point3D camPosVecor = rightVector.crossProduct(frontVector)
 				.normalize()
 				.multiply(15 * bodySize)
 				.subtract(frontVector.normalize().multiply(40 * bodySize));
 		
 		camera.setPos(head.getPos().add(camPosVecor));
-		camera.setRot(-20, -headRot.getY(), 0);
+		camera.setRot(-20, headRot.getY(), 0);
 	}
 	
 	public void moveHead(Point3D pos_v, boolean isDead) {

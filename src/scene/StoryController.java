@@ -121,7 +121,7 @@ public class StoryController implements Initializable {
 	
 	private void addSkipKey() {
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-			if (e.getCode() != KeyCode.ENTER) return;
+			if (e.getCode() != KeyCode.SPACE) return;
 			
 			playStory.stop();
 			startGame();

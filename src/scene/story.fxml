@@ -22,6 +22,6 @@
       <Label fx:id="line6" text="因此，你將穿梭於這顆星球周圍，" translateY="75.0" />
       <Label fx:id="line7" text="吃下每一顆讓你為之動心的蘋果" translateY="125.0" />
       <Label fx:id="line8" text="好獲取足夠的能量，見識這旅途的終點。" translateY="175.0" />
-      <Label id="#skiplabel" fx:id="skipLabel" style="-fx-text-fill: gray;" text="Press ENTER to skip" translateY="250.0" />
+      <Label id="#skiplabel" fx:id="skipLabel" style="-fx-text-fill: gray;" text="Press SPACE to skip" translateY="250.0" />
    </children>
 </StackPane>

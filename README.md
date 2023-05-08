@@ -14,6 +14,14 @@
     --module-path "<javafx lib path>" --add-modules javafx.controls,javafx.fxml,javafx.media
     ```
 
+## Library Config
+
+1. jafafx
+
+2. JFX3DModelImporters
+    請將 lib 底下的 `JFX3DModelImporters` 複製到電腦，並將其打包成 User Library 之後加進 Class path。
+    > 在 `window/preference/user library`
+
 ## 操控
 
 ```
