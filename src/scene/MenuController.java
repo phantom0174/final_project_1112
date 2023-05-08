@@ -48,6 +48,8 @@ public class MenuController implements Initializable {
 	private SoundPlayer sound;
 	private int playerHightestScore = 0;
 	
+	public Boolean easyRBSelect;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		sound = new SoundPlayer();

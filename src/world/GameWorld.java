@@ -17,6 +17,8 @@ package world;
 import java.util.ArrayList;
 
 import base.AnimaNode;
+import base.Config;
+import base.GameDiff;
 import base.Grid2D;
 import base.ModelLoader;
 import base.Utils;
@@ -61,7 +63,18 @@ public class GameWorld extends Group implements AnimaNode {
 	public void setupObjects() {
 		
 //		隨機生成星球
-		for (int i = 0; i < 100; i++) {
+		int planetNum;
+		if (Config.difficulty == GameDiff.EASY) {
+			planetNum = 50;
+		} else if (Config.difficulty == GameDiff.MEDIUM) {
+			planetNum = 100;
+		} else if (Config.difficulty == GameDiff.HARD) {
+			planetNum = 300;
+		} else {
+			planetNum = 600;
+		}
+		
+		for (int i = 0; i < planetNum; i++) {
 			Sphere planet = createPlanet();
 			planetGrid.insert(planet);
 			this.getChildren().add(planet);
@@ -75,7 +88,7 @@ public class GameWorld extends Group implements AnimaNode {
 			appleList.add(apple);
 			this.getChildren().add(apple);
 		}
-//		
+	
 //		隨機生成道具
 		for (int i = 0; i < 30; i++) {
 			Group props = createProps();
@@ -140,39 +153,46 @@ public class GameWorld extends Group implements AnimaNode {
 	}
 
 	public Sphere createPlanet() {
-		double x = (double) (Math.random() - 0.5) * 1000;
-		double y = (double) (Math.random() - 0.5) * 1000;
-		double z = (double) (Math.random() - 0.5) * 1000;
-		double r = (double) (Math.random() + 1) / 2 * 30;
-		double red = (double) Math.random() / 2 + 0.5;
-		double green = (double) Math.random() / 2 + 0.5;
-		double blue = (double) Math.random() / 2 + 0.5;
-		double p = (double) Math.random();
+		boolean createSuccess = false;
+		while (!createSuccess) {
+			double x = (double) (Math.random() - 0.5) * 1000;
+			double y = (double) (Math.random() - 0.5) * 1000;
+			double z = (double) (Math.random() - 0.5) * 1000;
+			double r = (double) (Math.random() + 1) / 2 * 30;
+			double red = (double) Math.random() / 2 + 0.5;
+			double green = (double) Math.random() / 2 + 0.5;
+			double blue = (double) Math.random() / 2 + 0.5;
+			double p = (double) Math.random();
+			
+			if (coveredByPlanet(new Point3D(x, y, z), r)) continue;
+			createSuccess = true;
+			
+			if (Math.abs(x) < 100)
+				x += 100 * Utils.sign((short) x);
+			if (Math.abs(y) < 100)
+				y += 100 * Utils.sign((short) y);
+			if (Math.abs(z) < 100)
+				z += 100 * Utils.sign((short) z);
 
-		if (Math.abs(x) < 100)
-			x += 100 * Utils.sign((short) x);
-		if (Math.abs(y) < 100)
-			y += 100 * Utils.sign((short) y);
-		if (Math.abs(z) < 100)
-			z += 100 * Utils.sign((short) z);
+			Sphere s = new Sphere(r);
+			PhongMaterial m = new PhongMaterial();
+			m.setDiffuseColor(Color.color(red, green, blue));
+			if (p > 0.5) {
+				m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
+			} else if (p <= 0.5) {
+				m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet2.jpg")));
+			}
 
-		Sphere s = new Sphere(r);
-		PhongMaterial m = new PhongMaterial();
-		m.setDiffuseColor(Color.color(red, green, blue));
-		if (p > 0.5) {
-			m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
-		} else if (p <= 0.5) {
-			m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet2.jpg")));
+			s.setMaterial(m);
+			
+			// 因後續獲取座標時會有問題，故不使用 .getTransforms.addAll(...) 
+			s.setTranslateX(x);
+			s.setTranslateY(y);
+			s.setTranslateZ(z);
+
+			return s;
 		}
-
-		s.setMaterial(m);
-		
-		// 因後續獲取座標時會有問題，故不使用 .getTransforms.addAll(...) 
-		s.setTranslateX(x);
-		s.setTranslateY(y);
-		s.setTranslateZ(z);
-
-		return s;
+		return null;
 	}
 	
 	PhongMaterial ps = new PhongMaterial();
