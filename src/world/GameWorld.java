@@ -1,5 +1,6 @@
 package world;
 
+
 /*
 
 遊戲主世界的自動化生成，包括：
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import base.AnimaNode;
 import base.Grid2D;
+import base.ModelLoader;
 import base.Utils;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
@@ -27,9 +29,11 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+
 
 public class GameWorld extends Group implements AnimaNode {
 	public Grid2D<Sphere> planetGrid;
@@ -55,6 +59,7 @@ public class GameWorld extends Group implements AnimaNode {
 	public ArrayList<AnimationTimer> spinningProps = new ArrayList<>();
 
 	public void setupObjects() {
+		
 //		隨機生成星球
 		for (int i = 0; i < 100; i++) {
 			Sphere planet = createPlanet();
@@ -63,6 +68,8 @@ public class GameWorld extends Group implements AnimaNode {
 		}
 
 //		隨機生成蘋果
+		
+		setAppleModel();
 		for (int i = 0; i < 200; i++) {
 			Group apple = createApple();
 			appleList.add(apple);
@@ -76,6 +83,7 @@ public class GameWorld extends Group implements AnimaNode {
 			this.getChildren().add(props);
 		}
 	}
+	MeshView[] mesh;
 
 	public void setupLights() {
 		PointLight pl = new PointLight();
@@ -166,10 +174,27 @@ public class GameWorld extends Group implements AnimaNode {
 
 		return s;
 	}
-
+	
+	PhongMaterial ps = new PhongMaterial();
+    
+	/*
+	
+	大小對應：
+		radius: 10 -> setScale(0.27)
+		
+	中心點調整：
+		yTrans += 5
+	
+	*/
+	
+	private ModelLoader appleModel = new ModelLoader("apple");
+	
+	private void setAppleModel() {
+		appleModel.setDiff("diffuse.png");
+		appleModel.setSpec("specular.png");
+	}
+	
 	public Group createApple() {
-		Group apple = new Group();
-
 		boolean createSuccess = false;
 		while (!createSuccess) {
 			double x = (Math.random() - 0.5) * 1000;
@@ -179,23 +204,25 @@ public class GameWorld extends Group implements AnimaNode {
 			
 			if (coveredByPlanet(new Point3D(x, y, z), 20)) continue;
 			createSuccess = true;
+		    
+			Group appleCore = appleModel.getMesh();
+		    
+		    appleCore.setScaleX(0.27);
+		    appleCore.setScaleY(0.27);
+		    appleCore.setScaleZ(0.27);
+		    
+		    appleCore.setTranslateY(5);
+		    
+		    Group appleShell = new Group();
 			
-			Sphere s = new Sphere(10);
-			PhongMaterial ps = new PhongMaterial(Color.RED);
-			s.setMaterial(ps);
-			
-			Box b = new Box(4, 10, 4);
-			PhongMaterial pb = new PhongMaterial(Color.GREEN);
-			b.setMaterial(pb);
-			b.setTranslateY(-12);
-			
-			apple.getChildren().addAll(s, b);
-			apple.setTranslateX(x);
-			apple.setTranslateY(y);
-			apple.setTranslateZ(z);
+		    appleShell.getChildren().addAll(appleCore);
+		    appleShell.setTranslateX(x);
+		    appleShell.setTranslateY(y);
+		    appleShell.setTranslateZ(z);
+		    
+		    return appleShell;
 		}
-
-		return apple;
+		return null;
 	}
 
 	public Group createProps() {
