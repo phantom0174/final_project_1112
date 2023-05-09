@@ -163,7 +163,7 @@ public class GameView implements View, AnimaNode {
 	
 	private void setupSnake() {
 		snake.bindMovements(s);
-		snake.moveHead(new Point3D(0, -10, -200), false);
+		snake.moveHead(new Point3D(0, 0, -100), false);
 		for (int i = 0; i < 5; i++) snake.generateBody();
 	}
 	

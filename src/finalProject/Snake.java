@@ -31,6 +31,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -59,6 +60,7 @@ public class Snake {
 		moveSpeed.bind(Config.snakeSpeed);
 		
 		initializeHead();
+		setInitialCameraPos();
 	}
 	
 	// --------------- logic and initialize ----------------
@@ -107,6 +109,13 @@ public class Snake {
 		this.bodies.add(body);
 		
 		this.fatherGroup.getChildren().add(body.shell);
+	}
+	
+	public void setInitialCameraPos() {
+		Point3D camPosVecor = new Point3D(0, -15 * bodySize, -40 * bodySize);
+		
+		camera.setPos(head.getPos().add(camPosVecor));
+		camera.setRot(-20, 0, 0);
 	}
 	
 	// Need to call this function before moving the snake's head position!

@@ -1,6 +1,8 @@
 package world;
 
 
+import java.math.MathContext;
+
 /*
 
 遊戲主世界的自動化生成，包括：
@@ -58,6 +60,7 @@ public class GameWorld extends Group implements AnimaNode {
 	
 	// ----------------- animations --------------
 	public AnimationTimer spinningPointLight;
+	public ArrayList<AnimationTimer> spinningApple = new ArrayList<>();
 	public ArrayList<AnimationTimer> spinningProps = new ArrayList<>();
 
 	public void setupObjects() {
@@ -104,12 +107,19 @@ public class GameWorld extends Group implements AnimaNode {
 		
 		// 隨機生成星星（點照明）
 		setStarModel();
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 10; i++) {
 			this.getChildren().addAll(createStars());
 		}
 	}
 
 	public void setupLights() {
+//		PointLight pl = new PointLight();
+//		pl.setColor(Color.WHITE);
+//		pl.getTransforms().add(new Translate(-500, 0, 0));
+//		this.getChildren().add(pl);
+//		
+		
+		/*
 		PointLight pl = new PointLight();
 		pl.setColor(Color.WHITE);
 		pl.getTransforms().add(new Translate(0, 0, -400));
@@ -141,6 +151,7 @@ public class GameWorld extends Group implements AnimaNode {
 				s2.setRotate(s2.getRotate() + 1);
 			}
 		};
+		*/
 	}
 
 	public void setBoxMaterial(Box b, Color c) {
@@ -150,15 +161,21 @@ public class GameWorld extends Group implements AnimaNode {
 	}
 
 	public void startAnimation() {
-		spinningPointLight.start();
+//		spinningPointLight.start();
 		for (AnimationTimer a: spinningProps) {
+			a.start();
+		}
+		for (AnimationTimer a: spinningApple) {
 			a.start();
 		}
 	}
 
 	public void stopAnimation() {
-		spinningPointLight.start();
+//		spinningPointLight.start();
 		for (AnimationTimer a: spinningProps) {
+			a.stop();
+		}
+		for (AnimationTimer a: spinningApple) {
 			a.stop();
 		}
 	}
@@ -183,12 +200,13 @@ public class GameWorld extends Group implements AnimaNode {
 				z += 100 * Utils.sign((short) z);
 			
 			
-			if (coveredByPlanet(new Point3D(x, y, z), r)) continue;
+			if (collisionWithPlanet(new Point3D(x, y, z), r)) continue;
 			createSuccess = true;
 
 			Sphere s = new Sphere(r);
 			PhongMaterial m = new PhongMaterial();
 			m.setDiffuseColor(Color.color(red, green, blue));
+//			m.setSpecularColor(Color.color(red, green, blue));
 			if (p > 0.5) {
 				m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
 			} else if (p <= 0.5) {
@@ -233,8 +251,11 @@ public class GameWorld extends Group implements AnimaNode {
 			double y = (Math.random() - 0.5) * 1000;
 			double z = (Math.random() - 0.5) * 1000;
 			
-			
-			if (coveredByPlanet(new Point3D(x, y, z), 20)) continue;
+			Point3D pos = new Point3D(x, y, z);
+			if (
+				collisionWithPlanet(pos, 20)
+				|| collisionWithGroup(appleList, pos, 20 + 10) // 10 is the apple size
+			) continue;
 			createSuccess = true;
 		    
 			Group appleCore = appleModel.getMesh();
@@ -244,6 +265,19 @@ public class GameWorld extends Group implements AnimaNode {
 		    appleCore.setScaleZ(0.27);
 		    
 		    appleCore.setTranslateY(5);
+		    
+		    
+		    // random rotation
+		    Point3D randAxis = new Point3D(Math.random(), Math.random(), Math.random());
+		    appleCore.setRotationAxis(randAxis);
+		    
+		    double spinningSpeed = Math.random() * 2 + 1;
+		    spinningApple.add(new AnimationTimer() {
+				@Override
+				public void handle(long arg0) {
+					appleCore.setRotate(appleCore.getRotate() + spinningSpeed);
+				}
+			});
 		    
 		    Group appleShell = new Group();
 			
@@ -263,8 +297,8 @@ public class GameWorld extends Group implements AnimaNode {
 	private void setStarModel() {
 		starModel.material.setDiffuseColor(Color.WHITE);
 		starModel.material.setSpecularColor(Color.WHITE);
-		starModel.material.setSpecularMap(new Image(getClass().getResourceAsStream("/resources/materials/white.jpg")));
-		starModel.material.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/white.jpg")));
+//		starModel.material.setSpecularMap(new Image(getClass().getResourceAsStream("/resources/materials/white.jpg")));
+//		starModel.material.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/white.jpg")));
 	}
 	
 	public Node[] createStars() {
@@ -272,14 +306,20 @@ public class GameWorld extends Group implements AnimaNode {
 		double y = (Math.random() - 0.5) * 2000;
 		double z = (Math.random() - 0.5) * 2000;
 		
-		PointLight starLight = new PointLight(Color.rgb(150, 150, 150));
+		double intensity = Math.random() / 3 + 0.2;
+		
+		PointLight starLight = new PointLight(Color.color(intensity, intensity, intensity));
 	    starLight.getTransforms().add(new Translate(x, y, z));
 	    
 		Group starCore = starModel.getMesh();
 		
-		starCore.setScaleX(0.5);
-		starCore.setScaleY(0.5);
-		starCore.setScaleZ(0.5);
+		starCore.setScaleX(0.2);
+		starCore.setScaleY(0.2);
+		starCore.setScaleZ(0.2);
+		
+		Point3D randAxis = new Point3D(Math.random(), Math.random(), Math.random());
+		starCore.setRotationAxis(randAxis);
+		starCore.setRotate(Math.random() * 360);
 		
 		starCore.getTransforms().addAll(starLight.getTransforms());
 	    
@@ -302,7 +342,7 @@ public class GameWorld extends Group implements AnimaNode {
 		PhongMaterial propMaterial = new PhongMaterial();
 		propMaterial.setDiffuseColor(Color.WHITE);
 		propMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box.png")));
-		propMaterial.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box_lumi.png")));
+//		propMaterial.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box_lumi.png")));
 //		propMaterial.setSpecularColor(Color.WHITE);
 //		propMaterial.setSpecularPower(100);
 		
@@ -313,7 +353,12 @@ public class GameWorld extends Group implements AnimaNode {
 			double z = (double) (Math.random() - 0.5) * 1000;
 			
 			
-			if (coveredByPlanet(new Point3D(x, y, z), 40)) continue;
+			Point3D pos = new Point3D(x, y, z);
+			if (
+				collisionWithPlanet(pos, 40)
+				|| collisionWithGroup(appleList, pos, 50)
+				|| collisionWithGroup(propList, pos, 200)
+			) continue;
 			createSuccess = true;
 			
 			Box prop = new Box(20, 20, 20);
@@ -342,7 +387,7 @@ public class GameWorld extends Group implements AnimaNode {
 		return g;
 	}
 	
-	public boolean coveredByPlanet(Point3D p, double radius) {
+	public boolean collisionWithPlanet(Point3D p, double radius) {
 		for (ArrayList<Sphere> list: planetGrid.query(p)) {
 			for (Sphere planet: list) {
 				double x = planet.getTranslateX(),
@@ -353,6 +398,20 @@ public class GameWorld extends Group implements AnimaNode {
 				
 				if (dist - radius - planet.getRadius() < 0) return true;
 			}
+		}
+		return false;
+	}
+	
+	public boolean collisionWithGroup(ArrayList<Group> list, Point3D p, double radius) {
+		for (Group g: list) {
+			double x = g.getTranslateX(),
+					y = g.getTranslateY(),
+					z = g.getTranslateZ();
+			
+			double dist = p.subtract(new Point3D(x, y, z)).magnitude();
+			
+			// 10 is the apple radius
+			if (dist < radius) return true;
 		}
 		return false;
 	}
