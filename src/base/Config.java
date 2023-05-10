@@ -33,5 +33,5 @@ public class Config {
 	public static GameDiff difficulty = GameDiff.EASY;
 	public static double scoreMultiplier = 1;
 	
-	
+	public static SnakeTextureType snakeTexture = SnakeTextureType.RED;
 }

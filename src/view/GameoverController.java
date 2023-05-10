@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class GameoverController implements Initializable {
@@ -44,6 +45,9 @@ public class GameoverController implements Initializable {
 	public void showCoverPane() {
 		Timeline anima = new Timeline(30,
 			new KeyFrame(Duration.ZERO, new KeyValue(coverPane.opacityProperty(), 0)),
+			new KeyFrame(Duration.seconds(1.5), e -> {
+				showScore.setTextFill(Color.WHITE);
+			}),
 			new KeyFrame(Duration.seconds(3), new KeyValue(coverPane.opacityProperty(), 1))
 		);
 		anima.play();

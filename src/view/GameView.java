@@ -184,7 +184,7 @@ public class GameView implements View, AnimaNode {
 		
 		scoreAdder = new Timeline(10,
 			new KeyFrame(Duration.seconds(1), e -> {
-				this.score -= 0.5;
+				this.score -= 0.25;
 				eventPipeline.add("updateScore");
 			}
 		));

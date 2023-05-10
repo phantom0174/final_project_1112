@@ -55,6 +55,8 @@ public class Snake {
 	
 	public PointLight snakeLight = new PointLight(Color.WHITE);
 	
+	public SnakeTexture texture = new SnakeTexture();
+	
 	public Snake(Group fatherGroup, SnakeCamera mainCam) {
 		this.fatherGroup = fatherGroup;
 		this.camera = mainCam;
@@ -75,20 +77,19 @@ public class Snake {
 			tenta2 = new Box(1, 5, 1);
 		
 		tenta1.getTransforms().addAll(
-			new Rotate(-45, Rotate.Z_AXIS),
-			new Translate(-5, -5, 0)
+			new Rotate(-10, Rotate.Z_AXIS),
+			new Translate(-1, -5, 0)
 		);
 		tenta2.getTransforms().addAll(
-			new Rotate(45, Rotate.Z_AXIS),
-			new Translate(5, -5, 0)
+			new Rotate(10, Rotate.Z_AXIS),
+			new Translate(1, -5, 0)
 		);
+		tenta1.setMaterial(texture.bodyMat.mat);
+		tenta2.setMaterial(texture.bodyMat.mat);
+		
+		headBall.setMaterial(texture.headMat.mat);
 		
 		headCore.getChildren().addAll(headBall, tenta1, tenta2);
-		
-		PhongMaterial headMaterial = new PhongMaterial(Color.GREEN);
-		headMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
-		headBall.setMaterial(headMaterial);
-//		headCore.setMaterial(headMaterial);
 		
 		this.head = new Entity(headCore);
 		this.fatherGroup.getChildren().add(this.head.shell);	
@@ -96,11 +97,10 @@ public class Snake {
 	
 	private void initializeLight() {
 		double intensity = 1;
-		snakeLight.setLightOn(true);
 		
-		snakeLight.setConstantAttenuation((1 / intensity));
+		snakeLight.setConstantAttenuation(1 / intensity);
 		snakeLight.setLinearAttenuation((1 / intensity) / 1000);
-		snakeLight.setQuadraticAttenuation((1 / intensity) / 20000);
+//		snakeLight.setQuadraticAttenuation((1 / intensity) / 20000);
 		
 		
 		Point3D lightPosVecor = new Point3D(0, 0, 5 * bodySize)
@@ -113,8 +113,7 @@ public class Snake {
 	
 	public void generateBody() {
 		Sphere bodyCore = new Sphere(bodySize);
-		PhongMaterial headMaterial = new PhongMaterial(Color.GREENYELLOW);
-		bodyCore.setMaterial(headMaterial);
+		bodyCore.setMaterial(texture.bodyMat.mat);
 		
 		Entity body = new Entity(bodyCore);
 		
@@ -183,7 +182,7 @@ public class Snake {
 	
 	// --------------- controls and animations -------------------
 	public DoubleProperty moveSpeed = new SimpleDoubleProperty(1);
-	public short intensityDamping = 30;
+	public short intensityDamping = 40;
 	
 	/*
 	
@@ -250,13 +249,13 @@ public class Snake {
 	
 	public void updateTempRot() {
 		absPitch = Math.toRadians(
-			-45 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
+			-55 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
 		);
 		absPitchCos = Math.cos(absPitch);
 		absPitchSin = Math.sin(absPitch);
 		
 		absYaw = Math.toRadians(
-			(45 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+			(60 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
 		);
 		absYawCos = Math.cos(absYaw);
 		absYawSin = Math.sin(absYaw);

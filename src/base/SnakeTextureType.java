@@ -1,7 +1,6 @@
 package base;
 
 public enum SnakeTextureType {
-	DEFAULT,
 	RED,
 	GREEN,
 	BLUE,
