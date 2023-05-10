@@ -106,13 +106,13 @@ public class ScoreboardController implements Initializable {
 			return;
 		}
 		
-		if (highestScore.equals("0")) {
-			showAlert(
-				"Uplaod Score Error | Final Project",
-				"Cannot upload a score of score 0!"
-			);
-			return;
-		}
+//		if (highestScore.equals("0")) {
+//			showAlert(
+//				"Uplaod Score Error | Final Project",
+//				"Cannot upload a score of score 0!"
+//			);
+//			return;
+//		}
 		
 		boolean uploadStatus = scoreHandler.uploadScore(name, highestScore);
 		if (!uploadStatus) {

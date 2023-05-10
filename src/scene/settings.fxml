@@ -33,14 +33,19 @@
                         </Label>
                      </children>
                   </Group>
-                  <RadioButton fx:id="mediumRB" mnemonicParsing="false" onAction="#setMedium" selected="true" text="Medium" translateX="-50.0">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="DifficultyRB" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="easyRB" mnemonicParsing="false" onAction="#setEasy" text="Easy" toggleGroup="$DifficultyRB" translateX="-150.0" />
-                  <RadioButton fx:id="hardRB" mnemonicParsing="false" onAction="#setHard" text="Hard" toggleGroup="$DifficultyRB" translateX="50.0" />
-                  <RadioButton fx:id="hellRB" mnemonicParsing="false" onAction="#setHell" text="Hell" toggleGroup="$DifficultyRB" translateX="150.0" />
+                  <Group translateY="40.0">
+                     <children>
+                        <Label layoutX="105.0" layoutY="-10.0" text="Game Difficulty" translateY="-30.0" />
+                        <RadioButton fx:id="easyRB" mnemonicParsing="false" onAction="#setEasy" text="Easy" translateX="-40.0">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="DifficultyRB" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="mediumRB" layoutX="88.5714225769043" mnemonicParsing="false" onAction="#setMedium" selected="true" text="Medium" toggleGroup="$DifficultyRB" translateX="-10.0" />
+                        <RadioButton fx:id="hellRB" layoutX="301.14284896850586" mnemonicParsing="false" onAction="#setHell" text="Hell" toggleGroup="$DifficultyRB" translateX="40.0" />
+                        <RadioButton fx:id="hardRB" layoutX="198.28570175170898" mnemonicParsing="false" onAction="#setHard" text="Hard" toggleGroup="$DifficultyRB" translateX="10.0" />
+                     </children>
+                  </Group>
                </children>
             </StackPane>
          </center>

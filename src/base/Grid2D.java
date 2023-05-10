@@ -22,10 +22,10 @@ public class Grid2D<T> {
 	public int maxIndex;
 	public double offset;
 	
-	public Grid2D(double dim, double spaceWidth, double offset) {
+	public Grid2D(double dim, double spaceWidth) {
 		this.dimension = dim;
 		this.spaceWidth = spaceWidth;
-		this.offset = offset;
+		this.offset = spaceWidth / 2;
 		
 		this.maxIndex = (int) (spaceWidth / dim) - 1;
 		this.grid = new ArrayList[maxIndex + 1][maxIndex + 1];

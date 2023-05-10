@@ -30,6 +30,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import javafx.scene.PointLight;
 import javafx.scene.SubScene;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
@@ -52,6 +53,7 @@ public class Snake {
 	
 	public final double bodySize = 5;
 	
+	public PointLight snakeLight = new PointLight(Color.WHITE);
 	
 	public Snake(Group fatherGroup, SnakeCamera mainCam) {
 		this.fatherGroup = fatherGroup;
@@ -60,6 +62,7 @@ public class Snake {
 		moveSpeed.bind(Config.snakeSpeed);
 		
 		initializeHead();
+		initializeLight();
 		setInitialCameraPos();
 	}
 	
@@ -91,6 +94,23 @@ public class Snake {
 		this.fatherGroup.getChildren().add(this.head.shell);	
 	}
 	
+	private void initializeLight() {
+		double intensity = 1;
+		snakeLight.setLightOn(true);
+		
+		snakeLight.setConstantAttenuation((1 / intensity));
+		snakeLight.setLinearAttenuation((1 / intensity) / 1000);
+		snakeLight.setQuadraticAttenuation((1 / intensity) / 20000);
+		
+		
+		Point3D lightPosVecor = new Point3D(0, 0, 5 * bodySize)
+				.add(new Point3D(0, 0, -100)); // head initial position
+		
+		snakeLight.setTranslateX(lightPosVecor.getX());
+		snakeLight.setTranslateY(lightPosVecor.getY());
+		snakeLight.setTranslateZ(lightPosVecor.getZ());
+	}
+	
 	public void generateBody() {
 		Sphere bodyCore = new Sphere(bodySize);
 		PhongMaterial headMaterial = new PhongMaterial(Color.GREENYELLOW);
@@ -111,11 +131,23 @@ public class Snake {
 		this.fatherGroup.getChildren().add(body.shell);
 	}
 	
+	public void alignBodies() {
+		Point3D prevPos = head.getPos();
+		
+		for (Entity e: bodies) {
+			e.setPos(prevPos.add(new Point3D(0, 0, -2 * bodySize)));
+			prevPos = e.getPos();
+		}
+	}
+	
 	public void setInitialCameraPos() {
-		Point3D camPosVecor = new Point3D(0, -15 * bodySize, -40 * bodySize);
+//		Point3D camPosVecor = new Point3D(0, -15 * bodySize, -40 * bodySize);
+		
+		Point3D camPosVecor = new Point3D(0, 0, 50);
 		
 		camera.setPos(head.getPos().add(camPosVecor));
-		camera.setRot(-20, 0, 0);
+//		camera.setRot(-20, 0, 0);
+		camera.setRot(0, -180, 0);
 	}
 	
 	// Need to call this function before moving the snake's head position!
@@ -318,10 +350,20 @@ public class Snake {
 		Point3D camPosVecor = rightVector.crossProduct(frontVector)
 				.normalize()
 				.multiply(15 * bodySize)
-				.subtract(frontVector.normalize().multiply(40 * bodySize));
+				.subtract(frontVector.normalize().multiply(40 * bodySize))
+				.add(head.getPos());
 		
-		camera.setPos(head.getPos().add(camPosVecor));
+		camera.setPos(camPosVecor);
 		camera.setRot(-20, headRot.getY(), 0);
+		
+		
+		// ----- snakeLight position update -----
+		Point3D lightPosVecor = new Point3D(0, -5 * bodySize, 0).add(frontVector.multiply(5))
+				.add(head.getPos());
+		
+		snakeLight.setTranslateX(lightPosVecor.getX());
+		snakeLight.setTranslateY(lightPosVecor.getY());
+		snakeLight.setTranslateZ(lightPosVecor.getZ());
 	}
 	
 	public void moveHead(Point3D pos_v, boolean isDead) {

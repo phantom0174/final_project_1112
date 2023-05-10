@@ -1,8 +1,6 @@
 package world;
 
 
-import java.math.MathContext;
-
 /*
 
 遊戲主世界的自動化生成，包括：
@@ -90,7 +88,7 @@ public class GameWorld extends Group implements AnimaNode {
 		// 隨機生成蘋果
 		
 		setAppleModel();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 12; i++) {
 			Group apple = createApple();
 			appleList.add(apple);
 			this.getChildren().add(apple);
@@ -106,16 +104,19 @@ public class GameWorld extends Group implements AnimaNode {
 		}
 		
 		// 隨機生成星星（點照明）
-		setStarModel();
-		for (int i = 0; i < 10; i++) {
-			this.getChildren().addAll(createStars());
-		}
+//		setStarModel();
+//		for (int i = 0; i < 3; i++) {
+//			this.getChildren().add(createStars());
+//		}
 	}
 
 	public void setupLights() {
+		this.getChildren().add(ambLight);
+		
 //		PointLight pl = new PointLight();
 //		pl.setColor(Color.WHITE);
-//		pl.getTransforms().add(new Translate(-500, 0, 0));
+//		pl.getTransforms().add(new Translate(-10000, 0, 0));
+//		pl.setLinearAttenuation(1 / 1000);
 //		this.getChildren().add(pl);
 //		
 		
@@ -202,11 +203,14 @@ public class GameWorld extends Group implements AnimaNode {
 			
 			if (collisionWithPlanet(new Point3D(x, y, z), r)) continue;
 			createSuccess = true;
+			
 
 			Sphere s = new Sphere(r);
 			PhongMaterial m = new PhongMaterial();
 			m.setDiffuseColor(Color.color(red, green, blue));
-//			m.setSpecularColor(Color.color(red, green, blue));
+//			m.setSpecularPower(4);
+			
+//			m.setSpecularColor(Color.GRAY);
 			if (p > 0.5) {
 				m.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/planet1.jpg")));
 			} else if (p <= 0.5) {
@@ -242,6 +246,7 @@ public class GameWorld extends Group implements AnimaNode {
 	private void setAppleModel() {
 		appleModel.setDiff("diffuse.png");
 		appleModel.setSpec("specular.png");
+		appleModel.material.setSpecularPower(128);
 	}
 	
 	public Group createApple() {
@@ -297,18 +302,20 @@ public class GameWorld extends Group implements AnimaNode {
 	private void setStarModel() {
 		starModel.material.setDiffuseColor(Color.WHITE);
 		starModel.material.setSpecularColor(Color.WHITE);
-//		starModel.material.setSpecularMap(new Image(getClass().getResourceAsStream("/resources/materials/white.jpg")));
-//		starModel.material.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/white.jpg")));
 	}
 	
-	public Node[] createStars() {
+	public Group createStars() {
 		double x = (Math.random() - 0.5) * 2000;
 		double y = (Math.random() - 0.5) * 2000;
 		double z = (Math.random() - 0.5) * 2000;
 		
-		double intensity = Math.random() / 3 + 0.2;
+		PointLight starLight = new PointLight(Color.WHITE);
 		
-		PointLight starLight = new PointLight(Color.color(intensity, intensity, intensity));
+		double intensity = 5;
+		
+		starLight.setConstantAttenuation(1 / intensity);
+		starLight.setQuadraticAttenuation((1 / intensity) / 10000);
+		
 	    starLight.getTransforms().add(new Translate(x, y, z));
 	    
 		Group starCore = starModel.getMesh();
@@ -323,17 +330,10 @@ public class GameWorld extends Group implements AnimaNode {
 		
 		starCore.getTransforms().addAll(starLight.getTransforms());
 	    
-//	    Group starShell = new Group();
-//		
-//	    starShell.getChildren().addAll(starCore, starLight);
-////	    starShell.getTransforms().add(new Translate(x, y, z));
-//	    
-//	    return starShell;
-		
-		return new Node[] {
-			starLight,
-			starCore
-		};
+		// packaging
+		Group starEntity = new Group();
+		starEntity.getChildren().addAll(starLight, starCore);
+		return starEntity;
 	}
 
 	public Group createProps() {
@@ -342,6 +342,10 @@ public class GameWorld extends Group implements AnimaNode {
 		PhongMaterial propMaterial = new PhongMaterial();
 		propMaterial.setDiffuseColor(Color.WHITE);
 		propMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box.png")));
+		propMaterial.setSpecularColor(Color.YELLOW);
+//		propMaterial.setSpecularPower(256);
+		
+		
 //		propMaterial.setSelfIlluminationMap(new Image(getClass().getResourceAsStream("/resources/materials/lucky_box_lumi.png")));
 //		propMaterial.setSpecularColor(Color.WHITE);
 //		propMaterial.setSpecularPower(100);

@@ -109,6 +109,7 @@ public class MenuController implements Initializable {
 		
 		stage.setScene(gameScene.s);
 		stage.setTitle("finalProject | Game");
+		gameScene.startGame();
 	}
 	
 	public void showSettings(ActionEvent e) throws IOException {

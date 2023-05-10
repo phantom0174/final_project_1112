@@ -44,7 +44,10 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="nameField" alignment="CENTER" prefWidth="100.0" promptText="Your name" translateY="75.0" StackPane.alignment="CENTER" />
+                  <TextField fx:id="nameField" alignment="CENTER" prefWidth="100.0" promptText="Your name" translateY="75.0" StackPane.alignment="CENTER">
+                     <font>
+                        <Font name="Yu Mincho Regular" size="12.0" />
+                     </font></TextField>
                   <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadScore" text="Upload Score" translateY="150.0" />
                </children>
             </StackPane>

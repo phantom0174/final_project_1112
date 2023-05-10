@@ -9,5 +9,6 @@ package base;
 
 public enum GameStatus {
 	ALIVE,
-	DEAD
+	DEAD,
+	WIN
 }

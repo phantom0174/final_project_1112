@@ -19,8 +19,11 @@ import base.GameStatus;
 import base.SoundPlayer;
 import base.ViewHandler;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.util.Duration;
 import view.BGView;
 import view.GameEventView;
 import view.GameView;
@@ -37,7 +40,6 @@ public class GameScene {
 	
 	// ---- sounds -----
 	private SoundPlayer sound = new SoundPlayer();
-	private String bgm = "bgm/my-lonely-journey";
 	
 	public GameScene() {
 		s = new Scene(root, Config.width, Config.height);
@@ -68,19 +70,23 @@ public class GameScene {
 	}
 	
 	private void playSounds() {
-		sound.load(bgm);
-		sound.play(bgm, true);
+		sound.loadAll(new String[] {
+			"bgm/my-lonely-journey",
+			"sfx/countdown"
+		});
+		sound.play("bgm/my-lonely-journey", true);
 	}
 	
 	public boolean showScored = false;
 	public AnimationTimer checkAlive = new AnimationTimer() {
 		public void handle(long now) {
-			if (gameView.gameStatus != GameStatus.DEAD) return;
+			if (gameView.gameStatus == GameStatus.ALIVE) return;
 			
 			if (showScored) return;
 			
 			GameResult sR = new GameResult(
 				(int) gameView.score,
+				gameView.gameStatus,
 				gameView.deadReason
 			);
 			
@@ -98,7 +104,7 @@ public class GameScene {
 	public AnimationTimer handleEventPipeline = new AnimationTimer() {
 		@Override
 		public void handle(long now) {
-			if (gameView.gameStatus == GameStatus.DEAD) return;
+			if (gameView.gameStatus != GameStatus.ALIVE) return;
 			if (gameView.eventPipeline.size() == 0) return;
 			
 			for (String event: gameView.eventPipeline) {
@@ -121,7 +127,7 @@ public class GameScene {
 	};
 
 	public boolean checkCanReturnMenu() {
-		if (gameView.gameStatus != GameStatus.DEAD) return false;
+		if (gameView.gameStatus == GameStatus.ALIVE) return false;
 		if (!showScored) return false;
 		return true;
 	}
@@ -131,10 +137,22 @@ public class GameScene {
 		view.unload("3d_game_view");
 		view.unload("2d_bg");
 		view.unload("show_score");
-		sound.stop(bgm);
+		sound.stop("bgm/my-lonely-journey");
 	}
 	
 	public int getPlayerScore() {
 		return (int) gameView.score;
+	}
+	
+	public void startGame() {
+		Timeline delay = new Timeline(
+			new KeyFrame(Duration.ZERO, e -> {
+				sound.play("sfx/countdown");
+			}),
+			new KeyFrame(Duration.seconds(3.1), e -> {
+				gameView.startGame();
+			})
+		);
+		delay.play();
 	}
 }

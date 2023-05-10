@@ -50,7 +50,7 @@ public class GameView implements View, AnimaNode {
 	private Snake snake;
 	
 	// ---- game logic entities ----
-	private Grid2D<Sphere> planetGrid = new Grid2D(200, 1500, 750);
+	private Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(200, 1500);
 	private ArrayList<Group> appleList = new ArrayList<>();
 	private ArrayList<Group> propList = new ArrayList<>();
 	
@@ -126,7 +126,6 @@ public class GameView implements View, AnimaNode {
 		
 		this.loaded = true;
 		this.startAnimation();
-		startGame();
 	}
 	
 	public void unload() {
@@ -165,6 +164,9 @@ public class GameView implements View, AnimaNode {
 		snake.bindMovements(s);
 		snake.moveHead(new Point3D(0, 0, -100), false);
 		for (int i = 0; i < 5; i++) snake.generateBody();
+		snake.alignBodies();
+		snake.setInitialCameraPos();
+		this.world.getChildren().add(snake.snakeLight);
 	}
 	
 	public void stopProcess() {
@@ -173,16 +175,26 @@ public class GameView implements View, AnimaNode {
 	
 	private Timeline frameGenerator,
 			scoreAdder;
-	private void startGame() {
+	public void startGame() {
 		double fps = 60;
 		Duration frameDuration = Duration.millis(1000.0 / fps);
 		frameGenerator = new Timeline(fps, new KeyFrame(frameDuration, e -> executeFrame()));
 		frameGenerator.setCycleCount(Timeline.INDEFINITE);
 		frameGenerator.play();
 		
-		scoreAdder = new Timeline(1, new KeyFrame(Duration.seconds(1), e -> addScore(1)));
+		scoreAdder = new Timeline(10,
+			new KeyFrame(Duration.seconds(1), e -> {
+				this.score -= 0.5;
+				eventPipeline.add("updateScore");
+			}
+		));
 		scoreAdder.setCycleCount(Timeline.INDEFINITE);
 		scoreAdder.play();
+	}
+	
+	public void endGame() {
+		frameGenerator.stop();
+		scoreAdder.stop();
 	}
 	
 	//
@@ -235,6 +247,13 @@ public class GameView implements View, AnimaNode {
 	
 	// if snake has eaten a apple
 	private void snakeEatAppleCheck() {
+		if (appleList.size() == 0) {
+			snake.unbindMovements(this.s);
+			gameStatus = GameStatus.WIN;
+			this.endGame();
+			return;
+		}
+		
 		Stack<Integer> needRmvInd = new Stack<>();
 		
 		Point3D headPos = snake.head.getPos();

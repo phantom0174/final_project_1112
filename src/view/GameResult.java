@@ -13,6 +13,8 @@ package view;
 
 import java.io.IOException;
 
+import base.GameStatus;
+import base.SoundPlayer;
 import base.View;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,9 +27,13 @@ public class GameResult implements View {
 	private Parent root = null;
 	
 	private int finalScore;
+	private GameStatus gameStatus;
 	private DeadType deadType;
 	
-	public GameResult(int score, DeadType deadType) {
+	private SoundPlayer sound = new SoundPlayer();
+	
+	public GameResult(int score, GameStatus gameStatus, DeadType deadType) {
+		this.gameStatus = gameStatus;
 		this.finalScore = score;
 		this.deadType = deadType;
 	}
@@ -39,6 +45,9 @@ public class GameResult implements View {
 
 	@Override
 	public void load() {
+		sound.load("sfx/game_win");
+		
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("gameover.fxml"));
 		
 		try {
@@ -50,7 +59,16 @@ public class GameResult implements View {
 		s = new SubScene(root, 1080, 600);
 		GameoverController control = loader.getController();
 		control.setScore(finalScore);
-		control.showDeadReason(DeadMessage.choose(deadType));
+		
+		String message = "...";
+		if (gameStatus == GameStatus.WIN) {
+			message = WinMessage.choose();
+			control.showCoverPane();
+			sound.play("sfx/game_win");
+		} else {
+			message = DeadMessage.choose(deadType);
+		}
+		control.showMessage(message);
 		
 		isloaded = true;
 	}
@@ -96,5 +114,16 @@ class DeadMessage {
 			return outofBoarderTitles[randInd];
 		}
 		return "You were dead.";
+	}
+}
+
+class WinMessage {
+	private static String[] winTitles = {
+		"Congratulations!"
+	};
+	
+	public static String choose() {
+		int randInd = (int) (Math.random() * winTitles.length);
+		return winTitles[randInd];
 	}
 }

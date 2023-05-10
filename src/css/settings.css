@@ -13,3 +13,22 @@
 	-fx-background-color: rgb(218,165,32);
 	-fx-background-radius: 0;
 }
+
+.radio-button .radio {
+	-fx-border-width: 10px;
+	-fx-border-radius: 10px;
+	-fx-boarder-color: black;
+	-fx-background-color: white;
+}
+
+.radio-button {
+	-fx-font-size: 14px;
+	-fx-font-family: "Yu Mincho";
+	-fx-text-fill: white;
+}
+
+.label {
+	-fx-font-size: 20px;
+	-fx-font-family: "Yu Mincho";
+	-fx-text-fill: white;
+}
