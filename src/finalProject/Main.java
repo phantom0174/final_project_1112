@@ -32,10 +32,6 @@ public class Main extends Application {
 		control.startStory(stage, storyScene);
 	}
 	
-	public static void bindSkipkey(Scene s) {
-		
-	}
-
 	public static void main(String[] args) {
 		launch(args);
 	}

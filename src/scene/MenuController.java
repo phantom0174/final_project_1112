@@ -20,19 +20,25 @@ package scene;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import base.Config;
 import base.SoundPlayer;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 
@@ -53,6 +59,7 @@ public class MenuController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		sound = new SoundPlayer();
+		startMenuSnakeAnimation();
 	}
 	
 	public void playMenuMusic() {
@@ -175,5 +182,105 @@ public class MenuController implements Initializable {
 			if (event.getCode() != KeyCode.ESCAPE) return;
 			stage.close();
 		});
+	}
+	
+	// ------------------- snake animation ------------------
+	@FXML
+	public Group s1, s2;
+	
+	class Snake2D {
+		public ArrayList<Circle> HB = new ArrayList<>(); // head and bodies
+		public ArrayList<Point2D> HBV = new ArrayList<>(); // head and bodies velocities
+		
+		public double speed = Math.random() * 2.5 + 2.5;
+		
+		public double minX = 0, maxX = 1080, minY = -20, maxY = 580;
+		
+		public Snake2D(Group g, Color headC, Color bodyC) {
+			Point2D defaultSpeed = new Point2D(Math.random(), Math.random());
+			
+			Circle head = new Circle();
+			head.setFill(headC);
+			HB.add(head);
+			
+			head.setRadius(10);
+			moveHeadTo(Math.random() * 540 + 270, Math.random() * 300 + 150);
+			
+			for (int i = 1; i <= 5; i++) {
+				Circle body = new Circle();
+				body.setRadius(10);
+				body.setFill(bodyC);
+				
+				Point2D unitDr = defaultSpeed.normalize().multiply(-1).multiply(20 * i);
+				
+				body.setTranslateX(head.getTranslateX() + unitDr.getX());
+				body.setTranslateY(head.getTranslateY() + unitDr.getY());
+				
+				HB.add(body);
+			}
+			
+			for (int i = 0; i < 6; i++) HBV.add(defaultSpeed);
+			
+			for (Circle c: HB) {
+				s1.getChildren().add(c);
+			}
+		}
+		
+		public void moveHeadTo(Point2D p) {
+			HB.get(0).setTranslateX(p.getX());
+			HB.get(0).setTranslateY(p.getY());
+		}
+		
+		public void moveHeadTo(double x, double y) {
+			moveHeadTo(new Point2D(x, y));
+		}
+		
+		public void updateFrame() {
+
+			for (int i = 0; i < HB.size(); i++) {
+				Circle curBody = HB.get(i);
+				Point2D unitDr = HBV.get(i).normalize().multiply(speed);
+				
+				double nextX = curBody.getTranslateX() + unitDr.getX(),
+						nextY = curBody.getTranslateY() + unitDr.getY();
+				
+				
+				if (nextX > maxX) {
+					nextX = 2 * maxX - nextX;
+					unitDr = new Point2D(-unitDr.getX(), unitDr.getY());
+				} else if (nextX < minX) {
+					nextX = 2 * minX - nextX;
+					unitDr = new Point2D(-unitDr.getX(), unitDr.getY());
+				}
+				
+				if (nextY > maxY) {
+					nextY = 2 * maxY - nextY;
+					unitDr = new Point2D(unitDr.getX(), -unitDr.getY());
+				} else if (nextY < minY) {
+					nextY = 2 * minY - nextY;
+					unitDr = new Point2D(unitDr.getX(), -unitDr.getY());
+				}
+				
+				HBV.set(i, unitDr);
+				
+				curBody.setTranslateX(nextX);
+				curBody.setTranslateY(nextY);
+			}
+		}
+	}
+	
+	public void startMenuSnakeAnimation() {
+		Snake2D snake1 = new Snake2D(s1, Color.GREEN, Color.GREENYELLOW),
+				snake2 = new Snake2D(s2, Color.RED, Color.PINK);
+		
+		AnimationTimer snakeTimer = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				snake1.updateFrame();
+				snake2.updateFrame();
+			}
+		};
+		snakeTimer.start();
+		
 	}
 }

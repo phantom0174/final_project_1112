@@ -21,7 +21,7 @@ public class SnakeTexture {
 	public SnakeTexture() {
 		if (Config.snakeTexture == SnakeTextureType.RED) {
 			headMat.mat.setDiffuseColor(Color.RED);
-			bodyMat.mat.setDiffuseColor(Color.YELLOW);
+			bodyMat.mat.setDiffuseColor(Color.PINK);
 		} else if (Config.snakeTexture == SnakeTextureType.GREEN) {
 			headMat.mat.setDiffuseColor(Color.GREEN);
 			bodyMat.mat.setDiffuseColor(Color.GREENYELLOW);
