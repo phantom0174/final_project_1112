@@ -26,6 +26,9 @@ import java.util.ResourceBundle;
 import base.Config;
 import base.SoundPlayer;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,12 +43,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class MenuController implements Initializable {
 	
 	@FXML
 	public Node title;
+	public Node subtitle;
 	public Node startBtn;
 	public Node settingBtn;
 	public Node controlBtn;
@@ -60,6 +65,7 @@ public class MenuController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		sound = new SoundPlayer();
 		startMenuSnakeAnimation();
+		startTitleAnimation();
 	}
 	
 	public void playMenuMusic() {
@@ -282,5 +288,23 @@ public class MenuController implements Initializable {
 		};
 		snakeTimer.start();
 		
+	}
+	
+	public void startTitleAnimation() {
+		Timeline titleAnima = new Timeline(
+			new KeyFrame(Duration.ZERO, new KeyValue(subtitle.scaleXProperty(), 1)),
+			new KeyFrame(Duration.ZERO, new KeyValue(subtitle.scaleYProperty(), 1)),
+			new KeyFrame(Duration.ZERO, new KeyValue(subtitle.opacityProperty(), 1)),
+			
+			new KeyFrame(Duration.seconds(0.5), new KeyValue(subtitle.scaleXProperty(), 1.5)),
+			new KeyFrame(Duration.seconds(0.5), new KeyValue(subtitle.scaleYProperty(), 1.5)),
+			new KeyFrame(Duration.seconds(0.5), new KeyValue(subtitle.opacityProperty(), 0.5)),
+			
+			new KeyFrame(Duration.seconds(1), new KeyValue(subtitle.scaleXProperty(), 1)),
+			new KeyFrame(Duration.seconds(1), new KeyValue(subtitle.scaleYProperty(), 1)),
+			new KeyFrame(Duration.seconds(1), new KeyValue(subtitle.opacityProperty(), 1))
+		);
+		titleAnima.setCycleCount(Timeline.INDEFINITE);
+		titleAnima.play();
 	}
 }

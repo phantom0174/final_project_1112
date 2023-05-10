@@ -22,7 +22,12 @@
                <children>
                   <Label fx:id="title" text="Final Project X" textFill="WHITE">
                      <font>
-                        <Font name="Yu Mincho Demibold" size="40.0" />
+                        <Font size="64.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="subtitle" rotate="-20.0" text="Funniest Snake Game !" textFill="WHITE" translateX="200.0" translateY="35.0">
+                     <font>
+                        <Font size="18.0" />
                      </font>
                   </Label>
                </children>
