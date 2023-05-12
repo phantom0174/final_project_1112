@@ -49,6 +49,10 @@ public class GameEventView implements View {
 
 	@Override
 	public void unload() {
+		control = null;
+		root = null;
+		s = null;
+		
 		isloaded = false;
 	}
 

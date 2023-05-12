@@ -32,12 +32,10 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.SubScene;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
@@ -63,8 +61,8 @@ public class Snake {
 		
 		moveSpeed.bind(Config.snakeSpeed);
 		
-		initializeHead();
 		initializeLight();
+		initializeHead();
 		setInitialCameraPos();
 	}
 	
@@ -92,7 +90,7 @@ public class Snake {
 		headCore.getChildren().addAll(headBall, tenta1, tenta2);
 		
 		this.head = new Entity(headCore);
-		this.fatherGroup.getChildren().add(this.head.shell);	
+		this.fatherGroup.getChildren().add(this.head.shell);
 	}
 	
 	private void initializeLight() {
@@ -102,13 +100,19 @@ public class Snake {
 		snakeLight.setLinearAttenuation((1 / intensity) / 1000);
 //		snakeLight.setQuadraticAttenuation((1 / intensity) / 20000);
 		
-		
 		Point3D lightPosVecor = new Point3D(0, 0, 5 * bodySize)
 				.add(new Point3D(0, 0, -100)); // head initial position
 		
 		snakeLight.setTranslateX(lightPosVecor.getX());
 		snakeLight.setTranslateY(lightPosVecor.getY());
 		snakeLight.setTranslateZ(lightPosVecor.getZ());
+		
+		fatherGroup.getChildren().add(snakeLight);
+		
+		System.out.println("scope: " + snakeLight.getScope().size());
+		System.out.println("scope: " + snakeLight.getExclusionScope().size());
+		
+		snakeLight.setBlendMode(BlendMode.ADD);
 	}
 	
 	public void generateBody() {
@@ -140,13 +144,10 @@ public class Snake {
 	}
 	
 	public void setInitialCameraPos() {
-//		Point3D camPosVecor = new Point3D(0, -15 * bodySize, -40 * bodySize);
-		
-		Point3D camPosVecor = new Point3D(0, 0, 50);
+		Point3D camPosVecor = new Point3D(0, -15, 100);
 		
 		camera.setPos(head.getPos().add(camPosVecor));
-//		camera.setRot(-20, 0, 0);
-		camera.setRot(0, -180, 0);
+		camera.setRot(-8, -180, 0);
 	}
 	
 	// Need to call this function before moving the snake's head position!

@@ -8,10 +8,10 @@ package view;
 
 
 import base.Config;
+import base.MaterialLoader;
 import base.View;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
@@ -26,8 +26,8 @@ public class BGView implements View {
 	}
 	
 	public void load() {
-		Image image = new Image(getClass().getResourceAsStream("/resources/materials/space.jpeg"));
-		ImageView imageView = new ImageView(image);
+		MaterialLoader matLoader = new MaterialLoader("game");
+		ImageView imageView = new ImageView(matLoader.get("space.jpeg"));
 		imageView.setPreserveRatio(true);
 		
 		root = new Group();
@@ -43,6 +43,9 @@ public class BGView implements View {
 	@Override
 	public void unload() {
 		root.getChildren().clear();
+		root = null;
+		s = null;
+		
 		this.isLoaded = false;
 	}
 

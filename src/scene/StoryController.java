@@ -93,7 +93,7 @@ public class StoryController implements Initializable {
 	}
 	
 	private void fadeIn(Node n) {
-		Timeline anima = new Timeline(
+		Timeline anima = new Timeline(60,
 			new KeyFrame(Duration.ZERO, new KeyValue(n.opacityProperty(), 0)),
 			new KeyFrame(Duration.seconds(1), new KeyValue(n.opacityProperty(), 1))
 		);
@@ -101,7 +101,7 @@ public class StoryController implements Initializable {
 	}
 	
 	private void fadeOut(Node n) {
-		Timeline anima = new Timeline(
+		Timeline anima = new Timeline(60,
 			new KeyFrame(Duration.ZERO, new KeyValue(n.opacityProperty(), 1)),
 			new KeyFrame(Duration.seconds(2), new KeyValue(n.opacityProperty(), 0))
 		);

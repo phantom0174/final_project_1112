@@ -74,4 +74,8 @@ public class Grid2D<T> {
 		}
 		return targets;
 	}
+	
+	public void deleteAll() {
+		this.grid = null;
+	}
 }

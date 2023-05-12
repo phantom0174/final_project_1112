@@ -24,7 +24,7 @@ public class Config {
 	public static DoubleProperty snakeSpeed = new SimpleDoubleProperty(2);
 	
 	// 遊戲中所有音效的音量大小，音效應要正規化到 -3 dB
-	public static DoubleProperty volume = new SimpleDoubleProperty(0.4);
+	public static DoubleProperty volume = new SimpleDoubleProperty(0.3);
 	
 	// 單一筆高分只能上傳一次的監控變數
 	public static boolean scoreUploadCoda = true;

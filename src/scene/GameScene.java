@@ -33,7 +33,7 @@ import view.GameResult;
 public class GameScene {
 	public Scene s;
 	public Group root = new Group();
-	private ViewHandler view = new ViewHandler();
+	public ViewHandler view = new ViewHandler();
 	
 	private GameView gameView;
 	private GameEventView gameEventView;
@@ -90,6 +90,7 @@ public class GameScene {
 				gameView.deadReason
 			);
 			
+			view.unload("event_board");
 			view.detach("event_board", root);
 			
 			view.add("show_score", sR);
@@ -133,11 +134,33 @@ public class GameScene {
 	}
 	
 	public void closeScene() {
+		checkAlive.stop();
+		handleEventPipeline.stop();
 		gameView.stopProcess();
-		view.unload("3d_game_view");
-		view.unload("2d_bg");
-		view.unload("show_score");
+		
+		String[] viewNames = {
+			"3d_game_view", "2d_bg", "show_score"
+		};
+		
+		for (String v: viewNames) {
+			view.unload(v);
+			view.detach(v, root);
+		}
+		view = null;
+		
 		sound.stop("bgm/my-lonely-journey");
+		sound.unLoadAll();
+		sound = null;
+		
+		gameView = null;
+		gameEventView = null;
+		
+		root.getChildren().clear();
+		root = null;
+		
+		s = null;
+		checkAlive = null;
+		handleEventPipeline = null;
 	}
 	
 	public int getPlayerScore() {
@@ -145,14 +168,19 @@ public class GameScene {
 	}
 	
 	public void startGame() {
-		Timeline delay = new Timeline(
+		Timeline delay = new Timeline(60,
 			new KeyFrame(Duration.ZERO, e -> {
 				sound.play("sfx/countdown");
 			}),
-			new KeyFrame(Duration.seconds(3.1), e -> {
+			new KeyFrame(Duration.seconds(3.5), e -> {
 				gameView.startGame();
 			})
 		);
 		delay.play();
+	}
+	
+	@Override
+	protected void finalize() {
+	    System.out.println("GameScene recycled!");
 	}
 }

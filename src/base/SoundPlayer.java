@@ -65,19 +65,15 @@ public class SoundPlayer {
 		player.play();
 		
 		playerList.put(soundPath, player);
-		System.out.println("saved: " + soundPath);
-		System.out.println(playerList.size());
 	}
 	
 	public void stop(String soundPath) {
-		System.out.println("received: " + soundPath);
 		MediaPlayer player = playerList.get(soundPath);
-		System.out.println(playerList.size());
 		player.stop();
 	}
 	
 	@Override
 	protected void finalize() {
-	    System.out.println("sound-p del!!!!");
+	    System.out.println("Sound player recycled!");
 	}
 }

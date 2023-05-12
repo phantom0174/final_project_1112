@@ -29,6 +29,8 @@ import world.GameWorld;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
+import javafx.scene.LightBase;
+import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
@@ -50,7 +52,7 @@ public class GameView implements View, AnimaNode {
 	private Snake snake;
 	
 	// ---- game logic entities ----
-	private Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(200, 1500);
+	private Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(500, 1500);
 	private ArrayList<Group> appleList = new ArrayList<>();
 	private ArrayList<Group> propList = new ArrayList<>();
 	
@@ -140,6 +142,16 @@ public class GameView implements View, AnimaNode {
 		this.world.getChildren().clear();
 		this.world = null;
 		
+		planetGrid.deleteAll();
+		appleList.clear();
+		propList.clear();
+		eventPipeline.clear();
+		
+		planetGrid = null;
+		appleList = null;
+		propList = null;
+		eventPipeline = null;
+		
 		this.loaded = false;
 	}
 	
@@ -165,8 +177,7 @@ public class GameView implements View, AnimaNode {
 		snake.moveHead(new Point3D(0, 0, -100), false);
 		for (int i = 0; i < 5; i++) snake.generateBody();
 		snake.alignBodies();
-		snake.setInitialCameraPos();
-		this.world.getChildren().add(snake.snakeLight);
+		System.out.println("world size: " + world.getChildren().size());
 	}
 	
 	public void stopProcess() {
@@ -424,5 +435,10 @@ public class GameView implements View, AnimaNode {
 				boarderEffectToggled = false;
 			}
 		}
+	}
+	
+	@Override
+	protected void finalize() {
+	    System.out.println("GameView recycled!");
 	}
 }

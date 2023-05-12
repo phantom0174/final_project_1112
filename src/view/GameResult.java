@@ -75,6 +75,12 @@ public class GameResult implements View {
 
 	@Override
 	public void unload() {
+		sound.unLoadAll();
+		sound = null;
+		
+		root = null;
+		s = null;
+		
 		this.isloaded = false;
 	}
 

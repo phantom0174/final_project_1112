@@ -14,7 +14,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true">
          <image>
-            <Image url="@../resources/materials/space.jpeg" />
+            <Image url="@../resources/materials/game/space.jpeg" />
          </image>
       </ImageView>
       <BorderPane prefHeight="600.0" prefWidth="1080.0">
