@@ -25,7 +25,7 @@ import base.View;
 import camera.SnakeCamera;
 import finalProject.Snake;
 import world.GameWorld;
-
+import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
@@ -49,12 +49,12 @@ public class GameView implements View, AnimaNode {
 	
 	// ---- game entities ----
 	private SnakeCamera snakeCamera;
-	private Snake snake;
+	public Snake snake;
 	
 	// ---- game logic entities ----
-	private Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(500, 1500);
-	private ArrayList<Group> appleList = new ArrayList<>();
-	private ArrayList<Group> propList = new ArrayList<>();
+	public Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(500, 1500);
+	public ArrayList<Group> appleList = new ArrayList<>();
+	public ArrayList<Group> propList = new ArrayList<>();
 	
 	// ---- game sound -----
 	private SoundPlayer sound = new SoundPlayer();
@@ -402,7 +402,10 @@ public class GameView implements View, AnimaNode {
 	);
 	private void snakeBoarderCheck() {
 		Point3D headPos = snake.head.getPos();
-		double dist = headPos.magnitude();
+		double dist = Math.max(
+			new Point2D(headPos.getX(), headPos.getZ()).magnitude(),
+			Math.abs(headPos.getY())
+		);
 		
 		if (dist >= 1300) {
 			gameStatus = GameStatus.DEAD;

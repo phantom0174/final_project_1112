@@ -45,6 +45,7 @@ public class GameScene {
 		s = new Scene(root, Config.width, Config.height);
 		
 		addViews();
+		initializeMiniMap();
 		playSounds();
 		
 		view.switchToView("3d_game_view");
@@ -67,6 +68,10 @@ public class GameScene {
 		
 		view.load("event_board");
 		view.attach("event_board", root);
+	}
+	
+	private void initializeMiniMap() {
+		gameEventView.setupMiniMap(gameView.snake);
 	}
 	
 	private void playSounds() {

@@ -34,6 +34,10 @@
                </children>
             </StackPane>
          </bottom>
+         <right>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </right>
       </BorderPane>
+      <AnchorPane fx:id="mapPane" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: rgba(50, 50, 50, 0.5);" />
    </children>
 </AnchorPane>
