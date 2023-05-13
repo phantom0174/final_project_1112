@@ -76,7 +76,7 @@ public class MenuController implements Initializable {
 	private Stage stage;
 	private Scene scene;
 	
-	// ------------ entry point! --------------
+	// ------------ entry point! -------------- start
 	public void enterMenu(Stage stage, Scene scene) {
 		this.stage = stage;
 		this.scene = scene;
@@ -97,9 +97,15 @@ public class MenuController implements Initializable {
 		stage.setScene(scene);
 		stage.setTitle("finalProject | Menu");
 	}
-	// ------------ entry point! --------------
+	// ------------ entry point! -------------- end
+	
+	// for the critical region of starting game event
+	private boolean gameStartedflag = false;
 	
 	public void enterGame(ActionEvent e) {
+		if (gameStartedflag) return;
+		gameStartedflag = true;
+		
 		getStage(e);
 		sound.stop("bgm/space-age");
 		GameScene gameScene = new GameScene();
@@ -116,6 +122,7 @@ public class MenuController implements Initializable {
 				
 				((GameScene) gameScene).closeScene();
 				
+				gameStartedflag = false;
 				enterMenuFromEndingGame();
 			}
 		});
