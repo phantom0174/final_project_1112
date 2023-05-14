@@ -398,6 +398,7 @@ public class GameView implements View, AnimaNode {
 		}
 	}
 	
+	public OutOfBoundaryType outOfBoundType = null;
 	private boolean boarderEffectToggled = false;
 	private boolean playingBoarderSFX = false;
 	Timeline tooFar = new Timeline(10,
@@ -407,10 +408,24 @@ public class GameView implements View, AnimaNode {
 	);
 	private void snakeBoarderCheck() {
 		Point3D headPos = snake.head.getPos();
-		double dist = Math.max(
-			new Point2D(headPos.getX(), headPos.getZ()).magnitude(),
-			Math.abs(headPos.getY())
-		);
+		
+		double norm_2 = new Point2D(headPos.getX(), headPos.getZ()).magnitude(),
+				norm_max = Math.abs(headPos.getY());
+		
+		double dist = Math.max(norm_2, norm_max);
+		
+		OutOfBoundaryType newType = null;
+		if (norm_2 > 800)
+			newType = OutOfBoundaryType.TOOFAR;
+		else if (headPos.getY() < -800)
+			newType = OutOfBoundaryType.TOOHIGH;
+		else if (headPos.getY() > 800)
+			newType = OutOfBoundaryType.TOOLOW;
+		
+		if (newType != null && newType != outOfBoundType) {
+			eventPipeline.add("updateOutOfBoundaryMessage");
+			outOfBoundType = newType;
+		}
 		
 		if (dist >= 1300) {
 			gameStatus = GameStatus.DEAD;

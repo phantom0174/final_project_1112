@@ -122,7 +122,9 @@ public class GameScene {
 				case "doubleScoreEffectOff":
 					gameEventView.doubleScoreEffect(false); break;
 				case "outOfBoundaryOn":
-					gameEventView.outOfBoundaryOn(); break;
+					gameEventView.outOfBoundaryOn(gameView.outOfBoundType); break;
+				case "updateOutOfBoundaryMessage":
+					gameEventView.outOfBoundaryOn(gameView.outOfBoundType); break;
 				case "outOfBoundaryOff":
 					gameEventView.outOfBoundaryOff(); break;
 				case "updateAppleMap":

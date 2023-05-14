@@ -77,8 +77,16 @@ public class GameEventView implements View {
 		control.doubleScore(on);
 	}
 	
-	public void outOfBoundaryOn() {
-		control.showEvent("Don't get too FAR!");
+	public void outOfBoundaryOn(OutOfBoundaryType type) {
+		String warningMsg = "COME BACK!";
+		if (type == OutOfBoundaryType.TOOFAR)
+			warningMsg = "Don't go too FAR!";
+		else if (type == OutOfBoundaryType.TOOHIGH)
+			warningMsg = "Don't go too HIGH!";
+		else if (type == OutOfBoundaryType.TOOLOW)
+			warningMsg = "Don't go too LOW!";
+		
+		control.showEvent(warningMsg);
 	}
 	
 	public void outOfBoundaryOff() {
