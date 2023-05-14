@@ -47,7 +47,7 @@ public class ScoreboardController implements Initializable {
 	public Label scoreLabel;
 	
 	
-	public static String scoreLabelDefault = "You Highest Score:\n";
+	public static String scoreLabelDefault = "Your Highest Score:\n";
 	public ScoreAPI scoreHandler = new ScoreAPI();
 	public String highestScore;
 

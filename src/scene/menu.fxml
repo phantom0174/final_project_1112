@@ -16,6 +16,8 @@
          <image>
             <Image url="@../resources/materials/game/space.jpeg" />
          </image></ImageView>
+      <Group fx:id="s1" layoutY="28.0" />
+      <Group fx:id="s2" layoutX="10.0" layoutY="38.0" />
       <BorderPane prefHeight="600.0" prefWidth="1080.0">
          <top>
             <StackPane prefHeight="196.0" prefWidth="1080.0" style="-fx-background-color: rgba(200, 200, 200, 0.5);" BorderPane.alignment="CENTER">
@@ -48,7 +50,5 @@
             </StackPane>
          </center>
       </BorderPane>
-      <Group fx:id="s1" layoutY="28.0" />
-      <Group fx:id="s2" layoutX="10.0" layoutY="38.0" />
    </children>
 </AnchorPane>

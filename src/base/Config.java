@@ -27,7 +27,7 @@ public class Config {
 	public static DoubleProperty volume = new SimpleDoubleProperty(0.3);
 	
 	// 單一筆高分只能上傳一次的監控變數
-	public static boolean scoreUploadCoda = true;
+	public static boolean scoreUploadCoda = false;
 	
 	// 遊戲難度的變數與分數加乘
 	public static GameDiff difficulty = GameDiff.EASY;
