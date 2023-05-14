@@ -14,11 +14,8 @@ import base.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -117,14 +114,15 @@ public class GameEventController implements Initializable {
     @FXML
     public AnchorPane mapPane;
     
-    public Circle mapCircle = new Circle(100, 100, 80);
-    public Group staticMapCore = new Group();
-    public Pane staticMapShell = new Pane();
-    public Polygon chara = new Polygon();
+    public Circle mapCircle;
+    public Group staticMap;
+    public Polygon chara;
     
     public void setupMap(Entity snakeHead) {
+    	mapCircle = new Circle(100, 100, 80);
     	mapPane.setClip(mapCircle);
     	
+    	chara = new Polygon();
     	chara.getPoints().addAll(new Double[] {
     		0d, 3d,
     		-6d, 6d,
@@ -134,6 +132,7 @@ public class GameEventController implements Initializable {
     	chara.setFill(Color.LIGHTGREEN);
     	chara.setStroke(Color.TRANSPARENT);
     	chara.setStrokeWidth(0);
+    	chara.rotateProperty().bind(snakeHead.yRot);
     	chara.setTranslateX(100);
     	chara.setTranslateY(100);
     	
@@ -156,19 +155,12 @@ public class GameEventController implements Initializable {
     	upperDeadBoarder.setOpacity(0.3);
     	lowerDeadBoarder.setOpacity(0.3);
     	
-    	DoubleBinding x = snakeHead.x.multiply(-1 * ratio).add(100),
-    			y = snakeHead.z.multiply(ratio).add(100);
+    	staticMap = new Group();
+    	staticMap.getChildren().addAll(boarder, upperDeadBoarder, lowerDeadBoarder);
+    	staticMap.translateXProperty().bind(snakeHead.x.multiply(-1 * ratio).add(100));
+    	staticMap.translateYProperty().bind(snakeHead.z.multiply(ratio).add(mapCircle.getTranslateY()).add(100));
     	
-    	staticMapCore.getChildren().addAll(boarder, upperDeadBoarder, lowerDeadBoarder);
-    	staticMapCore.translateXProperty().bind(x);
-    	staticMapCore.translateYProperty().bind(y);
-    	
-    	staticMapShell.setPrefWidth(200);
-    	staticMapShell.setPrefHeight(200);
-    	staticMapShell.getChildren().add(staticMapCore);
-    	staticMapShell.rotateProperty().bind(snakeHead.yRot.multiply(-1));
-    	
-    	mapPane.getChildren().addAll(staticMapShell, chara);
+    	mapPane.getChildren().addAll(staticMap, chara);
     }
     
     // source: https://stackoverflow.com/questions/11719005/draw-a-semi-ring-javafx
