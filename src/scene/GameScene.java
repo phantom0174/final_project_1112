@@ -71,7 +71,7 @@ public class GameScene {
 	}
 	
 	private void initializeMiniMap() {
-		gameEventView.setupMiniMap(gameView.snake);
+		gameEventView.setupMiniMap(gameView.snake, gameView.appleList);
 	}
 	
 	private void playSounds() {
@@ -125,6 +125,8 @@ public class GameScene {
 					gameEventView.outOfBoundaryOn(); break;
 				case "outOfBoundaryOff":
 					gameEventView.outOfBoundaryOff(); break;
+				case "updateAppleMap":
+					gameEventView.updateAppleMap();
 				}
 			}
 			

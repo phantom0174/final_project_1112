@@ -12,12 +12,14 @@ GameScene 會依照 GameView 中的狀態進行事件呼叫。
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import base.Entity;
 import base.View;
 import finalProject.Snake;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 
@@ -52,6 +54,7 @@ public class GameEventView implements View {
 
 	@Override
 	public void unload() {
+		control.miniMap = null;
 		control = null;
 		root = null;
 		s = null;
@@ -80,7 +83,11 @@ public class GameEventView implements View {
 		control.closeEvent();
 	}
 	
-	public void setupMiniMap(Snake s) {
-		control.setupMap(s.head);
+	public void setupMiniMap(Snake s, ArrayList<Group> appleList) {
+		control.setupMap(s.head, appleList);
+	}
+	
+	public void updateAppleMap() {
+		control.miniMap.refreshAppleMap();
 	}
 }

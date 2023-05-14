@@ -288,6 +288,7 @@ public class GameView implements View, AnimaNode {
 			this.snake.generateBody();
 			
 			sound.play("sfx/eating");
+			eventPipeline.add("updateAppleMap");
 			
 			pos++;
 		}
