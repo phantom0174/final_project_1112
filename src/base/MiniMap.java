@@ -129,6 +129,7 @@ public class MiniMap {
     	staticMap.getChildren().add(boarders);
     }
     
+    Timeline bubbleAnima;
     private Circle setupBubble() {
     	Circle bubble = new Circle();
     	bubble.setFill(Color.TRANSPARENT);
@@ -137,7 +138,7 @@ public class MiniMap {
     	bubble.setTranslateX(100);
     	bubble.setTranslateY(100);
     	
-    	Timeline anima = new Timeline(60,
+    	bubbleAnima = new Timeline(60,
     		new KeyFrame(Duration.ZERO, new KeyValue(bubble.radiusProperty(), 0, Interpolator.EASE_OUT)),
     		new KeyFrame(Duration.ZERO, new KeyValue(bubble.opacityProperty(), 1, Interpolator.EASE_OUT)),
     		
@@ -147,10 +148,27 @@ public class MiniMap {
     		new KeyFrame(Duration.seconds(2), new KeyValue(bubble.radiusProperty(), 40)),
     		new KeyFrame(Duration.seconds(2), new KeyValue(bubble.opacityProperty(), 0))
     	);
-    	anima.setCycleCount(Timeline.INDEFINITE);
-    	anima.play();
+    	bubbleAnima.setCycleCount(Timeline.INDEFINITE);
+    	bubbleAnima.play();
     	
     	return bubble;
+    }
+    
+    public void unload() {
+    	bubbleAnima.stop();
+    	
+    	snakeHead = null;
+    	chara = null;
+    	mapCircle = null;
+    	
+    	staticMap.getChildren().clear();
+    	appleMap.getChildren().clear();
+    	applePane.getChildren().clear();
+    	
+    	staticMap = null;
+    	appleMap = null;
+    	appleList = null;
+    	applePane = null;
     }
     
     // source: https://stackoverflow.com/questions/11719005/draw-a-semi-ring-javafx
@@ -188,5 +206,10 @@ public class MiniMap {
 
         path.getElements().addAll(moveTo, arcToInner, moveTo2, hLineToRightLeg, arcTo, hLineToLeftLeg);
         return path;
+    }
+    
+    @Override
+    public void finalize() {
+    	
     }
 }

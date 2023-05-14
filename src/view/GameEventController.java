@@ -18,21 +18,10 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.ArcTo;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.FillRule;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
 
@@ -120,4 +109,9 @@ public class GameEventController implements Initializable {
     public void setupMap(Entity snakeHead, ArrayList<Group> appleList) {
     	miniMap = new MiniMap(mapPane, snakeHead, appleList);
     }
+    
+    @Override
+	protected void finalize() {
+	    System.out.println("GameEvent Controller recycled!");
+	}
 }

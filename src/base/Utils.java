@@ -1,7 +1,5 @@
 package base;
 
-import javafx.scene.image.Image;
-
 /*
 
 一些數學工具函數

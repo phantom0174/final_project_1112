@@ -29,14 +29,13 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
-import javafx.scene.LightBase;
-import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
@@ -182,6 +181,11 @@ public class GameView implements View, AnimaNode {
 	
 	public void stopProcess() {
 		this.frameGenerator.stop();
+		this.scoreAdder.stop();
+		
+		if (boostEffect.getStatus() == Animation.Status.RUNNING) boostEffect.stop();
+		if (doubleScoreEffect.getStatus() == Animation.Status.RUNNING) doubleScoreEffect.stop();
+		
 	}
 	
 	private Timeline frameGenerator,

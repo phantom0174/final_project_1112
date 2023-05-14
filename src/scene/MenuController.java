@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 
 import base.Config;
 import base.SoundPlayer;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
