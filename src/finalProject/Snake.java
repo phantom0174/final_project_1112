@@ -183,7 +183,7 @@ public class Snake {
 	
 	// --------------- controls and animations -------------------
 	public DoubleProperty moveSpeed = new SimpleDoubleProperty(1);
-	public short intensityDamping = 40;
+	public short intensityDamping = 60;
 	
 	/*
 	
@@ -250,13 +250,13 @@ public class Snake {
 	
 	public void updateTempRot() {
 		absPitch = Math.toRadians(
-			-55 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
+			-90 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
 		);
 		absPitchCos = Math.cos(absPitch);
 		absPitchSin = Math.sin(absPitch);
 		
 		absYaw = Math.toRadians(
-			(60 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+			(90 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
 		);
 		absYawCos = Math.cos(absYaw);
 		absYawSin = Math.sin(absYaw);

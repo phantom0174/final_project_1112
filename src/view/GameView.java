@@ -183,8 +183,14 @@ public class GameView implements View, AnimaNode {
 		this.frameGenerator.stop();
 		this.scoreAdder.stop();
 		
-		if (boostEffect.getStatus() == Animation.Status.RUNNING) boostEffect.stop();
-		if (doubleScoreEffect.getStatus() == Animation.Status.RUNNING) doubleScoreEffect.stop();
+		if (boostEffect.getStatus() == Animation.Status.RUNNING) {
+			boostEffect.stop();
+			Config.snakeSpeed.set(Config.snakeSpeed.get() / 2);
+		}
+		if (doubleScoreEffect.getStatus() == Animation.Status.RUNNING) {
+			doubleScoreEffect.stop();
+			Config.scoreMultiplier /= 2;
+		}
 		
 	}
 	
