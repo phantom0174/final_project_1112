@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -19,7 +21,15 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label id="appleLabel" fx:id="appleLabel" text="appleLabel" translateX="-440.0" translateY="180.0" />
+                  <ImageView fitHeight="44.0" fitWidth="67.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" translateX="-440.0" translateY="173.0">
+                     <image>
+                        <Image url="@../resources/materials/game/apple.png" />
+                     </image>
+                  </ImageView>
+                  <Label id="appleLabel" fx:id="appleLabel" text="12" translateX="-440.0" translateY="180.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                </children>
             </StackPane>
          </top>

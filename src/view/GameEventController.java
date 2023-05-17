@@ -35,13 +35,12 @@ public class GameEventController implements Initializable {
     
     Timeline appear, disappear, flashingBanner;
     
-    private String baseTimeMsg = "Time left: ",
-    		baseAppleMsg = "Apple left: ";
+    private String baseTimeMsg = "Time left: ";
     
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	timeLabel.setText(baseTimeMsg + 300);
-    	appleLabel.setText(baseAppleMsg + 12);
+    	appleLabel.setText("12");
     	eventLabel.setOpacity(0);
     	
     	upperPane.setOpacity(0);
@@ -78,7 +77,7 @@ public class GameEventController implements Initializable {
     }
     
     public void showAppleCount() {
-    	appleLabel.setText(baseAppleMsg + miniMap.appleList.size());
+    	appleLabel.setText(String.valueOf(miniMap.appleList.size()));
     }
     
     private boolean showingEvent = false;

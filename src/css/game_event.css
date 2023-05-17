@@ -27,5 +27,7 @@
 }
 
 #appleLabel {
-	-fx-padding: 5px 5px;
+	-fx-padding: 0;
+	-fx-background-color: transparent;
+	-fx-background-radius: 0px;
 }
