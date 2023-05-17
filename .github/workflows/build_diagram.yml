@@ -13,4 +13,5 @@ jobs:
       - name: Update diagram
         uses: githubocto/repo-visualizer@main
         with:
-          excluded_paths: ".idea, .vscode, .github"
+          excluded_paths: ".idea, .vscode, .github, .settings, custom_lib, .project, .classpath, .gitignore"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
