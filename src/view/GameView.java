@@ -408,6 +408,7 @@ public class GameView implements View, AnimaNode {
 			gameStatus = GameStatus.DEAD;
 			deadReason = DeadType.OUTOFBOUNDARY;
 			this.timeDownCounter.stop();
+			this.time = 0;
 		} else if (dist > 800) {
 			world.ambLight.setLightOn(true);
 			
