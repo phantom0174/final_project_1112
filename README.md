@@ -100,3 +100,7 @@ dist = Max{ r, |z| }
 物品可生成範圍：0 <= dist <= 600
 警告開始範圍：800 < dist <= 1300
 死亡範圍：1300 < dist
+
+## Visualization
+
+![Visualization of the codebase](./diagram.svg)
