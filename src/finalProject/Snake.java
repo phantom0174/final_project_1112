@@ -339,26 +339,23 @@ public class Snake {
 		
 		/*
 		
-		相機視角在蛇的後正方。
-		
-		垂直法向量由 i 與 k 向量進行 headRotation 修正之後進行外積而得。
+		相機視角在蟲蟲的後正方。
+		蟲蟲探照燈在前上方。
 		
 		*/
 		// ----- camera position update --------
-		Point3D rightVector = relativeRot(new Point3D(1, 0, 0));
 		Point3D frontVector = relativeRot(new Point3D(0, 0, 1));
-		Point3D camPosVecor = rightVector.crossProduct(frontVector)
-				.normalize()
-				.multiply(15 * bodySize)
-				.subtract(frontVector.normalize().multiply(40 * bodySize))
+		
+		Point3D camPosVecor = new Point3D(0, -15 * bodySize, 0)
+				.subtract(frontVector.multiply(40 * bodySize))
 				.add(head.getPos());
 		
 		camera.setPos(camPosVecor);
 		camera.setRot(-20, headRot.getY(), 0);
 		
-		
 		// ----- snakeLight position update -----
-		Point3D lightPosVecor = new Point3D(0, -5 * bodySize, 0).add(frontVector.multiply(5))
+		Point3D lightPosVecor = new Point3D(0, -5 * bodySize, 0)
+				.add(frontVector.multiply(5))
 				.add(head.getPos());
 		
 		snakeLight.setTranslateX(lightPosVecor.getX());
