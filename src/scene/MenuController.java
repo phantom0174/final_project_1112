@@ -150,7 +150,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(controlScene);
-		stage.setTitle("finalProject | Controls");
+		stage.setTitle("finalProject | Game Rules");
 	}
 	
 	public void showCredits(ActionEvent e) throws IOException {

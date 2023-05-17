@@ -19,9 +19,35 @@
       </ImageView>
       <BorderPane prefHeight="600.0" prefWidth="1080.0">
          <left>
-            <AnchorPane prefHeight="600.0" prefWidth="540.0" style="-fx-background-color: rgba(250, 250, 250, 0.5);" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="600.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutX="379.0" layoutY="130.0">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.67" stroke="BLACK" strokeType="INSIDE" width="1080.0" />
+                  <Label layoutX="378.0" layoutY="176.0" text="III. Collect Lucky Box To Get A Buff" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="327.0" layoutY="113.0" text="II. Dodge Planets On The Path" textFill="#b1ff00">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="285.0" layoutY="62.0" text="I. Collect All 12 apples In 3 Minutes To Win" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="74.0" fitWidth="65.0" layoutX="379.0" layoutY="453.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/materials/game/lucky_box.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="90.0" fitWidth="70.0" layoutX="167.0" layoutY="436.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../Users/User/Downloads/apple-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Pane layoutX="116.0" layoutY="67.0">
                      <children>
                         <Circle fill="#00ff11" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="21.0" layoutY="21.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
@@ -30,34 +56,7 @@
                         <Circle fill="#f1ff42" layoutX="84.0" layoutY="84.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                      </children>
                   </Pane>
-                  <Pane layoutX="411.0" layoutY="342.0">
-                     <children>
-                        <Circle fill="#ff441f" layoutY="11.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#29ff1f" height="22.0" layoutX="-3.0" layoutY="-21.0" stroke="BLACK" strokeType="INSIDE" width="6.0" />
-                     </children>
-                  </Pane>
-                  <Pane layoutX="391.0" layoutY="453.0">
-                     <children>
-                        <Circle fill="#f0ff1f" layoutX="1.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="11.0" layoutY="10.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="39.0" layoutY="20.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="18.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="21.0" layoutY="13.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="36.0" layoutY="7.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutY="16.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="11.0" layoutY="10.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="20.0" layoutY="23.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="33.0" layoutY="26.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f0ff1f" layoutX="8.0" layoutY="23.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-                     </children>
-                  </Pane>
-               </children>
-            </AnchorPane>
-         </left>
-         <right>
-            <AnchorPane prefHeight="600.0" prefWidth="540.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Pane layoutX="53.0" layoutY="130.0">
+                  <Pane layoutX="83.0" layoutY="227.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="50.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
                         <Label alignment="CENTER" layoutX="56.0" layoutY="5.0" prefHeight="7.0" prefWidth="30.0" text="W" textFill="WHITE">
@@ -85,29 +84,14 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane layoutX="29.0" layoutY="325.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
-                        <Label layoutX="19.0" layoutY="2.0" prefHeight="52.0" prefWidth="158.0" text="+10 POINTS" textFill="WHITE">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="29.0" layoutY="446.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
-                        <Label layoutX="38.0" layoutY="1.0" prefHeight="42.0" prefWidth="152.0" text="X2 SPEED" textFill="WHITE">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
+                  <Label layoutX="452.0" layoutY="258.0" text="Double Speed" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
-         </right>
+         </left>
       </BorderPane>
    </children>
 </AnchorPane>
