@@ -27,16 +27,21 @@ import javafx.util.Duration;
 
 public class GameEventController implements Initializable {
     @FXML
-    public Label scoreLabel;
+    public Label timeLabel;
     public Label eventLabel;
+    public Label appleLabel;
     public Pane upperPane;
     public Pane lowerPane;
     
     Timeline appear, disappear, flashingBanner;
     
+    private String baseTimeMsg = "Time left: ",
+    		baseAppleMsg = "Apple left: ";
+    
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		scoreLabel.setText("0");
+    	timeLabel.setText(baseTimeMsg + 300);
+    	appleLabel.setText(baseAppleMsg + 12);
     	eventLabel.setOpacity(0);
     	
     	upperPane.setOpacity(0);
@@ -68,16 +73,12 @@ public class GameEventController implements Initializable {
     	flashingBanner.setCycleCount(Timeline.INDEFINITE);
     }
     
-    public void showScore(int score) {
-    	scoreLabel.setText(String.valueOf(score));
+    public void showTime(int time) {
+    	timeLabel.setText(baseTimeMsg + time);
     }
     
-    public void doubleScore(boolean on) {
-    	if (on) {
-    		scoreLabel.setStyle("-fx-text-fill: gold");
-    	} else {
-    		scoreLabel.setStyle("-fx-text-fill: white");
-    	}
+    public void showAppleCount() {
+    	appleLabel.setText(baseAppleMsg + miniMap.appleList.size());
     }
     
     private boolean showingEvent = false;

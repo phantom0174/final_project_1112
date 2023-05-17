@@ -67,15 +67,15 @@ public class GameWorld extends Group implements AnimaNode {
 		} else if (Config.difficulty == GameDiff.MEDIUM) {
 			planetNum = 90;
 			radius *= 1.2;
-			Config.scoreMultiplier = 1.4;
+			Config.scoreMultiplier = 1.1;
 		} else if (Config.difficulty == GameDiff.HARD) {
 			planetNum = 120;
 			radius *= 1.4;
-			Config.scoreMultiplier = 1.8;
+			Config.scoreMultiplier = 1.2;
 		} else {
 			planetNum = 150;
 			radius *= 1.6;
-			Config.scoreMultiplier = 2.2;
+			Config.scoreMultiplier = 1.3;
 		}
 		
 //		this.getChildren().add(createTransientPlanet());
@@ -89,7 +89,7 @@ public class GameWorld extends Group implements AnimaNode {
 
 		// 隨機生成蘋果
 		setAppleModel();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 12; i++) {
 			Group apple = createApple();
 			appleList.add(apple);
 			this.getChildren().add(apple);

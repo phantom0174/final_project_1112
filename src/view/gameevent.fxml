@@ -14,11 +14,12 @@
             <StackPane prefHeight="75.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
                <children>
                   <Pane id="upperPane" fx:id="upperPane" prefHeight="200.0" prefWidth="1080.0" />
-                  <Label fx:id="scoreLabel" text="scoreLabel">
+                  <Label fx:id="timeLabel" text="timeLabel">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
+                  <Label id="appleLabel" fx:id="appleLabel" text="appleLabel" translateX="-440.0" translateY="180.0" />
                </children>
             </StackPane>
          </top>

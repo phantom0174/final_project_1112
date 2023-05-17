@@ -69,12 +69,8 @@ public class GameEventView implements View {
 		return s;
 	}
 	
-	public void showScore(int score) {
-		control.showScore(score);
-	}
-	
-	public void doubleScoreEffect(boolean on) {
-		control.doubleScore(on);
+	public void showTime(int time) {
+		control.showTime(time);
 	}
 	
 	public void outOfBoundaryOn(OutOfBoundaryType type) {
@@ -98,6 +94,7 @@ public class GameEventView implements View {
 	}
 	
 	public void updateAppleMap() {
+		control.showAppleCount();
 		control.miniMap.refreshAppleMap();
 	}
 }

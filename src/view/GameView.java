@@ -64,7 +64,7 @@ public class GameView implements View, AnimaNode {
 	// ---- game status ----
 	public GameStatus gameStatus = GameStatus.ALIVE;
 	public DeadType deadReason;
-	public double score = 0;
+	public double time = 300;
 	
 	// ---- event pipeline ---
 	public ArrayList<String> eventPipeline = new ArrayList<>();
@@ -122,7 +122,7 @@ public class GameView implements View, AnimaNode {
 			"sfx/explosion",
 			"sfx/boost",
 			"sfx/alarm",
-			"sfx/double-score"
+			"sfx/extra_time"
 		});
 		
 		this.loaded = true;
@@ -166,9 +166,9 @@ public class GameView implements View, AnimaNode {
 	
 	// ----------------- logic -----------------
 	
-	private void addScore(double s) {
-		this.score += s * Config.scoreMultiplier;
-		eventPipeline.add("updateScore");
+	private void addTime(int time) {
+		this.time += time;
+		eventPipeline.add("updateTime");
 	}
 	
 	private void setupSnake() {
@@ -181,21 +181,16 @@ public class GameView implements View, AnimaNode {
 	
 	public void stopProcess() {
 		this.frameGenerator.stop();
-		this.scoreAdder.stop();
+		this.timeDownCounter.stop();
 		
 		if (boostEffect.getStatus() == Animation.Status.RUNNING) {
 			boostEffect.stop();
 			Config.snakeSpeed.set(Config.snakeSpeed.get() / 2);
 		}
-		if (doubleScoreEffect.getStatus() == Animation.Status.RUNNING) {
-			doubleScoreEffect.stop();
-			Config.scoreMultiplier /= 2;
-		}
-		
 	}
 	
 	private Timeline frameGenerator,
-			scoreAdder;
+			timeDownCounter;
 	public void startGame() {
 		double fps = 60;
 		Duration frameDuration = Duration.millis(1000.0 / fps);
@@ -203,19 +198,18 @@ public class GameView implements View, AnimaNode {
 		frameGenerator.setCycleCount(Timeline.INDEFINITE);
 		frameGenerator.play();
 		
-		scoreAdder = new Timeline(10,
+		timeDownCounter = new Timeline(10,
 			new KeyFrame(Duration.seconds(1), e -> {
-				this.score -= 0.25;
-				eventPipeline.add("updateScore");
+				addTime(-1);
 			}
 		));
-		scoreAdder.setCycleCount(Timeline.INDEFINITE);
-		scoreAdder.play();
+		timeDownCounter.setCycleCount(Timeline.INDEFINITE);
+		timeDownCounter.play();
 	}
 	
 	public void endGame() {
 		frameGenerator.stop();
-		scoreAdder.stop();
+		timeDownCounter.stop();
 	}
 	
 	//
@@ -259,7 +253,8 @@ public class GameView implements View, AnimaNode {
 				this.snake.deadPos = new Point3D(x, y, z);
 				gameStatus = GameStatus.DEAD;
 				deadReason = DeadType.COLLISION;
-				this.scoreAdder.stop();
+				this.timeDownCounter.stop();
+				this.time = 0;
 				sound.play("sfx/explosion");
 				return;
 			}
@@ -294,7 +289,6 @@ public class GameView implements View, AnimaNode {
 			
 			this.world.getChildren().remove(a);
 			needRmvInd.push(pos);
-			addScore(10);
 			this.snake.generateBody();
 			
 			sound.play("sfx/eating");
@@ -311,8 +305,7 @@ public class GameView implements View, AnimaNode {
 	
 	/*
 	random effects:
-		- double score in 8 seconds
-		- double speed in 5 seconds
+		- double speed in 8 seconds
 		
 	音樂播放模式：
 		如果在吃完一次道具之後，又再吃到道具並獲取到同樣的效果；
@@ -321,12 +314,8 @@ public class GameView implements View, AnimaNode {
 	效果 timeline 統一以 0.1 秒為單位。
 	*/
 	
-	private boolean boostSFXOn = false,
-			doubleScoreSFXOn = false;
-
-	private boolean boostOn = false,
-			doubleScoreOn = false;
-	
+	private boolean boostSFXOn = false;
+	private boolean boostOn = false;
 	Timeline boostEffect = new Timeline(10,
 		new KeyFrame(Duration.ZERO, e -> {
 			if (boostSFXOn) sound.stop("sfx/boost");
@@ -337,27 +326,9 @@ public class GameView implements View, AnimaNode {
 		new KeyFrame(Duration.millis(2700), e -> {
 			boostSFXOn = false;
 		}),
-		new KeyFrame(Duration.seconds(5), e -> {
+		new KeyFrame(Duration.seconds(8), e -> {
 			boostOn = false;
 			Config.snakeSpeed.set(Config.snakeSpeed.get() / 1.5);
-		})
-	);
-	
-	Timeline doubleScoreEffect = new Timeline(10,
-		new KeyFrame(Duration.ZERO, e -> {
-			if (doubleScoreSFXOn) sound.stop("sfx/double-score");
-			sound.play("sfx/double-score");
-			if (!doubleScoreOn) Config.scoreMultiplier *= 2;
-			doubleScoreOn = true;
-			eventPipeline.add("doubleScoreEffectOn");
-		}),
-		new KeyFrame(Duration.millis(800), e -> {
-			doubleScoreSFXOn = false;
-		}),
-		new KeyFrame(Duration.seconds(8), e -> {
-			doubleScoreOn = false;
-			Config.scoreMultiplier /= 2;
-			eventPipeline.add("doubleScoreEffectOff");
 		})
 	);
 	
@@ -391,8 +362,8 @@ public class GameView implements View, AnimaNode {
 				if (boostOn) boostEffect.stop();
 				boostEffect.play();				
 			} else {
-				if (doubleScoreOn) doubleScoreEffect.stop();
-				doubleScoreEffect.play();	
+				sound.play("sfx/extra_time");
+				addTime(10);
 			}
 			
 			pos++;
@@ -436,7 +407,7 @@ public class GameView implements View, AnimaNode {
 		if (dist >= 1300) {
 			gameStatus = GameStatus.DEAD;
 			deadReason = DeadType.OUTOFBOUNDARY;
-			this.scoreAdder.stop();
+			this.timeDownCounter.stop();
 		} else if (dist > 800) {
 			world.ambLight.setLightOn(true);
 			

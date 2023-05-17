@@ -89,8 +89,10 @@ public class GameScene {
 			
 			if (showScored) return;
 			
+			gameView.time = (int) gameView.time * Config.scoreMultiplier;
+			
 			GameResult sR = new GameResult(
-				(int) gameView.score,
+				(int) gameView.time,
 				gameView.gameStatus,
 				gameView.deadReason
 			);
@@ -115,12 +117,8 @@ public class GameScene {
 			
 			for (String event: gameView.eventPipeline) {
 				switch(event) {
-				case "updateScore":
-					gameEventView.showScore((int) gameView.score); break;
-				case "doubleScoreEffectOn":
-					gameEventView.doubleScoreEffect(true); break;
-				case "doubleScoreEffectOff":
-					gameEventView.doubleScoreEffect(false); break;
+				case "updateTime":
+					gameEventView.showTime((int) gameView.time); break;
 				case "outOfBoundaryOn":
 					gameEventView.outOfBoundaryOn(gameView.outOfBoundType); break;
 				case "updateOutOfBoundaryMessage":
@@ -173,7 +171,7 @@ public class GameScene {
 	}
 	
 	public int getPlayerScore() {
-		return (int) gameView.score;
+		return (int) gameView.time;
 	}
 	
 	public void startGame() {

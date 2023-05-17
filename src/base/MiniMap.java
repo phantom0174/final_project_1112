@@ -35,7 +35,7 @@ public class MiniMap {
     DoubleBinding x, y;
     
     // ------- copies --------
-    ArrayList<Group> appleList = new ArrayList<>();
+    public ArrayList<Group> appleList = new ArrayList<>();
     
     public MiniMap(AnchorPane mapPane, Entity snakeHead, ArrayList<Group> appleList) {
     	this.snakeHead = snakeHead;

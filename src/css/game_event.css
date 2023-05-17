@@ -25,3 +25,7 @@
 #lowerPane {
 	-fx-background-color: rgba(200, 0, 0, 0.5);
 }
+
+#appleLabel {
+	-fx-padding: 5px 5px;
+}
