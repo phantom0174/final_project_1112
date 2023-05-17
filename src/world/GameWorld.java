@@ -58,6 +58,7 @@ public class GameWorld extends Group implements AnimaNode {
 	// ----------------- animations --------------
 	public ArrayList<AnimationTimer> spinningApple = new ArrayList<>();
 	public ArrayList<AnimationTimer> spinningProps = new ArrayList<>();
+	public ArrayList<AnimationTimer> spinningPlanets = new ArrayList<>();
 
 	public void setupObjects() {
 		int planetNum, radius = 50;
@@ -115,6 +116,9 @@ public class GameWorld extends Group implements AnimaNode {
 		for (AnimationTimer a: spinningApple) {
 			a.start();
 		}
+		for (AnimationTimer a: spinningPlanets) {
+			a.start();
+		}
 	}
 
 	public void stopAnimation() {
@@ -122,6 +126,9 @@ public class GameWorld extends Group implements AnimaNode {
 			a.stop();
 		}
 		for (AnimationTimer a: spinningApple) {
+			a.stop();
+		}
+		for (AnimationTimer a: spinningPlanets) {
 			a.stop();
 		}
 	}
@@ -159,6 +166,18 @@ public class GameWorld extends Group implements AnimaNode {
 			
 			Sphere s = new Sphere(r);
 			s.setMaterial(m);
+			
+			// random rotation
+		    Point3D randAxis = new Point3D(Math.random(), Math.random(), Math.random());
+		    s.setRotationAxis(randAxis);
+		    
+		    double spinningSpeed = Utils.rand(0.1, 0.5);
+		    spinningApple.add(new AnimationTimer() {
+				@Override
+				public void handle(long arg0) {
+					s.setRotate(s.getRotate() + spinningSpeed);
+				}
+			});
 
 			// 因後續獲取座標時會有問題，故不使用 .getTransforms.addAll(...) 
 			s.setTranslateX(x);
