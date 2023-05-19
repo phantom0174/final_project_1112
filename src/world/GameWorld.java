@@ -30,6 +30,8 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 
@@ -79,7 +81,6 @@ public class GameWorld extends Group implements AnimaNode {
 			Config.scoreMultiplier = 1.3;
 		}
 		
-//		this.getChildren().add(createTransientPlanet());
 		
 		// 隨機生成星球
 		for (int i = 0; i < planetNum; i++) {

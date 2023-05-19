@@ -5,5 +5,6 @@ public enum SnakeTextureType {
 	GREEN,
 	BLUE,
 	EASTEREGG1,
-	EASTEREGG2
+	EASTEREGG2,
+	EASTEREGG3
 }

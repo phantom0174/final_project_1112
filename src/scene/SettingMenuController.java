@@ -62,7 +62,7 @@ public class SettingMenuController implements Initializable {
 	}
 	
 	private static String[] skinChoices = {
-		"Red", "Green", "Blue", "?"
+		"Red", "Green", "Blue", "?", "??", "?!"
 	};
 	private void initiateSkin() {
 		skinChoice.getItems().addAll(skinChoices);
@@ -78,7 +78,9 @@ public class SettingMenuController implements Initializable {
 		case EASTEREGG1:
 			skinChoice.setValue("?"); break;
 		case EASTEREGG2:
-			break;
+			skinChoice.setValue("??"); break;
+		case EASTEREGG3:
+			skinChoice.setValue("?!"); break;
 		}
 	}
 	
@@ -112,6 +114,10 @@ public class SettingMenuController implements Initializable {
 			Config.snakeTexture = SnakeTextureType.BLUE; break;
 		case "?":
 			Config.snakeTexture = SnakeTextureType.EASTEREGG1; break;
+		case "??":
+			Config.snakeTexture = SnakeTextureType.EASTEREGG2; break;
+		case "?!":
+			Config.snakeTexture = SnakeTextureType.EASTEREGG3; break;
 		}
 	}
 }

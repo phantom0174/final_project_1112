@@ -93,7 +93,7 @@ public class Snake {
 	}
 	
 	private void initializeLight() {
-		double intensity = 0.7;
+		double intensity = 0.9;
 		
 		PointLight lightUP = new PointLight(Color.WHITE),
 				lightDOWN = new PointLight(Color.WHITE);
@@ -104,6 +104,7 @@ public class Snake {
 		lightDOWN.setLinearAttenuation((1 / intensity) / 1000);
 		
 		lightUP.setTranslateY(-8 * bodySize);
+		lightUP.setTranslateZ(-4 * bodySize);
 		
 		snakeLight.getChildren().addAll(lightUP, lightDOWN);
 		
@@ -146,7 +147,7 @@ public class Snake {
 	}
 	
 	public void setInitialCameraPos() {
-		Point3D camPosVecor = new Point3D(0, -15, 0);
+		Point3D camPosVecor = new Point3D(0, -12, -10);
 		
 		camera.setPos(head.getPos().add(camPosVecor));
 		camera.setRot(-8, -180, 0);
@@ -348,12 +349,12 @@ public class Snake {
 		// ----- camera position update --------
 		Point3D frontVector = relativeRot(new Point3D(0, 0, 1));
 		
-		Point3D camPosVecor = new Point3D(0, -15 * bodySize, 0)
-				.subtract(frontVector.multiply(40 * bodySize))
+		Point3D camPosVecor = new Point3D(0, -13 * bodySize, 0)
+				.subtract(frontVector.multiply(35 * bodySize))
 				.add(head.getPos());
 		
 		camera.setPos(camPosVecor);
-		camera.setRot(-20, headRot.getY(), 0);
+		camera.setRot(-18, headRot.getY(), 0);
 		
 		// ----- snakeLight position update -----
 		Point3D lightPosVecor = frontVector.multiply(5)

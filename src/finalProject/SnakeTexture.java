@@ -1,12 +1,11 @@
 package finalProject;
 
 import base.Config;import base.MaterialLoader;
-import base.SnakeTextureType;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 
 public class SnakeTexture {
-	private static MaterialLoader matLoader = new MaterialLoader();
+	private static MaterialLoader matLoader = new MaterialLoader("skin");
 	
 	public PhongMaterial headMat = new PhongMaterial();
 	public PhongMaterial bodyMat = new PhongMaterial();
@@ -29,9 +28,24 @@ public class SnakeTexture {
 			break;
 		}
 		case EASTEREGG1: {
+			headMat.setDiffuseColor(Color.LIGHTBLUE);
+			headMat.setDiffuseMap(matLoader.get("phh.png"));
+			bodyMat.setDiffuseColor(Color.LIGHTBLUE);
+			bodyMat.setDiffuseMap(matLoader.get("ph.png"));
+			break;
+		}
+		case EASTEREGG2: {
 			headMat.setDiffuseColor(Color.WHITE);
-			headMat.setDiffuseMap(matLoader.get("shiftPH0.jpg"));
+			headMat.setDiffuseMap(matLoader.get("boo.png"));
 			bodyMat.setDiffuseColor(Color.WHITE);
+			bodyMat.setDiffuseMap(matLoader.get("bo.png"));
+			break;
+		}
+		case EASTEREGG3: {
+			headMat.setDiffuseColor(Color.WHITE);
+			headMat.setDiffuseMap(matLoader.get("pf.png"));
+			bodyMat.setDiffuseColor(Color.WHITE);
+			bodyMat.setDiffuseMap(matLoader.get("pff.png"));
 			break;
 		}
 		}
