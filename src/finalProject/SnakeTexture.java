@@ -1,33 +1,39 @@
 package finalProject;
 
-import base.Config;
+import base.Config;import base.MaterialLoader;
 import base.SnakeTextureType;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 
-
-class HeadMaterial {
-	public PhongMaterial mat = new PhongMaterial();
-}
-
-class BodyMaterial {
-	public PhongMaterial mat = new PhongMaterial();
-}
-
 public class SnakeTexture {
-	public HeadMaterial headMat = new HeadMaterial();
-	public BodyMaterial bodyMat = new BodyMaterial();
+	private static MaterialLoader matLoader = new MaterialLoader();
+	
+	public PhongMaterial headMat = new PhongMaterial();
+	public PhongMaterial bodyMat = new PhongMaterial();
 	
 	public SnakeTexture() {
-		if (Config.snakeTexture == SnakeTextureType.RED) {
-			headMat.mat.setDiffuseColor(Color.RED);
-			bodyMat.mat.setDiffuseColor(Color.PINK);
-		} else if (Config.snakeTexture == SnakeTextureType.GREEN) {
-			headMat.mat.setDiffuseColor(Color.GREEN);
-			bodyMat.mat.setDiffuseColor(Color.GREENYELLOW);
-		} else if (Config.snakeTexture == SnakeTextureType.BLUE) {
-			headMat.mat.setDiffuseColor(Color.DARKBLUE);
-			bodyMat.mat.setDiffuseColor(Color.LIGHTBLUE);
+		switch (Config.snakeTexture) {
+		case RED: {
+			headMat.setDiffuseColor(Color.RED);
+			bodyMat.setDiffuseColor(Color.PINK);
+			break;
+		}
+		case GREEN: {
+			headMat.setDiffuseColor(Color.GREEN);
+			bodyMat.setDiffuseColor(Color.GREENYELLOW);
+			break;
+		}
+		case BLUE: {
+			headMat.setDiffuseColor(Color.DARKBLUE);
+			bodyMat.setDiffuseColor(Color.LIGHTBLUE);
+			break;
+		}
+		case EASTEREGG1: {
+			headMat.setDiffuseColor(Color.WHITE);
+			headMat.setDiffuseMap(matLoader.get("shiftPH0.jpg"));
+			bodyMat.setDiffuseColor(Color.WHITE);
+			break;
+		}
 		}
 	}
 }

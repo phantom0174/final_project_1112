@@ -32,7 +32,6 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.SubScene;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -51,7 +50,7 @@ public class Snake {
 	
 	public final double bodySize = 5;
 	
-	public PointLight snakeLight = new PointLight(Color.WHITE);
+	public Group snakeLight = new Group();
 	
 	public SnakeTexture texture = new SnakeTexture();
 	
@@ -82,10 +81,10 @@ public class Snake {
 			new Rotate(10, Rotate.Z_AXIS),
 			new Translate(1, -5, 0)
 		);
-		tenta1.setMaterial(texture.bodyMat.mat);
-		tenta2.setMaterial(texture.bodyMat.mat);
+		tenta1.setMaterial(texture.bodyMat);
+		tenta2.setMaterial(texture.bodyMat);
 		
-		headBall.setMaterial(texture.headMat.mat);
+		headBall.setMaterial(texture.headMat);
 		
 		headCore.getChildren().addAll(headBall, tenta1, tenta2);
 		
@@ -94,11 +93,19 @@ public class Snake {
 	}
 	
 	private void initializeLight() {
-		double intensity = 1;
+		double intensity = 0.7;
 		
-		snakeLight.setConstantAttenuation(1 / intensity);
-		snakeLight.setLinearAttenuation((1 / intensity) / 1000);
-//		snakeLight.setQuadraticAttenuation((1 / intensity) / 20000);
+		PointLight lightUP = new PointLight(Color.WHITE),
+				lightDOWN = new PointLight(Color.WHITE);
+		
+		lightUP.setConstantAttenuation(1 / intensity);
+		lightUP.setLinearAttenuation((1 / intensity) / 1000);
+		lightDOWN.setConstantAttenuation(1 / intensity);
+		lightDOWN.setLinearAttenuation((1 / intensity) / 1000);
+		
+		lightUP.setTranslateY(-8 * bodySize);
+		
+		snakeLight.getChildren().addAll(lightUP, lightDOWN);
 		
 		Point3D lightPosVecor = new Point3D(0, 0, 5 * bodySize)
 				.add(new Point3D(0, 0, -100)); // head initial position
@@ -108,16 +115,11 @@ public class Snake {
 		snakeLight.setTranslateZ(lightPosVecor.getZ());
 		
 		fatherGroup.getChildren().add(snakeLight);
-		
-		System.out.println("scope: " + snakeLight.getScope().size());
-		System.out.println("scope: " + snakeLight.getExclusionScope().size());
-		
-		snakeLight.setBlendMode(BlendMode.ADD);
 	}
 	
 	public void generateBody() {
 		Sphere bodyCore = new Sphere(bodySize);
-		bodyCore.setMaterial(texture.bodyMat.mat);
+		bodyCore.setMaterial(texture.bodyMat);
 		
 		Entity body = new Entity(bodyCore);
 		
@@ -144,7 +146,7 @@ public class Snake {
 	}
 	
 	public void setInitialCameraPos() {
-		Point3D camPosVecor = new Point3D(0, -15, 100);
+		Point3D camPosVecor = new Point3D(0, -15, 0);
 		
 		camera.setPos(head.getPos().add(camPosVecor));
 		camera.setRot(-8, -180, 0);
@@ -354,8 +356,7 @@ public class Snake {
 		camera.setRot(-20, headRot.getY(), 0);
 		
 		// ----- snakeLight position update -----
-		Point3D lightPosVecor = new Point3D(0, -5 * bodySize, 0)
-				.add(frontVector.multiply(5))
+		Point3D lightPosVecor = frontVector.multiply(5)
 				.add(head.getPos());
 		
 		snakeLight.setTranslateX(lightPosVecor.getX());
