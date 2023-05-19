@@ -32,3 +32,27 @@
 	-fx-font-family: "Yu Mincho";
 	-fx-text-fill: white;
 }
+
+
+#skinSelect {
+	-fx-pref-height: 10px;
+	-fx-background-color: white;
+	-fx-border-radius: 5px;
+	-fx-text-fill: black;
+	-fx-font-size: 20px;
+}
+
+#skinSelect > .label {
+	-fx-text-fill: black;
+	-fx-font-size: 15px;
+}
+
+#skinSelect .menu-item > .label {
+	-fx-text-fill: black;
+	-fx-font-size: 15px;
+}
+
+#skinSelect .menu-item:focused > .label {
+	-fx-text-fill: white;
+	-fx-font-size: 15px;
+}

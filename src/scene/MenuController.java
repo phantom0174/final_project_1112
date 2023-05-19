@@ -56,7 +56,7 @@ public class MenuController implements Initializable {
 	public Node creditBtn;
 	
 	private SoundPlayer sound;
-	private int playerHightestScore = 0;
+	private int playerHightestScore = -1;
 	
 	public Boolean easyRBSelect;
 	

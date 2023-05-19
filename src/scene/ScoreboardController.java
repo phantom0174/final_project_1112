@@ -109,7 +109,7 @@ public class ScoreboardController implements Initializable {
 		if (highestScore.equals("0")) {
 			showAlert(
 				"Uplaod Score Error | Final Project",
-				"Try harder to upload your score!"
+				"Try harder!"
 			);
 			return;
 		}

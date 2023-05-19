@@ -227,7 +227,7 @@ public class GameWorld extends Group implements AnimaNode {
 			Point3D pos = new Point3D(x, y, z);
 			if (
 				collisionWithPlanet(pos, 20)
-				|| collisionWithGroup(appleList, pos, 20 + 10) // 10 is the apple size
+				|| collisionWithGroup(appleList, pos, 100) // 10 is the apple size
 			) continue;
 			createSuccess = true;
 		    

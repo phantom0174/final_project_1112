@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
@@ -23,19 +24,19 @@
          <center>
             <StackPane prefHeight="600.0" prefWidth="680.0" style="-fx-background-color: rgba(200, 200, 200, 0.4);" BorderPane.alignment="CENTER">
                <children>
-                  <Group translateY="-100.0">
+                  <Group translateY="-150.0">
                      <children>
-                        <Slider fx:id="volumeSlider" layoutX="2.7142856121063232" layoutY="34.0" showTickMarks="true" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.714285612106323" text="Music Volume" textFill="WHITE">
+                        <Slider fx:id="volumeSlider" layoutX="2.7142856121063232" showTickMarks="true" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.714285612106323" layoutY="-40.0" text="Music Volume" textFill="WHITE">
                            <font>
                               <Font name="Yu Gothic Medium" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </Group>
-                  <Group translateY="40.0">
+                  <Group>
                      <children>
-                        <Label layoutX="105.0" layoutY="-10.0" text="Game Difficulty" translateY="-30.0" />
+                        <Label layoutX="105.0" layoutY="-40.0" text="Game Difficulty" />
                         <RadioButton fx:id="easyRB" mnemonicParsing="false" onAction="#setEasy" text="Easy" translateX="-40.0">
                            <toggleGroup>
                               <ToggleGroup fx:id="DifficultyRB" />
@@ -43,7 +44,13 @@
                         </RadioButton>
                         <RadioButton fx:id="mediumRB" layoutX="88.5714225769043" mnemonicParsing="false" onAction="#setMedium" selected="true" text="Medium" toggleGroup="$DifficultyRB" translateX="-10.0" />
                         <RadioButton fx:id="hellRB" layoutX="301.14284896850586" mnemonicParsing="false" onAction="#setHell" text="Hell" toggleGroup="$DifficultyRB" translateX="40.0" />
-                        <RadioButton fx:id="hardRB" layoutX="198.28570175170898" mnemonicParsing="false" onAction="#setHard" text="Hard" toggleGroup="$DifficultyRB" translateX="10.0" />
+                        <RadioButton fx:id="hardRB" contentDisplay="CENTER" layoutX="198.28570175170898" mnemonicParsing="false" onAction="#setHard" text="Hard" toggleGroup="$DifficultyRB" translateX="10.0" />
+                     </children>
+                  </Group>
+                  <Group translateY="150.0" StackPane.alignment="CENTER">
+                     <children>
+                        <ChoiceBox id="skinSelect" fx:id="skinChoice" prefHeight="150.0" prefWidth="150.0" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="-40.0" text="Skin" textAlignment="CENTER" />
                      </children>
                   </Group>
                </children>
