@@ -27,7 +27,7 @@
                         <Font name="Yu Mincho Demibold" size="64.0" />
                      </font>
                   </Label>
-                  <Label fx:id="subtitle" rotate="-20.0" text="Funniest Snake Game !" textFill="#f7ff68" translateX="200.0" translateY="35.0">
+                  <Label fx:id="subtitle" rotate="-20.0" text="Funniest Worm Game !" textFill="#f7ff68" translateX="200.0" translateY="35.0">
                      <font>
                         <Font name="Yu Mincho Regular" size="18.0" />
                      </font>

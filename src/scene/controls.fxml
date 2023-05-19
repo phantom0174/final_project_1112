@@ -44,7 +44,7 @@
                   </ImageView>
                   <ImageView fitHeight="90.0" fitWidth="70.0" layoutX="167.0" layoutY="436.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../Users/User/Downloads/apple-removebg-preview.png" />
+                        <Image url="@../resources/materials/game/apple.png" />
                      </image>
                   </ImageView>
                   <Pane layoutX="116.0" layoutY="67.0">
