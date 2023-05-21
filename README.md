@@ -1,4 +1,6 @@
-# Final project
+# Galaxy Gobbler 3D
+
+專案名稱 \\^~^/
 
 ## Run Configurations
 
