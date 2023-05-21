@@ -1,4 +1,4 @@
-# Galaxy Gobbler 3D
+# Galactic Gobbler 3D
 
 專案名稱 \\^~^/
 
