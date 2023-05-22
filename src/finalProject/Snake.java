@@ -32,10 +32,12 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.SubScene;
+import javafx.scene.chart.Axis;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -50,7 +52,7 @@ public class Snake {
 	
 	public final double bodySize = 5;
 	
-	public Group snakeLight = new Group();
+	public Entity snakeLight;
 	
 	public SnakeTexture texture = new SnakeTexture();
 	
@@ -60,9 +62,8 @@ public class Snake {
 		
 		moveSpeed.bind(Config.snakeSpeed);
 		
-		initializeLight();
 		initializeHead();
-		setInitialCameraPos();
+		initializeLight();
 	}
 	
 	// --------------- logic and initialize ----------------
@@ -93,29 +94,45 @@ public class Snake {
 	}
 	
 	private void initializeLight() {
-		double intensity = 0.9;
+		double intensity = 0.8;
 		
-		PointLight lightUP = new PointLight(Color.WHITE),
-				lightDOWN = new PointLight(Color.WHITE);
+		PointLight paraLight = new PointLight(Color.WHITE),
+				charaLight = new PointLight(Color.WHITE),
+				frontLight = new PointLight(Color.WHITE);
 		
-		lightUP.setConstantAttenuation(1 / intensity);
-		lightUP.setLinearAttenuation((1 / intensity) / 1000);
-		lightDOWN.setConstantAttenuation(1 / intensity);
-		lightDOWN.setLinearAttenuation((1 / intensity) / 1000);
+		paraLight.setConstantAttenuation(1 / intensity);
+		paraLight.setLinearAttenuation((1 / intensity) / 1000);
 		
-		lightUP.setTranslateY(-8 * bodySize);
-		lightUP.setTranslateZ(-4 * bodySize);
+		charaLight.setConstantAttenuation(1 / intensity);
+		charaLight.setLinearAttenuation((1 / intensity) / 1000);
 		
-		snakeLight.getChildren().addAll(lightUP, lightDOWN);
+		frontLight.setConstantAttenuation(1 / intensity);
+		frontLight.setLinearAttenuation((1 / intensity) / 1000);
+		
+		paraLight.setTranslateY(-8 * bodySize);
+		paraLight.setTranslateZ(-4 * bodySize);
+		
+		charaLight.setTranslateZ(4 * bodySize);
+		
+//		Sphere pL = new Sphere(2),
+//				cL = new Sphere(2),
+//				fL = new Sphere(2);
+//		
+//		pL.setTranslateY(-8 * bodySize);
+//		pL.setTranslateZ(-4 * bodySize);
+//		cL.setTranslateZ(3 * bodySize);
+		
+		Group snakeLightCore = new Group();
+		snakeLightCore.getChildren().addAll(paraLight, charaLight, frontLight);
 		
 		Point3D lightPosVecor = new Point3D(0, 0, 5 * bodySize)
 				.add(new Point3D(0, 0, -100)); // head initial position
 		
-		snakeLight.setTranslateX(lightPosVecor.getX());
-		snakeLight.setTranslateY(lightPosVecor.getY());
-		snakeLight.setTranslateZ(lightPosVecor.getZ());
+		snakeLight = new Entity(snakeLightCore);
+		snakeLight.yRot.bind(head.yRot);
+		snakeLight.setPos(lightPosVecor);
 		
-		fatherGroup.getChildren().add(snakeLight);
+		fatherGroup.getChildren().add(snakeLight.shell);
 	}
 	
 	public void generateBody() {
@@ -147,10 +164,11 @@ public class Snake {
 	}
 	
 	public void setInitialCameraPos() {
-		Point3D camPosVecor = new Point3D(0, -12, -10);
+		Point3D camPosVecor = new Point3D(0, -12, 110)
+				.add(head.getPos());
 		
-		camera.setPos(head.getPos().add(camPosVecor));
-		camera.setRot(-8, -180, 0);
+		camera.setPos(camPosVecor);
+		camera.setRot(-8, 180, 0);
 	}
 	
 	// Need to call this function before moving the snake's head position!
@@ -203,7 +221,8 @@ public class Snake {
 	private boolean wHold = false,
 			sHold = false,
 			aHold = false,
-			dHold = false;
+			dHold = false,
+			spaceHold = false;
 	
 	public void writeKeyHold(KeyCode c, boolean mode) {
 		switch (c) {
@@ -211,6 +230,7 @@ public class Snake {
 			case S: this.sHold = mode; break;
 			case A: this.aHold = mode; break;
 			case D: this.dHold = mode; break;
+			case SPACE: this.spaceHold = mode; break;
 			default: break;
 		}
 	}
@@ -347,22 +367,15 @@ public class Snake {
 		
 		*/
 		// ----- camera position update --------
-		Point3D frontVector = relativeRot(new Point3D(0, 0, 1));
-		
-		Point3D camPosVecor = new Point3D(0, -13 * bodySize, 0)
-				.subtract(frontVector.multiply(35 * bodySize))
-				.add(head.getPos());
-		
-		camera.setPos(camPosVecor);
-		camera.setRot(-18, headRot.getY(), 0);
+		if (!spaceHold) updateCameraToBack();
+		else updateCameraToFront();
 		
 		// ----- snakeLight position update -----
-		Point3D lightPosVecor = frontVector.multiply(5)
+		Point3D frontVector = relativeRot(new Point3D(0, 0, 5));
+		Point3D lightPosVecor = frontVector
 				.add(head.getPos());
 		
-		snakeLight.setTranslateX(lightPosVecor.getX());
-		snakeLight.setTranslateY(lightPosVecor.getY());
-		snakeLight.setTranslateZ(lightPosVecor.getZ());
+		snakeLight.setPos(lightPosVecor);
 	}
 	
 	public void moveHead(Point3D pos_v, boolean isDead) {
@@ -372,5 +385,24 @@ public class Snake {
 		else this.head.move(
 			head.getPos().subtract(deadPos).normalize().multiply(moveSpeed.get())
 		);
+	}
+	
+	public void updateCameraToFront() {
+		Point3D camPosVecor = relativeRot(new Point3D(0, 30, 170))
+				.add(head.getPos());
+		
+		camera.setPos(camPosVecor);
+		camera.setRot(-10, head.getRot().getY() + 180, 0);
+	}
+	
+	public void updateCameraToBack() {
+		Point3D frontVector = relativeRot(new Point3D(0, 0, 1));
+		
+		Point3D camPosVecor = new Point3D(0, -13 * bodySize, 0)
+				.subtract(frontVector.multiply(35 * bodySize))
+				.add(head.getPos());
+		
+		camera.setPos(camPosVecor);
+		camera.setRot(-18, head.getRot().getY(), 0);
 	}
 }

@@ -3,7 +3,6 @@ package base;
 import java.io.File;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -53,19 +52,7 @@ public class ModelLoader {
 			Group obj = new Group();
 			obj.getChildren().addAll(meshes);
 			return obj;			
-		} else if (type.equals("stl")) {
-			File file = new File(baseFileURL + objName + ".stl");
-			StlMeshImporter importer = new StlMeshImporter();
-			importer.read(file);
-			MeshView mesh = new MeshView(importer.getImport());
-			
-			mesh.setMaterial(material);
-			
-			Group obj = new Group();
-			obj.getChildren().add(mesh);
-			return obj;
 		}
-		
 		return null;
 	}
 }

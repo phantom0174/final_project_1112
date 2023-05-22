@@ -74,21 +74,14 @@ public class GameView implements View, AnimaNode {
 	所以 GameScene 會持續監聽這個 pipeline，處理從這邊發出的需求。
 	
 	需求一覽：
-		- updateScore
-			更新分數（每次更新分數就發一次）
+		- updateTime
+			更新剩餘時間
 		
-		- doubleScoreEffectOn
-			將分數字體顏色改為金黃色，指示雙倍分數。
-			
-		- doubleScoreEffectOff
-			上述效果結束時執行
-			
 		- outOfBoundaryOn
 			要超出邊界時常駐顯示
 			
 		- outOfBoundaryOff
 			回到安全區域內時執行
-			
 	*/
 	
 	// -------- Bubbling up to GameScene -------- end
@@ -176,7 +169,7 @@ public class GameView implements View, AnimaNode {
 		snake.moveHead(new Point3D(0, 0, -100), false);
 		for (int i = 0; i < 5; i++) snake.generateBody();
 		snake.alignBodies();
-		System.out.println("world size: " + world.getChildren().size());
+		snake.setInitialCameraPos();
 	}
 	
 	public void stopProcess() {

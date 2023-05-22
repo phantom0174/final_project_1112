@@ -12,6 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="custom_lib/json-simple-1.1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JFX3DModelImporters"/>
+	<classpathentry kind="lib" path="custom_lib/JFX3DModelImporters/jimObjModelImporterJFX.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
