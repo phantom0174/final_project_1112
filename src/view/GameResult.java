@@ -125,7 +125,8 @@ class DeadMessage {
 
 class WinMessage {
 	private static String[] winTitles = {
-		"Congratulations!"
+		"Congratulations!",
+		"You are eligible to marry professor SHI!"
 	};
 	
 	public static String choose() {
