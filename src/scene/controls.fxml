@@ -22,7 +22,7 @@
             <AnchorPane prefHeight="596.0" prefWidth="1089.0" BorderPane.alignment="CENTER">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1080.0" />
-                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect All 12 apples In 3 Minutes To Win" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect all 12 apples in 300 seconds to win" textFill="WHITE">
                      <font>
                         <Font size="34.0" />
                      </font>
@@ -40,7 +40,7 @@
                   <Pane layoutX="810.0" layoutY="260.0" prefHeight="98.0" prefWidth="82.0">
                      <children>
                         <Circle fill="#00ff11" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f1ff42" layoutX="17.0" layoutY="17.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f1ff42" layoutX="21.0" layoutY="21.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="42.0" layoutY="42.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="63.0" layoutY="63.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="84.0" layoutY="84.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
