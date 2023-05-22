@@ -21,10 +21,10 @@
          <left>
             <AnchorPane prefHeight="596.0" prefWidth="1089.0" BorderPane.alignment="CENTER">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.77" stroke="BLACK" strokeType="INSIDE" width="1080.0" />
-                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect All 12 apples In 3 Minutes To Win" textFill="#1a00ff">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1080.0" />
+                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect All 12 apples In 3 Minutes To Win" textFill="WHITE">
                      <font>
-                        <Font size="36.0" />
+                        <Font size="34.0" />
                      </font>
                   </Label>
                   <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="80.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
@@ -74,19 +74,19 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label layoutX="200.0" layoutY="175.0" text="II. Avoid hitting planets or being out of bounds" textFill="#1a00ff">
+                  <Label layoutX="200.0" layoutY="175.0" text="II. Avoid hitting planets or being out of bounds" textFill="WHITE">
                      <font>
-                        <Font size="36.0" />
+                        <Font size="34.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="275.0" text="III. Use WASD to control the worm" textFill="#1a00ff">
+                  <Label layoutX="200.0" layoutY="275.0" text="III. Use WASD to control the worm" textFill="WHITE">
                      <font>
-                        <Font size="36.0" />
+                        <Font size="34.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="475.0" text="V. Lucky box will randomly give you a buff" textFill="#1a00ff">
+                  <Label layoutX="200.0" layoutY="475.0" text="V. Lucky box will randomly give you a buff" textFill="WHITE">
                      <font>
-                        <Font size="36.0" />
+                        <Font size="34.0" />
                      </font>
                   </Label>
                   <Label layoutX="240.0" layoutY="525.0" text="&gt;&gt; Extends 10 seconds    &gt;&gt; Double speed" textFill="#ffaf00">
@@ -94,9 +94,9 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="375.0" text="IV. Press / Release Space to switch camera angles" textFill="#1a00ff">
+                  <Label layoutX="200.0" layoutY="375.0" text="IV. Press / Release Space to switch camera angle" textFill="WHITE">
                      <font>
-                        <Font size="36.0" />
+                        <Font size="34.0" />
                      </font>
                   </Label>
                </children>
