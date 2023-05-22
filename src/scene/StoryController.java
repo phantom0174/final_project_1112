@@ -29,27 +29,21 @@ import javafx.util.Duration;
 public class StoryController implements Initializable {
 
     @FXML
-    public Label line1;
-    public Label line2;
-    public Label line3;
-    public Label line4;
-    public Label line5;
-    public Label line6;
-    public Label line7;
-    public Label line8;
+    public Label line1, line2, line3, line4, line5, line6, line7, line8;
     public Label skipLabel;
-    
     
     private Stage stage;
     private Scene scene;
     private int curLine = -1;
     private Label[] story;
-    
+
+    private Timeline skipAnima;
     private Timeline endStory = new Timeline(30,
 		new KeyFrame(Duration.ZERO, e -> {
 			for (Label l: story) {
 				fadeOut(l);
 			}
+			skipAnima.stop();
 			fadeOut(skipLabel);
 		}),
 		new KeyFrame(Duration.seconds(2.2), e -> {
@@ -64,11 +58,10 @@ public class StoryController implements Initializable {
 		new KeyFrame(Duration.millis(100), e -> {
 			fadeInLabel(curLine);
 		}),
-		new KeyFrame(Duration.seconds(1.2), e -> {
+		new KeyFrame(Duration.seconds(2), e -> {
 			if (curLine == 7) endStory.play();
 		})
 	);
-    
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -82,13 +75,18 @@ public class StoryController implements Initializable {
 		}
 		skipLabel.setOpacity(0);
 		
+		skipAnima = new Timeline(30,
+			new KeyFrame(Duration.ZERO, new KeyValue(skipLabel.opacityProperty(), 0)),
+			new KeyFrame(Duration.seconds(2), new KeyValue(skipLabel.opacityProperty(), 1)),
+			new KeyFrame(Duration.seconds(4), new KeyValue(skipLabel.opacityProperty(), 0))
+		);
+		skipAnima.setCycleCount(Timeline.INDEFINITE);
+		skipAnima.play();
+		
 		playStory.setCycleCount(8);
 	}
 	
 	private void fadeInLabel(int index) {
-		if (index == 0) {
-			fadeIn(skipLabel);
-		}
 		fadeIn(story[index]);
 	}
 	

@@ -48,12 +48,7 @@ import javafx.util.Duration;
 public class MenuController implements Initializable {
 	
 	@FXML
-	public Node title;
-	public Node subtitle;
-	public Node startBtn;
-	public Node settingBtn;
-	public Node controlBtn;
-	public Node creditBtn;
+	public Node title, subtitle, startBtn, settingBtn, controlBtn, creditBtn;
 	
 	private SoundPlayer sound;
 	private int playerHightestScore = -1;

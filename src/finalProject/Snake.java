@@ -32,12 +32,10 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.SubScene;
-import javafx.scene.chart.Axis;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -90,6 +88,7 @@ public class Snake {
 		headCore.getChildren().addAll(headBall, tenta1, tenta2);
 		
 		this.head = new Entity(headCore);
+		this.bodies.add(this.head);
 		this.fatherGroup.getChildren().add(this.head.shell);
 	}
 	
@@ -142,22 +141,18 @@ public class Snake {
 		Entity body = new Entity(bodyCore);
 		
 		// set the position to the current position of the body in front of this body
-		if (this.bodies.size() == 0) {
-			body.setPos(head.getPos());
-		} else {
-			Point3D pos = this.bodies.get(this.bodies.size() - 1).getPos();
-			body.setPos(pos);
-		}
+		Point3D pos = bodies.get(bodies.size() - 1).getPos();
+		body.setPos(pos);
 		
-		this.bodies.add(body);
-		
-		this.fatherGroup.getChildren().add(body.shell);
+		bodies.add(body);
+		fatherGroup.getChildren().add(body.shell);
 	}
 	
 	public void alignBodies() {
 		Point3D prevPos = head.getPos();
 		
-		for (Entity e: bodies) {
+		for (int i = 1; i < bodies.size(); i++) {
+			Entity e = bodies.get(i);
 			e.setPos(prevPos.add(new Point3D(0, 0, -2 * bodySize)));
 			prevPos = e.getPos();
 		}
@@ -173,33 +168,37 @@ public class Snake {
 	
 	// Need to call this function before moving the snake's head position!
 	public void updateBodyPosition(boolean isDead) {
-		for (int i = this.bodies.size() - 1; i > 0; i--) {
-			Entity curBody = this.bodies.get(i);
-			Point3D nextPos = this.bodies.get(i - 1).getPos();
-			Point3D curPos = curBody.getPos();
+		Point3D direcVec;
+		for (int i = bodies.size() - 1; i > 0; i--) {
+			Entity curBody = bodies.get(i);
 			
-			if (isDead) {
-				curBody.move(curPos.subtract(deadPos).normalize().multiply(moveSpeed.get()));
+			Point3D nextPos = bodies.get(i - 1).getPos(),
+					curPos = curBody.getPos();
+			
+			Point3D diffVec = nextPos.subtract(curPos);
+			
+			if (!isDead) direcVec = diffVec
+					.normalize()
+					.multiply(moveSpeed.get());
+			else {
+				direcVec = curPos
+					.subtract(deadPos)
+					.normalize()
+					.multiply(moveSpeed.get());
+				curBody.move(direcVec);
 				continue;
 			}
 			
-			if (nextPos.subtract(curPos).magnitude() < 2 * this.bodySize) continue;
-			curBody.move(nextPos.subtract(curPos).normalize().multiply(moveSpeed.get()));
+			double diffBodyCount = diffVec.magnitude() / bodySize;
+			if (diffBodyCount < 2) {
+				if (diffBodyCount < 1.8)
+					direcVec = direcVec.multiply(0.7);
+				else
+					direcVec = direcVec.multiply(0.95);
+			}
+			
+			curBody.move(direcVec);
 		}
-		
-		if (this.bodies.size() == 0) return;
-		
-		Entity curBody = this.bodies.get(0);
-		Point3D headPos = this.head.getPos();
-		Point3D curPos = curBody.getPos();
-		
-		if (isDead) {
-			curBody.move(curPos.subtract(deadPos).normalize().multiply(moveSpeed.get()));
-			return;
-		}
-		
-		if (headPos.subtract(curPos).magnitude() < 2 * this.bodySize) return;
-		curBody.move(headPos.subtract(curPos).normalize().multiply(moveSpeed.get()));
 	}
 	
 	// --------------- controls and animations -------------------
@@ -367,7 +366,7 @@ public class Snake {
 		
 		*/
 		// ----- camera position update --------
-		if (!spaceHold) updateCameraToBack();
+		if (!spaceHold && !isDead) updateCameraToBack();
 		else updateCameraToFront();
 		
 		// ----- snakeLight position update -----

@@ -23,8 +23,7 @@ import javafx.util.Duration;
 
 public class GameoverController implements Initializable {
 	@FXML
-	public Label showScore;
-	public Label deadReason;
+	public Label showScore, deadReason;
 	public Pane coverPane;
 	
 	private static String scoreBase = "Your Score: ";

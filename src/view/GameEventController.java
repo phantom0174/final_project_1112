@@ -27,9 +27,7 @@ import javafx.util.Duration;
 
 public class GameEventController implements Initializable {
     @FXML
-    public Label timeLabel;
-    public Label eventLabel;
-    public Label appleLabel;
+    public Label timeLabel, eventLabel, appleLabel;
     public Pane upperPane;
     public Pane lowerPane;
     

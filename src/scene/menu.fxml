@@ -24,12 +24,12 @@
                <children>
                   <Label fx:id="title" text="GALACTIC GOBBLER 3D" textFill="WHITE">
                      <font>
-                        <Font size="56.0" />
+                        <Font name="Yu Mincho Demibold" size="56.0" />
                      </font>
                   </Label>
                   <Label fx:id="subtitle" rotate="-20.0" text="Funniest Worm Game !" textFill="#f7ff68" translateX="265.0" translateY="35.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Yu Mincho Regular" size="18.0" />
                      </font>
                   </Label>
                </children>

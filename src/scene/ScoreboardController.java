@@ -40,8 +40,7 @@ import javafx.util.Pair;
 public class ScoreboardController implements Initializable {
 	@FXML
 	public TableView<ScoreDatum> scoreBoard;
-	public TableColumn<ScoreDatum, String> name;
-	public TableColumn<ScoreDatum, String> score;
+	public TableColumn<ScoreDatum, String> name, score;
 	public TextField nameField;
 	public Button uploadButton;
 	public Label scoreLabel;

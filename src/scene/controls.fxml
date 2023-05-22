@@ -17,12 +17,12 @@
             <Image url="@../resources/materials/game/space.jpeg" />
          </image>
       </ImageView>
-      <BorderPane prefHeight="600.0" prefWidth="1081.0">
+      <BorderPane prefHeight="600.0" prefWidth="1080.0" style="-fx-background-color: rgba(200, 200, 200, 0.5);">
          <left>
-            <AnchorPane prefHeight="596.0" prefWidth="1089.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="600.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1080.0" />
-                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect all 12 apples in 300 seconds to win" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect all 12 apples in 300 seconds to win the game." textFill="WHITE">
                      <font>
                         <Font size="34.0" />
                      </font>
@@ -74,27 +74,27 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label layoutX="200.0" layoutY="175.0" text="II. Avoid hitting planets or being out of bounds" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="175.0" text="II. Avoid crashing into the planets or going out of bounds." textFill="WHITE">
                      <font>
                         <Font size="34.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="275.0" text="III. Use WASD to control the worm" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="275.0" text="III. Use WASD to control the worm." textFill="WHITE">
                      <font>
                         <Font size="34.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="475.0" text="V. Lucky box will randomly give you a buff" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="475.0" text="V. Lucky box will give you a random buff:" textFill="WHITE">
                      <font>
                         <Font size="34.0" />
                      </font>
                   </Label>
-                  <Label layoutX="240.0" layoutY="525.0" text="&gt;&gt; Extends 10 seconds    &gt;&gt; Double speed" textFill="#ffaf00">
+                  <Label layoutX="240.0" layoutY="525.0" prefHeight="31.0" prefWidth="582.0" text="&gt;&gt; Extends 10 seconds　　　&gt;&gt; Double speed" textFill="#ffaf00">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="375.0" text="IV. Press / Release Space to switch camera angle" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="375.0" text="IV. Press / Release Space to switch camera." textFill="WHITE">
                      <font>
                         <Font size="34.0" />
                      </font>
