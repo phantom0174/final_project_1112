@@ -22,14 +22,14 @@
          <top>
             <StackPane prefHeight="196.0" prefWidth="1080.0" style="-fx-background-color: rgba(200, 200, 200, 0.5);" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="title" text="Final Project X" textFill="WHITE">
+                  <Label fx:id="title" text="GALACTIC GOBBLER 3D" textFill="WHITE">
                      <font>
-                        <Font name="Yu Mincho Demibold" size="64.0" />
+                        <Font size="56.0" />
                      </font>
                   </Label>
-                  <Label fx:id="subtitle" rotate="-20.0" text="Funniest Worm Game !" textFill="#f7ff68" translateX="200.0" translateY="35.0">
+                  <Label fx:id="subtitle" rotate="-20.0" text="Funniest Worm Game !" textFill="#f7ff68" translateX="265.0" translateY="35.0">
                      <font>
-                        <Font name="Yu Mincho Regular" size="18.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                </children>

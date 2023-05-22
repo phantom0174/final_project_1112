@@ -94,7 +94,7 @@ public class MenuController implements Initializable {
 	
 	public void reenterMenu() {
 		stage.setScene(scene);
-		stage.setTitle("finalProject | Menu");
+		stage.setTitle("Galactic Gobbler 3D");
 	}
 	// ------------ entry point! -------------- end
 	
@@ -127,7 +127,7 @@ public class MenuController implements Initializable {
 		});
 		
 		stage.setScene(gameScene.s);
-		stage.setTitle("finalProject | Game");
+		stage.setTitle("Game");
 		gameScene.startGame();
 	}
 	
@@ -139,7 +139,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(settingScene);
-		stage.setTitle("finalProject | Settings");
+		stage.setTitle("Settings");
 	}
 	
 	public void showControls(ActionEvent e) throws IOException {
@@ -150,7 +150,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(controlScene);
-		stage.setTitle("finalProject | Game Rules");
+		stage.setTitle("Game Rule");
 	}
 	
 	public void showCredits(ActionEvent e) throws IOException {
@@ -161,7 +161,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(creditScene);
-		stage.setTitle("finalProject | Credits");
+		stage.setTitle("Credits");
 	}
 	
 	public void showScoreBoard(ActionEvent e) throws IOException {
@@ -175,7 +175,7 @@ public class MenuController implements Initializable {
 		
 		getStage(e);
 		stage.setScene(scoreScene);
-		stage.setTitle("finalProject | Scoreboard");
+		stage.setTitle("Scoreboard");
 	}
 	
 	public void getStage(ActionEvent e) {

@@ -17,46 +17,36 @@
             <Image url="@../resources/materials/game/space.jpeg" />
          </image>
       </ImageView>
-      <BorderPane prefHeight="600.0" prefWidth="1080.0">
+      <BorderPane prefHeight="600.0" prefWidth="1081.0">
          <left>
-            <AnchorPane prefHeight="600.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="596.0" prefWidth="1089.0" BorderPane.alignment="CENTER">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.67" stroke="BLACK" strokeType="INSIDE" width="1080.0" />
-                  <Label layoutX="378.0" layoutY="176.0" text="III. Collect Lucky Box To Get A Buff" textFill="WHITE">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bec4d7" height="600.0" opacity="0.77" stroke="BLACK" strokeType="INSIDE" width="1080.0" />
+                  <Label layoutX="200.0" layoutY="75.0" text="I. Collect All 12 apples In 3 Minutes To Win" textFill="#1a00ff">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label layoutX="327.0" layoutY="113.0" text="II. Dodge Planets On The Path" textFill="#b1ff00">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="285.0" layoutY="62.0" text="I. Collect All 12 apples In 3 Minutes To Win" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="74.0" fitWidth="65.0" layoutX="379.0" layoutY="453.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="81.0" fitWidth="81.0" layoutX="80.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/materials/game/lucky_box.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="90.0" fitWidth="70.0" layoutX="167.0" layoutY="436.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="90.0" fitWidth="70.0" layoutX="80.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/materials/game/apple.png" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="116.0" layoutY="67.0">
+                  <Pane layoutX="810.0" layoutY="260.0" prefHeight="98.0" prefWidth="82.0">
                      <children>
                         <Circle fill="#00ff11" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fill="#f1ff42" layoutX="21.0" layoutY="21.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#f1ff42" layoutX="17.0" layoutY="17.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="42.0" layoutY="42.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="63.0" layoutY="63.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="#f1ff42" layoutX="84.0" layoutY="84.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                      </children>
                   </Pane>
-                  <Pane layoutX="83.0" layoutY="227.0">
+                  <Pane layoutX="35.0" layoutY="235.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="50.0" stroke="BLACK" strokeType="INSIDE" width="42.0" />
                         <Label alignment="CENTER" layoutX="56.0" layoutY="5.0" prefHeight="7.0" prefWidth="30.0" text="W" textFill="WHITE">
@@ -84,9 +74,29 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label layoutX="452.0" layoutY="258.0" text="Double Speed" textFill="WHITE">
+                  <Label layoutX="200.0" layoutY="175.0" text="II. Avoid hitting planets or being out of bounds" textFill="#1a00ff">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="200.0" layoutY="275.0" text="III. Use WASD to control the worm" textFill="#1a00ff">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="200.0" layoutY="475.0" text="V. Lucky box will randomly give you a buff" textFill="#1a00ff">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="240.0" layoutY="525.0" text="&gt;&gt; Extends 10 seconds    &gt;&gt; Double speed" textFill="#ffaf00">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="200.0" layoutY="375.0" text="IV. Press / Release Space to switch camera angles" textFill="#1a00ff">
+                     <font>
+                        <Font size="36.0" />
                      </font>
                   </Label>
                </children>
