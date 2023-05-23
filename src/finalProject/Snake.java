@@ -27,13 +27,10 @@ import base.Utils;
 import camera.SnakeCamera;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.SubScene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
@@ -112,14 +109,6 @@ public class Snake {
 		paraLight.setTranslateZ(-4 * bodySize);
 		
 		charaLight.setTranslateZ(4 * bodySize);
-		
-//		Sphere pL = new Sphere(2),
-//				cL = new Sphere(2),
-//				fL = new Sphere(2);
-//		
-//		pL.setTranslateY(-8 * bodySize);
-//		pL.setTranslateZ(-4 * bodySize);
-//		cL.setTranslateZ(3 * bodySize);
 		
 		Group snakeLightCore = new Group();
 		snakeLightCore.getChildren().addAll(paraLight, charaLight, frontLight);
@@ -203,53 +192,14 @@ public class Snake {
 	
 	// --------------- controls and animations -------------------
 	public DoubleProperty moveSpeed = new SimpleDoubleProperty(1);
-	public short intensityDamping = 60;
-	
-	/*
-	
-	pitch & yaw intensity: short [0 ~ intensityDamping]
-	used to calculate the pitch value & yaw value of the snake's next move.
-	
-	*/
-	
-	private short pitchIntensity = (short) (intensityDamping / 2),
-			yawIntensity = (short) (intensityDamping / 2);
-	
-	
-	// Calculate pitch & yaw intensity based on the current status of keyHolds.
-	private boolean wHold = false,
-			sHold = false,
-			aHold = false,
-			dHold = false,
-			spaceHold = false;
-	
-	public void writeKeyHold(KeyCode c, boolean mode) {
-		switch (c) {
-			case W: this.wHold = mode; break;
-			case S: this.sHold = mode; break;
-			case A: this.aHold = mode; break;
-			case D: this.dHold = mode; break;
-			case SPACE: this.spaceHold = mode; break;
-			default: break;
-		}
-	}
-	
-	EventHandler<KeyEvent> keyHold = event -> {
-    	writeKeyHold(event.getCode(), true);
-	};
-	
-	EventHandler<KeyEvent> keyReleased = event -> {
-    	writeKeyHold(event.getCode(), false);
-	};
+	private ControlHandler keyControl = new ControlHandler();
 	
 	public void bindMovements(SubScene s) {
-		s.addEventFilter(KeyEvent.KEY_PRESSED, keyHold);
-        s.addEventFilter(KeyEvent.KEY_RELEASED, keyReleased);
+		keyControl.bindControls(s);
 	}
 	
 	public void unbindMovements(SubScene s) {
-		s.removeEventFilter(KeyEvent.KEY_PRESSED, keyHold);
-        s.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleased);
+		keyControl.unbindControls(s);
 	}
 	
 	/*
@@ -267,46 +217,24 @@ public class Snake {
 	
 	*/
 	
-	double absPitch, absPitchCos, absPitchSin,
+	private double absPitch, absPitchCos, absPitchSin,
 		absYaw, absYawCos, absYawSin;
 	
-	public void updateTempRot() {
+	private void updateTempRot() {
+		keyControl.updateRotIntensity();
+		
 		absPitch = Math.toRadians(
-			-90 * (2 * Utils.easeInOut((double) pitchIntensity / intensityDamping) - 1)
+			-90 * Utils.easeInOut((double) keyControl.pitchIntensity / keyControl.intensityDamping)
 		);
 		absPitchCos = Math.cos(absPitch);
 		absPitchSin = Math.sin(absPitch);
 		
 		absYaw = Math.toRadians(
-			(90 * moveSpeed.get() / 2) * (2 * Utils.easeInOut((double) yawIntensity / intensityDamping) - 1)
+			(45 * moveSpeed.get())
+			* Utils.easeInOut((double) keyControl.yawIntensity / keyControl.intensityDamping)
 		);
 		absYawCos = Math.cos(absYaw);
 		absYawSin = Math.sin(absYaw);
-	}
-	
-	public void updateRotIntensity() {
-		boolean pitchAct = wHold ^ sHold;
-		
-		if (pitchAct) {
-			pitchIntensity += wHold ? 1 : 0;
-			pitchIntensity -= sHold ? 1 : 0;
-
-			if (pitchIntensity < 0) pitchIntensity = 0;
-			else if (pitchIntensity > intensityDamping) pitchIntensity = intensityDamping;
-		} else {
-			pitchIntensity -= Utils.sign((short) (pitchIntensity - intensityDamping / 2));
-		}
-		
-		boolean yawAct = aHold ^ dHold;
-		if (yawAct) {
-			yawIntensity -= aHold ? 1 : 0;
-			yawIntensity += dHold ? 1 : 0;
-			
-			if (yawIntensity < 0) yawIntensity = 0;
-			else if (yawIntensity > intensityDamping) yawIntensity = intensityDamping;
-		} else {
-			yawIntensity -= Utils.sign((short) (yawIntensity - intensityDamping / 2));
-		}
 	}
 	
 	public Point3D relativeRot(Point3D v) {
@@ -337,12 +265,9 @@ public class Snake {
 	
 	public Point3D deadPos = new Point3D(0, 0, 0);
 	public void updateFrameMovement(boolean isDead) {
-		updateRotIntensity();
 		updateTempRot();
 		
-		
 		Point3D headRot = head.getRot();
-		
 		Point3D pitchVetor = relativeRot(new Point3D(0, -absPitchSin, absPitchCos));
 		
 		// rotation matrix is in the opposite direction!
@@ -366,7 +291,7 @@ public class Snake {
 		
 		*/
 		// ----- camera position update --------
-		if (!spaceHold && !isDead) updateCameraToBack();
+		if (!keyControl.spaceHold && !isDead) updateCameraToBack();
 		else updateCameraToFront();
 		
 		// ----- snakeLight position update -----

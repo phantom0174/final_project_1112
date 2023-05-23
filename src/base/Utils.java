@@ -9,7 +9,7 @@ package base;
 
 public class Utils {
 	public static double easeInOut(double t) {
-	    return t * t * (3 - 2 * t);
+	    return t*(3 - t*t) / 2;
 	}
 	
 	public static short sign(short n) {
