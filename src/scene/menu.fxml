@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" stylesheets="@../css/menu_scene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scene.MenuController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="1080.0" pickOnBounds="true" smooth="false">
          <image>
@@ -24,12 +25,12 @@
                <children>
                   <Label fx:id="title" text="GALACTIC GOBBLER 3D" textFill="WHITE">
                      <font>
-                        <Font name="Yu Mincho Demibold" size="56.0" />
+                        <Font name="Baskerville Old Face" size="56.0" />
                      </font>
                   </Label>
                   <Label fx:id="subtitle" rotate="-20.0" text="Funniest Worm Game !" textFill="#f7ff68" translateX="265.0" translateY="35.0">
                      <font>
-                        <Font name="Yu Mincho Regular" size="18.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
                </children>
@@ -45,10 +46,14 @@
                   <Button fx:id="settingBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showSettings" text="Settings" textAlignment="CENTER" translateY="-75.0" />
                   <Button fx:id="controlBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showControls" text="Game Rule" textAlignment="CENTER" />
                   <Button fx:id="creditBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showCredits" text="Credits" textAlignment="CENTER" translateY="75.0" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showScoreBoard" text="ScoreBoard" textAlignment="CENTER" translateY="150.0" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showScoreBoard" text="Scoreboard" textAlignment="CENTER" translateY="150.0" />
                </children>
             </StackPane>
          </center>
       </BorderPane>
    </children>
+   <stylesheets>
+      <URL value="@../css/menu_scene.css" />
+      <URL value="@../css/label.css" />
+   </stylesheets>
 </AnchorPane>

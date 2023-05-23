@@ -23,13 +23,13 @@
 
 .radio-button {
 	-fx-font-size: 14px;
-	-fx-font-family: "Yu Mincho";
+	-fx-font-family: "Baskerville Old Face";
 	-fx-text-fill: white;
 }
 
 .label {
-	-fx-font-size: 20px;
-	-fx-font-family: "Yu Mincho";
+	-fx-font-size: 25px;
+	-fx-font-family: "Baskerville Old Face";
 	-fx-text-fill: white;
 }
 

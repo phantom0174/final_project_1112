@@ -77,8 +77,6 @@ public class MiniMap {
     public void refreshAppleMap() {
     	appleMap.getChildren().clear();
     	
-    	System.out.println("map apple count: " + appleList.size());
-    	
     	for (Group a: appleList) {
     		double x = a.getTranslateX(),
     				y = a.getTranslateZ() * -1;

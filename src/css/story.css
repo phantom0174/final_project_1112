@@ -1,5 +1,9 @@
 .label {
-	-fx-font-family: "Yu Mincho";
+	-fx-font-family: "Microsoft Sans Serif";
 	-fx-font-size: 20px;
 	-fx-text-fill: white;
+}
+
+#skiplabel {
+	-fx-font-family: "Baskerville Old Face" !important;
 }

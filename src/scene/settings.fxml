@@ -27,7 +27,7 @@
                   <Group translateY="-150.0">
                      <children>
                         <Slider fx:id="volumeSlider" layoutX="2.7142856121063232" showTickMarks="true" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.714285612106323" layoutY="-40.0" text="Music Volume" textFill="WHITE">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="-43.0" text="Music Volume" textFill="WHITE">
                            <font>
                               <Font name="Yu Gothic Medium" size="20.0" />
                            </font>
@@ -36,7 +36,7 @@
                   </Group>
                   <Group>
                      <children>
-                        <Label layoutX="105.0" layoutY="-40.0" text="Game Difficulty" />
+                        <Label layoutX="96.0" layoutY="-42.0" text="Game Difficulty" />
                         <RadioButton fx:id="easyRB" mnemonicParsing="false" onAction="#setEasy" text="Easy" translateX="-40.0">
                            <toggleGroup>
                               <ToggleGroup fx:id="DifficultyRB" />
@@ -50,7 +50,7 @@
                   <Group translateY="150.0" StackPane.alignment="CENTER">
                      <children>
                         <ChoiceBox id="skinSelect" fx:id="skinChoice" prefHeight="150.0" prefWidth="150.0" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="-40.0" text="Skin" textAlignment="CENTER" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="-41.0" text="Skin" textAlignment="CENTER" />
                      </children>
                   </Group>
                </children>
