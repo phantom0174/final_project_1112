@@ -30,12 +30,17 @@
          <center>
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Designer: bocheng0224, phantom0174" textFill="WHITE" translateY="-75.0">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Designer | bocheng0224, phantom0174" textFill="WHITE" translateY="-100.0">
                      <font>
                         <Font name="Yu Gothic Medium" size="25.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" text="Music Provider: AleXZavesa, et al. from Pixabay" textFill="WHITE">
+                  <Label alignment="CENTER" text="Music Provider | AleXZavesa, et al. from Pixabay" textFill="WHITE" translateY="-25.0">
+                     <font>
+                        <Font name="Yu Gothic Medium" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" text="Special Thanks | yuuka5555, Tim230909, Professor SHI, Genuine Coder, BroCodez" textFill="WHITE" translateY="50.0">
                      <font>
                         <Font name="Yu Gothic Medium" size="20.0" />
                      </font>
