@@ -18,7 +18,7 @@
 
 ## Library Config
 
-1. jafafx
+1. javafx
 
 2. JFX3DModelImporters
     請將 lib 底下的 `JFX3DModelImporters` 複製到電腦，並將其打包成 User Library 之後加進 Class path。
