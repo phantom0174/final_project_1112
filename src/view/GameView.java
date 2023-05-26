@@ -51,7 +51,7 @@ public class GameView implements View, AnimaNode {
 	public Snake snake;
 	
 	// ---- game logic entities ----
-	public Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(500, 1500);
+	public Grid2D<Sphere> planetGrid = new Grid2D<Sphere>(150, 1500);
 	public ArrayList<Group> appleList = new ArrayList<>();
 	public ArrayList<Group> propList = new ArrayList<>();
 	
